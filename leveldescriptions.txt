@@ -1,4 +1,4 @@
--mushroom kingdom-start
+-mushroom kingdom(start)
 
 tutorial leading to a hub/crossroads that connects all the worlds.
 
@@ -16,6 +16,6 @@ tutorial leading to a hub/crossroads that connects all the worlds.
 
 
 
--bowsers castle-end
+-bowsers castle(end)
 
 boss fight
