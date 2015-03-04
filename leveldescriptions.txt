@@ -1,11 +1,21 @@
-mushroom kingdom-start
+-mushroom kingdom(start)
 
 tutorial leading to a hub/crossroads that connects all the worlds.
 
-hyrule
 
-spyro's world
 
-halo
+-hyrule
 
-bowsers castle-end
+
+
+-spyro's world
+
+
+
+-halo
+
+
+
+-bowsers castle(end)
+
+boss fight
