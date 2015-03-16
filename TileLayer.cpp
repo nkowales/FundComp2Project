@@ -19,9 +19,9 @@ void TileLayer::draw(SDL_Renderer* renderer)
 {
 	Uint32 index;
 	const Tileset* tset = NULL;
-	for (int y = 0; y < height; y++)
+	for (Uint32 y = 0; y < height; y++)
 	{
-		for (int x = 0; x < width; x++)
+		for (Uint32 x = 0; x < width; x++)
 		{
 			// Convert x, y coordinate to an index in the 1 dimensional tile vector.
 			index = y * width + x;
