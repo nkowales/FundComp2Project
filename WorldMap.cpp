@@ -106,10 +106,17 @@ void WorldMap::load(string fname, ContentManager& content)
 	for (xml_node<>* tileLayer = root->first_node("layer"); tileLayer; tileLayer = tileLayer->next_sibling("layer"))
 	{
 		bool vis = true;
+		Uint8 opacity = 255;
+
 		// Is this layer visible by default?
 		attr = tileLayer->first_attribute("visible");
 		if (attr)
 			vis = atoi(attr->value());
+
+		// How transparent is this layer?
+		attr = tileLayer->first_attribute("opacity");
+		if (attr)
+			opacity = atof(attr->value()) * 255.;
 
 		xml_node<>* dataNode = tileLayer->first_node("data");
 
@@ -127,6 +134,8 @@ void WorldMap::load(string fname, ContentManager& content)
 		}
 
 		TileLayer* tlayer = new TileLayer(this, tlist);
+		tlayer->setVisible(vis);
+		tlayer->setOpacity(opacity);
 		layers.push_back(tlayer);
 	}
 }

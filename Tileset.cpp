@@ -32,7 +32,7 @@ Uint32 Tileset::getTileCount() const
 	return nTiles;
 }
 
-void Tileset::drawTile(SDL_Renderer* rdr, Uint32 gid, int x, int y) const
+void Tileset::drawTile(SDL_Renderer* rdr, Uint32 gid, int x, int y, Uint8 alpha) const
 {
 	SDL_Rect src;
 	SDL_Rect dst;
@@ -47,5 +47,14 @@ void Tileset::drawTile(SDL_Renderer* rdr, Uint32 gid, int x, int y) const
 	src.x = imgBorder + (tile % tsetWidth) * (tileSize + tileSpace);
 	src.y = imgBorder + (tile / tsetWidth) * (tileSize + tileSpace);
 
-	SDL_RenderCopy(rdr, image, &src, &dst);
+	if (alpha != 255)
+	{
+		SDL_SetTextureAlphaMod(image, alpha);
+		SDL_RenderCopy(rdr, image, &src, &dst);
+		SDL_SetTextureAlphaMod(image, 255);
+	}
+	else
+	{
+		SDL_RenderCopy(rdr, image, &src, &dst);
+	}
 }

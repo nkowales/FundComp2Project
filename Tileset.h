@@ -16,7 +16,7 @@ class Tileset
 public:
 	Tileset(SDL_Texture* = 0, Uint32 = 0, Uint32 = 0, Uint32 = 0, Uint32 = 0, Uint32 = 0, Uint32 = 0);
 
-	void drawTile(SDL_Renderer*, Uint32, int, int) const;
+	void drawTile(SDL_Renderer*, Uint32, int, int, Uint8 = 255) const;
 	Uint32 getFirstGid() const;
 	Uint32 getTileCount() const;
 	Uint32 getBorder() const { return imgBorder; }

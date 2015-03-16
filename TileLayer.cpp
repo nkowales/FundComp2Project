@@ -12,6 +12,7 @@ TileLayer::TileLayer(WorldMap* parent, vector<Uint32>& tlist) : MapLayer(parent)
 	getParent()->getDimensions(&width, &height);
 	tileSize = getParent()->getTileSize();
 	tiles = tlist;
+	alpha = 255;
 }
 
 void TileLayer::draw(SDL_Renderer* renderer)
@@ -33,9 +34,19 @@ void TileLayer::draw(SDL_Renderer* renderer)
 				if (tset)
 				{
 					// Source the tile from the correct tileset and draw it
-					tset->drawTile(renderer, tiles[index], x, y);
+					tset->drawTile(renderer, tiles[index], x, y, alpha);
 				}
 			}
 		}
 	}
+}
+
+Uint8 TileLayer::getOpacity() const
+{
+	return alpha;
+}
+
+void TileLayer::setOpacity(Uint8 a)
+{
+	alpha = a;
 }
