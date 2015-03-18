@@ -1,19 +1,22 @@
 -mushroom kingdom(start)
 
-tutorial leading to a hub/crossroads that connects all the worlds.
-
+introduction to mario character
+tutorial leading to a hub/crossroads area that connects all the worlds.
 
 
 -hyrule
 
+introduction of Link character.
 
 
 -spyro's world
 
+introduction of spyro the dragon character
 
 
 -halo
 
+introduction of master chief character
 
 
 -bowsers castle(end)
