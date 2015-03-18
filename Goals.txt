@@ -1,0 +1,29 @@
+week of 3/16
+
+Nathan
+
+-continue working on SDL2 tutorials
+
+-start trying to find, format, and organize sprites for game objects
+
+
+Nick
+
+-continue work on map loader
+
+-have maps load basic game objects
+
+
+Greg
+
+-continue working on SDL2 tutorials
+
+-focus on in game sounds
+
+
+Mitch
+
+-continue working on SDL2 Tutorials
+
+-work on user input and use of usb game-console style controller
+
