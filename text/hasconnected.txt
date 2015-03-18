@@ -1,3 +1,5 @@
+This is a test to insure we can connect to the repository remotely.
+
 Nathan Kowaleski
 
 Gregory Nemecek
@@ -5,5 +7,3 @@ Gregory Nemecek
 Mitchell Troy
 
 Nick Aiello
-
-Test
