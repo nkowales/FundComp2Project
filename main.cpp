@@ -1,6 +1,6 @@
-//main file for project
-//Nathan Kowaleski
-//02/18/15
+/* main.cpp
+created by Nathan Kowaleski
+02/18/15 */
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

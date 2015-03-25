@@ -7,6 +7,8 @@
 
 #include "WorldMap.h"
 #include "TileLayer.h"
+#include "ObjectLayer.h"
+#include "ObjectHeaders.h"
 #include <cstdlib>
 #include <sstream>
 
@@ -48,7 +50,7 @@ void WorldMap::load(string fname, ContentManager& content)
 	file<> fl(fname.c_str());
 	xml_document<> doc;
 
-	//cout << fl.data() << endl;
+	cout << fl.data() << endl;
 
 	// Load the file data into the parser
 	doc.parse<0>(fl.data());
@@ -87,7 +89,7 @@ void WorldMap::load(string fname, ContentManager& content)
 		tsetFile = tsetNode->first_node("image")->first_attribute("source")->value();
 
 		// Load the texture thru the Content Manager
-		Texture& tiletex = content.getTexture(tsetFile);
+		Texture tiletex = content.getTexture(tsetFile);
 
 		// Read image dimensions
 		int imgw, imgh;
@@ -103,7 +105,8 @@ void WorldMap::load(string fname, ContentManager& content)
 	}
 
 	// Read in each tile layer
-	for (xml_node<>* tileLayer = root->first_node("layer"); tileLayer; tileLayer = tileLayer->next_sibling("layer"))
+	for (xml_node<>* tileLayer = root->first_node("layer"); tileLayer;
+			tileLayer = tileLayer->next_sibling("layer"))
 	{
 		bool vis = true;
 		Uint8 opacity = 255;
@@ -138,6 +141,39 @@ void WorldMap::load(string fname, ContentManager& content)
 		tlayer->setOpacity(opacity);
 		layers.push_back(tlayer);
 	}
+
+	// Read in each object layer
+	for (xml_node<>* objLayer = root->first_node("objectgroup"); objLayer;
+			objLayer = objLayer->next_sibling("objectgroup"))
+	{
+		ObjectLayer* layer = new ObjectLayer(this);
+		for (xml_node<>* objNode = objLayer->first_node("object"); objNode;
+			objNode = objNode->next_sibling("object"))
+		{
+
+			Uint32 oid = atoi(objNode->first_attribute("id")->value());
+
+			string strtype;
+			if (objNode->first_attribute("type"))
+				strtype = objNode->first_attribute("type")->value();
+
+			Vector2d pos;
+			SDL_Rect bbox;
+			pos.x = atoi(objNode->first_attribute("x")->value());
+			pos.y = atoi(objNode->first_attribute("y")->value());
+			bbox.x = bbox.y = 0;
+			bbox.w = atoi(objNode->first_attribute("width")->value());
+			bbox.h = atoi(objNode->first_attribute("height")->value());
+
+			WorldObject* obj = resolveWorldObject(strtype, oid);
+			obj->setPosition(pos);
+			obj->setBoundingBox(bbox);
+
+			layer->addObject(obj);
+		}
+
+		layers.push_back(layer);
+	}
 }
 
 void WorldMap::getDimensions(Uint32* w, Uint32* h) const
@@ -156,17 +192,6 @@ Uint32 WorldMap::getTileSize() const
 
 const Tileset* WorldMap::resolveTile(Uint32 gid) const
 {
-	/*vector<Tileset>::const_iterator iter = tilesets.begin();
-	for (vector<Tileset>::const_iterator iter2 = tilesets.begin() + 1; iter != tilesets.end(); iter++, iter2++)
-	{
-		// If the tile GID is found within this tileset, return a pointer to it
-		if ((iter->getFirstGid() <= gid) && (((iter2 == tilesets.end()) && (iter->getFirstGid() + iter->getTileCount() < gid)) ||
-				((iter2 != tilesets.end()) && (iter2->getFirstGid() < gid))))
-		{
-			return &(*iter);
-		}
-	}*/
-
 	Uint32 i;
 	bool hitEnd = true;
 	for (i = 0; i < tilesets.size(); i++)

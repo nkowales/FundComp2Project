@@ -25,7 +25,7 @@ public:
 	ContentManager(SDL_Renderer*);
 	~ContentManager();
 
-	Texture& getTexture(string);
+	Texture getTexture(string);
 
 private:
 	SDL_Renderer* renderer;

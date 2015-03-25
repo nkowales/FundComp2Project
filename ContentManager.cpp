@@ -23,7 +23,7 @@ ContentManager::~ContentManager()
 	textures.clear();
 }
 
-Texture& ContentManager::getTexture(string name)
+Texture ContentManager::getTexture(string name)
 {
 	SDL_Texture* tex = NULL;
 
