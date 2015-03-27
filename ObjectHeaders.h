@@ -15,6 +15,7 @@
 // Include headers of all classes that derive from WorldObject below this line
 #include "WorldObject.h"
 #include "Block.h"
+#include "TestCollider.h"
 
 using namespace std;
 
@@ -26,6 +27,7 @@ WorldObject* resolveWorldObject(string type, Uint32 id)
 
 	REGISTER_OBJ_NAME("", Block)
 	REGISTER_OBJ_NAME("Block", Block)
+	REGISTER_OBJ_NAME("TestCollider", TestCollider);
 
 	return NULL;
 }

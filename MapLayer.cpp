@@ -23,7 +23,7 @@ WorldMap* MapLayer::getParent() const
 	return parent;
 }
 
-void MapLayer::update()
+void MapLayer::update(Uint32)
 {
 	// Optionally implemented by derived classes.
 }
@@ -36,4 +36,9 @@ void MapLayer::setVisible(bool v)
 bool MapLayer::isVisible() const
 {
 	return visible;
+}
+
+void MapLayer::handleEvent(const SDL_Event& e)
+{
+
 }

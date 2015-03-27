@@ -14,7 +14,7 @@ Block::Block(Uint32 id) : WorldObject(id)
 
 void Block::init()
 {
-	cout << "beep boop" << endl;
+
 }
 
 void Block::draw(SDL_Renderer* renderer)

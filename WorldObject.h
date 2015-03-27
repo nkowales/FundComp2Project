@@ -9,8 +9,10 @@
 #define WORLDOBJECT_H_
 
 #include <iostream>
+#include <algorithm>
 #include <SDL2/SDL.h>
 #include "Geom.h"
+#include "CollisionGroup.h"
 
 using namespace std;
 
@@ -21,10 +23,11 @@ using namespace std;
  *
  * 1. init (when object is first added to an initialized object layer)
  * 2. handleEvent
- * 3. TODO: set up collision checking
- * 4. update - update object state based on new information from handleEvent and collision checking
- * 5. draw - draw the object to the screen
- * 6. uninit (when object is removed from an object layer or the parent layer is uninitialized)
+ * 3. canCollideWith - check if it is possible for this object to collide with another
+ * 4. handleCollision - if canCollideWith returns true and the bounding boxes overlap
+ * 5. update - update object state based on new information from handleEvent and collision checking
+ * 6. draw - draw the object to the screen
+ * 7. uninit (when object is removed from an object layer or the parent layer is uninitialized)
  */
 
 // Forward declaration of ObjectLayer
@@ -36,31 +39,44 @@ public:
 	WorldObject(Uint32);							// Initializes the object BEFORE it is added to an object layer
 	virtual ~WorldObject();							// Runs whenever object is destroyed
 
-	virtual void init();							// Initializes the object AFTER it is added to an object layer
-	virtual void uninit();							// Runs whenever object is REMOVED from an object layer
-	virtual void update(Uint32);					// Update object's state
-	virtual void draw(SDL_Renderer*);				// Draw the object
-	virtual void handleEvent(const SDL_Event&);		// Handle events
+	virtual void init();										// Initializes the object AFTER it is added to an object layer
+	virtual void uninit();										// Runs whenever object is REMOVED from an object layer
+	virtual void update(Uint32);								// Update object's state
+	virtual void draw(SDL_Renderer*);							// Draw the object
+	virtual void handleEvent(const SDL_Event&);					// Handle events
+	virtual bool canCollideWith(const WorldObject&);			// Check if it is possible for this object to collide with another one
+	virtual void handleCollision(WorldObject&, const SDL_Rect&);// Handle a collision with another WorldObject
 
 	Uint32 getId() const;							// Returns the object global id
 	ObjectLayer* getParentLayer() const;			// Returns a pointer to the parent layer
 	Vector2d getPosition() const;
 	Vector2d getVelocity() const;
 	SDL_Rect getBoundingBox() const;
+	Uint32 getCollisionGroup() const;
+	string getName() const;
 
 	void setPosition(Vector2d);
 	void setVelocity(Vector2d);
 	void setBoundingBox(SDL_Rect);
+	void setCollisionGroup(Uint32);
+	void setName(string);
 
 	virtual void setProperty(string, string);		// Handles map-defined properties
 
-private:
-	Uint32 id;										// Unique map-defined object ID
+	bool operator==(const WorldObject&) const;
+	bool operator!=(const WorldObject&) const;
 
-	ObjectLayer* parentLayer;
+protected:
 	Vector2d position;
 	Vector2d velocity;
 	SDL_Rect boundingBox;
+
+private:
+	string name;
+	Uint32 id;										// Unique map-defined object ID
+
+	ObjectLayer* parentLayer;
+	Uint32 colGrp;
 };
 
 

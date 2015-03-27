@@ -20,8 +20,9 @@ WorldMap::WorldMap()
 	width = height = tileSize = 0;
 }
 
-WorldMap::WorldMap(string fname, ContentManager& content) : WorldMap()
+WorldMap::WorldMap(string fname, ContentManager& content)
 {
+	width = height = tileSize = 0;
 	load(fname, content);
 }
 
@@ -45,12 +46,20 @@ void WorldMap::draw(SDL_Renderer* renderer)
 	}
 }
 
+void WorldMap::update(Uint32 time)
+{
+	for (vector<MapLayer*>::iterator iter = layers.begin(); iter != layers.end(); iter++)
+	{
+		(*iter)->update(time);
+	}
+}
+
 void WorldMap::load(string fname, ContentManager& content)
 {
 	file<> fl(fname.c_str());
 	xml_document<> doc;
 
-	cout << fl.data() << endl;
+	//cout << fl.data() << endl;
 
 	// Load the file data into the parser
 	doc.parse<0>(fl.data());
@@ -150,7 +159,6 @@ void WorldMap::load(string fname, ContentManager& content)
 		for (xml_node<>* objNode = objLayer->first_node("object"); objNode;
 			objNode = objNode->next_sibling("object"))
 		{
-
 			Uint32 oid = atoi(objNode->first_attribute("id")->value());
 
 			string strtype;
@@ -166,8 +174,26 @@ void WorldMap::load(string fname, ContentManager& content)
 			bbox.h = atoi(objNode->first_attribute("height")->value());
 
 			WorldObject* obj = resolveWorldObject(strtype, oid);
+
+			if (obj == NULL)
+			{
+				cout << "Invalid object type " << strtype << " ID# " << oid << ". Ignoring." << endl;
+				break;
+			}
+
 			obj->setPosition(pos);
 			obj->setBoundingBox(bbox);
+
+			xml_node<>* propBlockNode = objNode->first_node("properties");
+			if (propBlockNode)
+			{
+				for (xml_node<>* propNode = propBlockNode->first_node("property"); propNode;
+						propNode = propNode->next_sibling("property"))
+				{
+					obj->setProperty(propNode->first_attribute("name")->value(),
+							propNode->first_attribute("value")->value());
+				}
+			}
 
 			layer->addObject(obj);
 		}
@@ -208,4 +234,13 @@ const Tileset* WorldMap::resolveTile(Uint32 gid) const
 		i--;
 
 	return &tilesets[i];
+}
+
+void WorldMap::handleEvent(const SDL_Event& e)
+{
+	// TODO: some kind of event filtering
+	for (vector<MapLayer*>::iterator iter = layers.begin(); iter != layers.end(); iter++)
+	{
+		(*iter)->handleEvent(e);
+	}
 }

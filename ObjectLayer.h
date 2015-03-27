@@ -26,7 +26,7 @@ public:
 	void init();
 	void update(Uint32);
 	virtual void draw(SDL_Renderer*);
-	void handleEvent(const SDL_Event&);
+	virtual void handleEvent(const SDL_Event&);
 
 	WorldObject* getObject(Uint32);
 	void addObject(WorldObject*);

@@ -27,8 +27,10 @@ public:
 	WorldMap(string, ContentManager&);
 	~WorldMap();
 
+	void update(Uint32);
 	void draw(SDL_Renderer*);
 	void load(string, ContentManager&);
+	void handleEvent(const SDL_Event&);
 
 	const Tileset* resolveTile(Uint32) const;
 	void getDimensions(Uint32*, Uint32*) const;

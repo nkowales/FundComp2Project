@@ -38,20 +38,30 @@ int main(int argc, char** argv)
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	ContentManager content(renderer);
-	WorldMap world("testmap_multilayer.tmx", content);
+	WorldMap world("coltest.tmx", content);
 
 	// Wait for user to press X button on window
 	bool quit = false;
 	SDL_Event e;
+	Uint32 currentUpdate, lastUpdate;
+	lastUpdate = currentUpdate = SDL_GetTicks();
 	while (!quit)
 	{
-		SDL_RenderClear(renderer);
-		world.draw(renderer);
-		SDL_RenderPresent(renderer);
-		while (SDL_PollEvent(&e) != 0)
+		if (((currentUpdate = SDL_GetTicks()) - lastUpdate) > 10)
 		{
-			if (e.type == SDL_QUIT)
-				quit = true;
+			SDL_RenderClear(renderer);
+			world.update(currentUpdate - lastUpdate);
+			world.draw(renderer);
+			SDL_RenderPresent(renderer);
+			while (SDL_PollEvent(&e) != 0)
+			{
+				if (e.type == SDL_QUIT)
+					quit = true;
+				else
+					world.handleEvent(e);
+			}
+
+			lastUpdate = currentUpdate;
 		}
 	}
 
