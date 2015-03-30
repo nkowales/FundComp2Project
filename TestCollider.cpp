@@ -15,12 +15,12 @@ TestCollider::TestCollider(Uint32 id)
 
 }
 
-bool TestCollider::canCollideWith(const WorldObject& other)
+bool TestCollider::canCollideWith(const WorldObject* other)
 {
 	return true;
 }
 
-void TestCollider::handleCollision(WorldObject& other, const SDL_Rect& intersect)
+void TestCollider::handleCollision(WorldObject* other, const SDL_Rect& intersect)
 {
 	overlap = intersect;
 	isOverlap = true;

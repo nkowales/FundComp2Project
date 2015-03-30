@@ -160,18 +160,26 @@ void WorldMap::load(string fname, ContentManager& content)
 			objNode = objNode->next_sibling("object"))
 		{
 			Uint32 oid = atoi(objNode->first_attribute("id")->value());
-
+			xml_attribute<>* attr;
 			string strtype;
-			if (objNode->first_attribute("type"))
-				strtype = objNode->first_attribute("type")->value();
+
+			attr = objNode->first_attribute("type");
+			if (attr)
+				strtype = attr->value();
 
 			Vector2d pos;
 			SDL_Rect bbox;
 			pos.x = atoi(objNode->first_attribute("x")->value());
 			pos.y = atoi(objNode->first_attribute("y")->value());
-			bbox.x = bbox.y = 0;
-			bbox.w = atoi(objNode->first_attribute("width")->value());
-			bbox.h = atoi(objNode->first_attribute("height")->value());
+			bbox.x = bbox.y = bbox.w = bbox.h = 0;
+
+			attr = objNode->first_attribute("width");
+			if (attr)
+				bbox.w = atoi(attr->value());
+
+			attr = objNode->first_attribute("height");
+			if (attr)
+				bbox.h = atoi(attr->value());
 
 			WorldObject* obj = resolveWorldObject(strtype, oid);
 
@@ -195,10 +203,16 @@ void WorldMap::load(string fname, ContentManager& content)
 				}
 			}
 
+			obj->setParentLayer(layer);
 			layer->addObject(obj);
 		}
 
 		layers.push_back(layer);
+	}
+
+	for (vector<MapLayer*>::iterator iter = layers.begin(); iter != layers.end(); iter++)
+	{
+		(*iter)->init();
 	}
 }
 

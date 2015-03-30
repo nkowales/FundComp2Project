@@ -6,6 +6,14 @@
  */
 
 #include "WorldObject.h"
+#include <climits>
+
+WorldObject::WorldObject()
+	: parentLayer(NULL),
+	  colGrp(0)
+{
+	id = getUniqueID();
+}
 
 WorldObject::WorldObject(Uint32 oid)
 	: id(oid),
@@ -19,11 +27,18 @@ WorldObject::~WorldObject() { }
 
 void WorldObject::init() { }
 void WorldObject::uninit() { }
-void WorldObject::update(Uint32 time) { }
+void WorldObject::update(Uint32 time)
+{
+	double secs = time / 1000.;
+
+	// Kinematic updates
+	position.x += velocity.x * secs;
+	position.y += velocity.y * secs;
+}
 void WorldObject::draw(SDL_Renderer* r) { }
 void WorldObject::handleEvent(const SDL_Event& e) { }
-bool WorldObject::canCollideWith(const WorldObject& other) { return false; }
-void WorldObject::handleCollision(WorldObject& other, const SDL_Rect& overlap) { }
+bool WorldObject::canCollideWith(const WorldObject* other) { return false; }
+void WorldObject::handleCollision(WorldObject* other, const SDL_Rect& overlap) { }
 
 Uint32 WorldObject::getId() const { return id; }
 ObjectLayer* WorldObject::getParentLayer() const { return parentLayer; }
@@ -44,6 +59,10 @@ void WorldObject::setVelocity(Vector2d v) { velocity = v; }
 void WorldObject::setBoundingBox(SDL_Rect bbox) { boundingBox = bbox; }
 void WorldObject::setCollisionGroup(Uint32 grp) { colGrp = grp; }
 void WorldObject::setName(string nm) { name = nm; }
+void WorldObject::setParentLayer(ObjectLayer* lyr)
+{
+	parentLayer = lyr;
+}
 
 void WorldObject::setProperty(string key, string val)
 {
@@ -64,4 +83,13 @@ bool WorldObject::operator==(const WorldObject& other) const
 bool WorldObject::operator!=(const WorldObject& other) const
 {
 	return (id != other.id);
+}
+
+Uint32 WorldObject::getUniqueID()
+{
+	// Non map defined ID's start from the biggest possible Uint32 and work downward to minimize collision
+	// with map-defined ID's
+	static Uint32 nextID = UINT_MAX - 1;
+
+	return nextID--;
 }

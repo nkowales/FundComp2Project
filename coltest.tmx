@@ -23,7 +23,7 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="1" type="TestCollider" x="128" y="96" width="64" height="64">
+  <object id="1" type="TestCollider" x="96" y="96" width="64" height="64">
    <properties>
     <property name="useWASD" value="1"/>
    </properties>

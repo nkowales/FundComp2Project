@@ -23,6 +23,11 @@ WorldMap* MapLayer::getParent() const
 	return parent;
 }
 
+void MapLayer::init()
+{
+
+}
+
 void MapLayer::update(Uint32)
 {
 	// Optionally implemented by derived classes.

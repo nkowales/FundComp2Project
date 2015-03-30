@@ -36,6 +36,7 @@ class ObjectLayer;
 class WorldObject
 {
 public:
+	WorldObject();
 	WorldObject(Uint32);							// Initializes the object BEFORE it is added to an object layer
 	virtual ~WorldObject();							// Runs whenever object is destroyed
 
@@ -44,8 +45,8 @@ public:
 	virtual void update(Uint32);								// Update object's state
 	virtual void draw(SDL_Renderer*);							// Draw the object
 	virtual void handleEvent(const SDL_Event&);					// Handle events
-	virtual bool canCollideWith(const WorldObject&);			// Check if it is possible for this object to collide with another one
-	virtual void handleCollision(WorldObject&, const SDL_Rect&);// Handle a collision with another WorldObject
+	virtual bool canCollideWith(const WorldObject*);			// Check if it is possible for this object to collide with another one
+	virtual void handleCollision(WorldObject*, const SDL_Rect&);// Handle a collision with another WorldObject
 
 	Uint32 getId() const;							// Returns the object global id
 	ObjectLayer* getParentLayer() const;			// Returns a pointer to the parent layer
@@ -60,6 +61,7 @@ public:
 	void setBoundingBox(SDL_Rect);
 	void setCollisionGroup(Uint32);
 	void setName(string);
+	void setParentLayer(ObjectLayer*);
 
 	virtual void setProperty(string, string);		// Handles map-defined properties
 
@@ -77,6 +79,8 @@ private:
 
 	ObjectLayer* parentLayer;
 	Uint32 colGrp;
+
+	static Uint32 getUniqueID();
 };
 
 

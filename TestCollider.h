@@ -17,8 +17,8 @@ class TestCollider : public WorldObject
 public:
 	TestCollider(Uint32);
 
-	virtual bool canCollideWith(const WorldObject&);
-	virtual void handleCollision(WorldObject&, const SDL_Rect&);
+	virtual bool canCollideWith(const WorldObject*);
+	virtual void handleCollision(WorldObject*, const SDL_Rect&);
 	virtual void handleEvent(const SDL_Event&);
 	virtual void draw(SDL_Renderer*);
 

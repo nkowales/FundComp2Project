@@ -44,12 +44,12 @@ void ObjectLayer::update(Uint32 time)
 		{
 			bool col1 = false, col2 = false;
 			if ((iter->second != iter2->second) &&
-					((col1 = iter->second->canCollideWith(*(iter2->second))) || (col2 = iter2->second->canCollideWith(*(iter->second)))))
+					((col1 = iter->second->canCollideWith(iter2->second)) || (col2 = iter2->second->canCollideWith(iter->second))))
 			{
 				if (!col2)
 				{
 					// If col1 was set, then the expression for col2 will not be executed, this ensures it will
-					col2 = iter2->second->canCollideWith(*(iter->second));
+					col2 = iter2->second->canCollideWith(iter->second);
 				}
 
 				SDL_Rect overlap;
@@ -58,9 +58,9 @@ void ObjectLayer::update(Uint32 time)
 				if (getIntersect(a, b, &overlap))
 				{
 					if (col1)
-						iter->second->handleCollision(*(iter2->second), overlap);
+						iter->second->handleCollision(iter2->second, overlap);
 					if (col2)
-						iter2->second->handleCollision(*(iter->second), overlap);
+						iter2->second->handleCollision(iter->second, overlap);
 				}
 			}
 		}

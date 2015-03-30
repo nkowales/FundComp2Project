@@ -16,6 +16,7 @@
 #include "WorldObject.h"
 #include "Block.h"
 #include "TestCollider.h"
+#include "PlayerSpawn.h"
 
 using namespace std;
 
@@ -27,7 +28,8 @@ WorldObject* resolveWorldObject(string type, Uint32 id)
 
 	REGISTER_OBJ_NAME("", Block)
 	REGISTER_OBJ_NAME("Block", Block)
-	REGISTER_OBJ_NAME("TestCollider", TestCollider);
+	REGISTER_OBJ_NAME("TestCollider", TestCollider)
+	REGISTER_OBJ_NAME("PlayerSpawn", PlayerSpawn)
 
 	return NULL;
 }

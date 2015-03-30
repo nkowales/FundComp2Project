@@ -20,6 +20,7 @@ public:
 	MapLayer(WorldMap* = 0);
 	virtual ~MapLayer();
 
+	virtual void init();
 	virtual void update(Uint32);
 	virtual void handleEvent(const SDL_Event&);
 	virtual void draw(SDL_Renderer*) = 0;

@@ -17,7 +17,6 @@ class Block : public WorldObject
 public:
 	Block(Uint32);
 
-	virtual void init();
 	virtual void draw(SDL_Renderer*);
 };
 
