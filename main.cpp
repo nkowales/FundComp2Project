@@ -5,6 +5,7 @@ created by Nathan Kowaleski
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include "WorldIO.h"
 #include "ContentManager.h"
 #include "WorldMap.h"
 

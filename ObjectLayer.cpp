@@ -98,6 +98,17 @@ WorldObject* ObjectLayer::getObject(Uint32 id)
 	return NULL;
 }
 
+WorldObject* ObjectLayer::getByName(string nm)
+{
+	for (ObjectMap::iterator iter = objects.begin(); iter != objects.end(); iter++)
+	{
+		if (iter->second->getName() == nm)
+			return iter->second;
+	}
+
+	return NULL;
+}
+
 void ObjectLayer::addObject(WorldObject* obj)
 {
 	if (obj)

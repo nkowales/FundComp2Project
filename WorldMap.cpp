@@ -9,6 +9,8 @@
 #include "TileLayer.h"
 #include "ObjectLayer.h"
 #include "ObjectHeaders.h"
+#include "WorldIO.h"
+#include <functional>
 #include <cstdlib>
 #include <sstream>
 
@@ -42,7 +44,10 @@ void WorldMap::draw(SDL_Renderer* renderer)
 	// Draw each map layer
 	for (vector<MapLayer*>::iterator iter = layers.begin(); iter != layers.end(); iter++)
 	{
-		(*iter)->draw(renderer);
+		if ((*iter)->isVisible())
+		{
+			(*iter)->draw(renderer);
+		}
 	}
 }
 
@@ -58,6 +63,7 @@ void WorldMap::load(string fname, ContentManager& content)
 {
 	file<> fl(fname.c_str());
 	xml_document<> doc;
+	vector<WorldIOLink> linksToResolve;
 
 	//cout << fl.data() << endl;
 
@@ -161,7 +167,7 @@ void WorldMap::load(string fname, ContentManager& content)
 		{
 			Uint32 oid = atoi(objNode->first_attribute("id")->value());
 			xml_attribute<>* attr;
-			string strtype;
+			string strtype, nm;
 
 			attr = objNode->first_attribute("type");
 			if (attr)
@@ -181,6 +187,10 @@ void WorldMap::load(string fname, ContentManager& content)
 			if (attr)
 				bbox.h = atoi(attr->value());
 
+			attr = objNode->first_attribute("name");
+			if (attr)
+				nm = attr->value();
+
 			WorldObject* obj = resolveWorldObject(strtype, oid);
 
 			if (obj == NULL)
@@ -191,15 +201,50 @@ void WorldMap::load(string fname, ContentManager& content)
 
 			obj->setPosition(pos);
 			obj->setBoundingBox(bbox);
+			obj->setName(nm);
 
 			xml_node<>* propBlockNode = objNode->first_node("properties");
+			string key, val;
 			if (propBlockNode)
 			{
 				for (xml_node<>* propNode = propBlockNode->first_node("property"); propNode;
 						propNode = propNode->next_sibling("property"))
 				{
-					obj->setProperty(propNode->first_attribute("name")->value(),
-							propNode->first_attribute("value")->value());
+					key = propNode->first_attribute("name")->value();
+					val = propNode->first_attribute("value")->value();
+
+					// If property starts with "on" this is an event handler and needs to be linked as such
+					if (key.find("on") == 0)
+					{
+						WorldIOLink link;
+						vector<string> parts;
+						stringstream ss(val);
+						string next;
+						while (getline(ss, next, ','))
+						{
+							parts.push_back(next);
+						}
+
+						link.sender = obj;
+						link.senderOutputName = key;
+						link.targetObjectName = parts[0];
+						link.targetInputName = parts[1];
+						link.argument = "";
+						if (parts.size() > 2)
+						{
+							for (int i = 2; i < parts.size(); i++)
+							{
+								link.argument = link.argument + parts[i];
+							}
+						}
+
+						// Have to wait until all objects are loaded before resolving IO links
+						linksToResolve.push_back(link);
+					}
+					else
+					{
+						obj->setProperty(key, val);
+					}
 				}
 			}
 
@@ -210,6 +255,40 @@ void WorldMap::load(string fname, ContentManager& content)
 		layers.push_back(layer);
 	}
 
+	// Resolve IO Links
+	for (vector<WorldIOLink>::iterator iter = linksToResolve.begin(); iter != linksToResolve.end(); iter++)
+	{
+		ObjectLayer* currentLayer = NULL;
+		WorldObject* target = NULL;
+		for (vector<MapLayer*>::iterator liter = layers.begin(); liter != layers.end(); liter++)
+		{
+			currentLayer = dynamic_cast<ObjectLayer*>(*liter);
+			if (currentLayer == NULL)
+				continue;
+
+			target = currentLayer->getByName(iter->targetObjectName);
+			if (target)
+				break;
+		}
+
+		if (target == NULL)
+		{
+			cout << "IOLinker: failed to find object " << iter->targetObjectName << "." << endl;
+			continue;
+		}
+
+		WorldInput input = target->resolveInput(iter->targetInputName);
+		if (input == NULL)
+		{
+			cout << "IOLinker: failed to resolve input " << iter->targetInputName << " for object " << iter->targetObjectName << endl;
+			continue;
+		}
+
+		WorldOutput handler = bind(input, iter->sender, iter->argument);
+		iter->sender->linkOutput(iter->senderOutputName, handler);
+	}
+
+	// Initialize the layers
 	for (vector<MapLayer*>::iterator iter = layers.begin(); iter != layers.end(); iter++)
 	{
 		(*iter)->init();

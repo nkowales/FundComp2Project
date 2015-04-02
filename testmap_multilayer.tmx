@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="11">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="13">
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" margin="16">
   <image source="tileset.png" width="256" height="224"/>
  </tileset>
@@ -51,5 +51,12 @@
    </properties>
   </object>
   <object id="9" x="448" y="256" width="96" height="32"/>
+  <object id="11" name="debugger" type="WorldDebugger" gid="32" x="352" y="64"/>
+  <object id="12" type="TriggerArea" x="448" y="288" width="96" height="64">
+   <properties>
+    <property name="onEnter" value="debugger,print,inside"/>
+    <property name="onLeave" value="debugger,print,outside"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

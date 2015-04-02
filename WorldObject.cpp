@@ -40,6 +40,9 @@ void WorldObject::handleEvent(const SDL_Event& e) { }
 bool WorldObject::canCollideWith(const WorldObject* other) { return false; }
 void WorldObject::handleCollision(WorldObject* other, const SDL_Rect& overlap) { }
 
+void WorldObject::linkOutput(string outpName, WorldOutput) { }
+WorldInput WorldObject::resolveInput(string inpName) { return NULL; }
+
 Uint32 WorldObject::getId() const { return id; }
 ObjectLayer* WorldObject::getParentLayer() const { return parentLayer; }
 Vector2d WorldObject::getPosition() const { return position; }

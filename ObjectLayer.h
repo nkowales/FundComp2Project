@@ -29,6 +29,7 @@ public:
 	virtual void handleEvent(const SDL_Event&);
 
 	WorldObject* getObject(Uint32);
+	WorldObject* getByName(string);
 	void addObject(WorldObject*);
 
 private:

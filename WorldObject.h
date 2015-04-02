@@ -13,6 +13,7 @@
 #include <SDL2/SDL.h>
 #include "Geom.h"
 #include "CollisionGroup.h"
+#include "WorldIO.h"
 
 using namespace std;
 
@@ -47,6 +48,9 @@ public:
 	virtual void handleEvent(const SDL_Event&);					// Handle events
 	virtual bool canCollideWith(const WorldObject*);			// Check if it is possible for this object to collide with another one
 	virtual void handleCollision(WorldObject*, const SDL_Rect&);// Handle a collision with another WorldObject
+
+	virtual void linkOutput(string, WorldOutput);
+	virtual WorldInput resolveInput(string);
 
 	Uint32 getId() const;							// Returns the object global id
 	ObjectLayer* getParentLayer() const;			// Returns a pointer to the parent layer
