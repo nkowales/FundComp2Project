@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include "WorldObject.h"
+#include "OneWayPlatform.h"
 
 using namespace std;
 
@@ -45,6 +46,9 @@ private:
 	int state;
 	bool inAir;
 	bool canJump;
+	bool standingOnOneWay;
+	OneWayPlatform* lastOneWay = NULL;
+	OneWayPlatform* ignorePlatform = NULL;
 	Uint32 framesSinceTouchedGround;
 
 	void jump();

@@ -20,6 +20,7 @@
 #include "TriggerArea.h"
 #include "WorldDebugger.h"
 #include "LayerController.h"
+#include "OneWayPlatform.h"
 
 using namespace std;
 
@@ -36,6 +37,7 @@ WorldObject* resolveWorldObject(string type, Uint32 id)
 	REGISTER_OBJ_NAME("TriggerArea", TriggerArea)
 	REGISTER_OBJ_NAME("WorldDebugger", WorldDebugger)
 	REGISTER_OBJ_NAME("LayerController", LayerController)
+	REGISTER_OBJ_NAME("OneWay", OneWayPlatform)
 
 	return NULL;
 }

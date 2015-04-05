@@ -12,6 +12,7 @@ Player::Player() : WorldObject()
 	state = PLYR_STANDING;
 	inAir = true;			// Assume player will spawn in air
 	canJump = true;
+	standingOnOneWay = false;
 	framesSinceTouchedGround = 0;
 
 	SDL_Rect bbox;
@@ -43,6 +44,7 @@ void Player::update(Uint32 time)
 	if (inAir)
 	{
 		velocity.y += GRAVITY * secs;
+		standingOnOneWay = false;
 	}
 	else
 	{
@@ -84,6 +86,13 @@ void Player::handleEvent(const SDL_Event& e)
 		case SDLK_w:
 			jump();
 			break;
+		case SDLK_s:
+			if (standingOnOneWay)
+			{
+				inAir = true;
+				ignorePlatform = lastOneWay;
+			}
+			break;
 		}
 	}
 	else if (e.type == SDL_KEYUP)
@@ -121,8 +130,10 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	{
 	case COLGRP_WORLD: // Ordinary platform
 		framesSinceTouchedGround = 0;
+		ignorePlatform = NULL;
 		if ((feetPos < overlap.y) && (velocity.y > 0)) // Landed on it
 		{
+			standingOnOneWay = false;
 			inAir = false;
 			position.y = other->getPosition().y - PLAYER_HEIGHT;
 		}
@@ -140,6 +151,17 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		else if ((velocity.y < 0) && (other->getPosition().y < position.y))// hit our heads
 		{
 			velocity.y = velocity.y * -PLAYER_HEAD_ELASTICITY;
+		}
+		break;
+	case COLGRP_ONEWAY:
+		framesSinceTouchedGround = 0;
+		lastOneWay = static_cast<OneWayPlatform*>(other);
+		if ((other != ignorePlatform) && (feetPos < overlap.y) && (velocity.y > 0)) // Landed on it
+		{
+			ignorePlatform = NULL;
+			standingOnOneWay = true;
+			inAir = false;
+			position.y = other->getPosition().y - PLAYER_HEIGHT;
 		}
 		break;
 	}
