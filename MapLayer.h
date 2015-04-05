@@ -12,7 +12,9 @@
 class WorldMap;
 
 #include <SDL2/SDL.h>
+#include <iostream>
 
+using namespace std;
 
 class MapLayer
 {
@@ -27,12 +29,18 @@ public:
 
 	WorldMap* getParent() const;
 	bool isVisible() const;
-
+	Uint8 getOpacity() const;
+	void setOpacity(Uint8);
 	void setVisible(bool);
+	string getName();
+	void setName(string);
+
 
 private:
 	WorldMap* parent;
 	bool visible;
+	Uint8 alpha;
+	string name;
 };
 
 

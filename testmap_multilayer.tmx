@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="13">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="14">
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" margin="16">
   <image source="tileset.png" width="256" height="224"/>
  </tileset>
@@ -22,7 +22,29 @@
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 </data>
  </layer>
- <layer name="Tile Layer 2" width="20" height="15" opacity="0.5">
+ <objectgroup name="Object Layer 1">
+  <object id="3" type="Block" x="96" y="128" width="64" height="96"/>
+  <object id="4" x="0" y="352" width="640" height="128"/>
+  <object id="5" x="96" y="320" width="320" height="32"/>
+  <object id="8" type="PlayerSpawn" gid="30" x="96" y="64">
+   <properties>
+    <property name="autospawn" value="1"/>
+   </properties>
+  </object>
+  <object id="12" type="TriggerArea" x="480" y="192" width="96" height="160">
+   <properties>
+    <property name="onEnter" value="overlay1_controller,fadeOut"/>
+    <property name="onLeave" value="overlay1_controller,fadeIn"/>
+   </properties>
+  </object>
+  <object id="13" name="overlay1_controller" type="LayerController" gid="3" x="320" y="64">
+   <properties>
+    <property name="layer" value="overlay1"/>
+    <property name="minFade" value="100"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="overlay1" width="20" height="15">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -41,22 +63,4 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="Object Layer 1">
-  <object id="3" type="Block" x="96" y="128" width="64" height="96"/>
-  <object id="4" x="0" y="352" width="640" height="128"/>
-  <object id="5" x="96" y="320" width="320" height="32"/>
-  <object id="8" type="PlayerSpawn" gid="30" x="96" y="64">
-   <properties>
-    <property name="autospawn" value="1"/>
-   </properties>
-  </object>
-  <object id="9" x="448" y="256" width="96" height="32"/>
-  <object id="11" name="debugger" type="WorldDebugger" gid="32" x="352" y="64"/>
-  <object id="12" type="TriggerArea" x="448" y="288" width="96" height="64">
-   <properties>
-    <property name="onEnter" value="debugger,print,inside"/>
-    <property name="onLeave" value="debugger,print,outside"/>
-   </properties>
-  </object>
- </objectgroup>
 </map>

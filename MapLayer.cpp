@@ -11,6 +11,7 @@ MapLayer::MapLayer(WorldMap* map)
 {
 	parent = map;
 	visible = true;
+	alpha = 255;
 }
 
 MapLayer::~MapLayer()
@@ -46,4 +47,23 @@ bool MapLayer::isVisible() const
 void MapLayer::handleEvent(const SDL_Event& e)
 {
 
+}
+Uint8 MapLayer::getOpacity() const
+{
+	return alpha;
+}
+
+void MapLayer::setOpacity(Uint8 a)
+{
+	alpha = a;
+}
+
+void MapLayer::setName(string nm)
+{
+	name = nm;
+}
+
+string MapLayer::getName()
+{
+	return name;
 }

@@ -17,7 +17,7 @@ WorldInput WorldDebugger::resolveInput(string inpName)
 {
 	if (inpName == "print")
 	{
-		return bind(&WorldDebugger::print, this, placeholders::_1, placeholders::_2);
+		return GET_INPUT_POINTER(&WorldDebugger::print);
 	}
 
 	return WorldObject::resolveInput(inpName);

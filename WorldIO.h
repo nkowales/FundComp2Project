@@ -21,7 +21,7 @@ typedef std::function<void(void)> WorldOutput;
 typedef std::function<void(WorldObject*, std::string)> WorldInput;
 
 // Easily return pointers to events
-#define GET_INPUT_POINTER(funcname) std::bind((funcname), this, std::placeholders::_1, std::placeholders::_2))
+#define GET_INPUT_POINTER(funcname) std::bind((funcname), this, std::placeholders::_1, std::placeholders::_2)
 
 struct WorldIOLink
 {

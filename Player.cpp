@@ -12,6 +12,7 @@ Player::Player() : WorldObject()
 	state = PLYR_STANDING;
 	inAir = true;			// Assume player will spawn in air
 	canJump = true;
+	framesSinceTouchedGround = 0;
 
 	SDL_Rect bbox;
 	bbox.x = bbox.y = 0;

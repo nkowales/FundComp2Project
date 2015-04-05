@@ -35,6 +35,7 @@ public:
 	const Tileset* resolveTile(Uint32) const;
 	void getDimensions(Uint32*, Uint32*) const;
 	Uint32 getTileSize() const;
+	MapLayer* findLayer(string);
 
 private:
 	vector<MapLayer*> layers;

@@ -79,180 +79,189 @@ void WorldMap::load(string fname, ContentManager& content)
 	height = atoi(root->first_attribute("height")->value());
 	tileSize = atoi(root->first_attribute("tilewidth")->value());
 
-	// Parse list of tilesets
-	for (xml_node<>* tsetNode = root->first_node("tileset"); tsetNode; tsetNode = tsetNode->next_sibling("tileset"))
+	for (xml_node<>* childNode = root->first_node(); childNode; childNode = childNode->next_sibling())
 	{
-		string tsetFile;
-		Uint32 fgid = 0, tspc = 0, border = 0, tsz = 1;
-
-		attr = tsetNode->first_attribute("firstgid");
-		if (attr)
-			fgid = atoi(attr->value());
-
-		attr = tsetNode->first_attribute("spacing");
-		if (attr)
-			tspc = atoi(attr->value());
-
-		attr = tsetNode->first_attribute("tilewidth");
-		if (attr)
-			tsz = atoi(attr->value());
-
-		attr = tsetNode->first_attribute("margin");
-		if (attr)
-			border = atoi(attr->value());
-
-		tsetFile = tsetNode->first_node("image")->first_attribute("source")->value();
-
-		// Load the texture thru the Content Manager
-		Texture tiletex = content.getTexture(tsetFile);
-
-		// Read image dimensions
-		int imgw, imgh;
-		tiletex.getDimensions(&imgw, &imgh);
-
-		// Convert from pixels to tiles
-		imgw = (imgw - border * 2) / (tsz + tspc);
-		imgh = (imgh - border * 2) / (tsz + tspc);
-
-		// Add the tileset to the list
-		Tileset tset(tiletex.getImage(), tsz, tspc, border, imgw, imgh, fgid);
-		tilesets.push_back(tset);
-	}
-
-	// Read in each tile layer
-	for (xml_node<>* tileLayer = root->first_node("layer"); tileLayer;
-			tileLayer = tileLayer->next_sibling("layer"))
-	{
-		bool vis = true;
-		Uint8 opacity = 255;
-
-		// Is this layer visible by default?
-		attr = tileLayer->first_attribute("visible");
-		if (attr)
-			vis = atoi(attr->value());
-
-		// How transparent is this layer?
-		attr = tileLayer->first_attribute("opacity");
-		if (attr)
-			opacity = atof(attr->value()) * 255.;
-
-		xml_node<>* dataNode = tileLayer->first_node("data");
-
-		// Read in tile data
-		vector<Uint32> tlist;
-		stringstream data(dataNode->value());
-
-		Uint32 tile;
-		while (data >> tile)
+		// Parse list of tilesets
+		//for (xml_node<>* tsetNode = root->first_node("tileset"); tsetNode; tsetNode = tsetNode->next_sibling("tileset"))
+		if (string(childNode->name()) == "tileset")
 		{
-			tlist.push_back(tile);
+			xml_node<>* tsetNode = childNode;
+			string tsetFile;
+			Uint32 fgid = 0, tspc = 0, border = 0, tsz = 1;
 
-			if ((data.peek() == ',') || (data.peek() == ' ') || (data.peek() == '\n'))
-				data.ignore();
+			attr = tsetNode->first_attribute("firstgid");
+			if (attr)
+				fgid = atoi(attr->value());
+
+			attr = tsetNode->first_attribute("spacing");
+			if (attr)
+				tspc = atoi(attr->value());
+
+			attr = tsetNode->first_attribute("tilewidth");
+			if (attr)
+				tsz = atoi(attr->value());
+
+			attr = tsetNode->first_attribute("margin");
+			if (attr)
+				border = atoi(attr->value());
+
+			tsetFile = tsetNode->first_node("image")->first_attribute("source")->value();
+
+			// Load the texture thru the Content Manager
+			Texture tiletex = content.getTexture(tsetFile);
+
+			// Read image dimensions
+			int imgw, imgh;
+			tiletex.getDimensions(&imgw, &imgh);
+
+			// Convert from pixels to tiles
+			imgw = (imgw - border * 2) / (tsz + tspc);
+			imgh = (imgh - border * 2) / (tsz + tspc);
+
+			// Add the tileset to the list
+			Tileset tset(tiletex.getImage(), tsz, tspc, border, imgw, imgh, fgid);
+			tilesets.push_back(tset);
 		}
 
-		TileLayer* tlayer = new TileLayer(this, tlist);
-		tlayer->setVisible(vis);
-		tlayer->setOpacity(opacity);
-		layers.push_back(tlayer);
-	}
-
-	// Read in each object layer
-	for (xml_node<>* objLayer = root->first_node("objectgroup"); objLayer;
-			objLayer = objLayer->next_sibling("objectgroup"))
-	{
-		ObjectLayer* layer = new ObjectLayer(this);
-		for (xml_node<>* objNode = objLayer->first_node("object"); objNode;
-			objNode = objNode->next_sibling("object"))
+		// Read in each tile layer
+		//for (xml_node<>* tileLayer = root->first_node("layer"); tileLayer; tileLayer = tileLayer->next_sibling("layer"))
+		else if (string(childNode->name()) == "layer")
 		{
-			Uint32 oid = atoi(objNode->first_attribute("id")->value());
-			xml_attribute<>* attr;
-			string strtype, nm;
+			xml_node<>* tileLayer = childNode;
+			bool vis = true;
+			Uint8 opacity = 255;
 
-			attr = objNode->first_attribute("type");
+			// Is this layer visible by default?
+			attr = tileLayer->first_attribute("visible");
 			if (attr)
-				strtype = attr->value();
+				vis = atoi(attr->value());
 
-			Vector2d pos;
-			SDL_Rect bbox;
-			pos.x = atoi(objNode->first_attribute("x")->value());
-			pos.y = atoi(objNode->first_attribute("y")->value());
-			bbox.x = bbox.y = bbox.w = bbox.h = 0;
-
-			attr = objNode->first_attribute("width");
+			// How transparent is this layer?
+			attr = tileLayer->first_attribute("opacity");
 			if (attr)
-				bbox.w = atoi(attr->value());
+				opacity = atof(attr->value()) * 255.;
 
-			attr = objNode->first_attribute("height");
-			if (attr)
-				bbox.h = atoi(attr->value());
+			xml_node<>* dataNode = tileLayer->first_node("data");
 
-			attr = objNode->first_attribute("name");
-			if (attr)
-				nm = attr->value();
+			// Read in tile data
+			vector<Uint32> tlist;
+			stringstream data(dataNode->value());
 
-			WorldObject* obj = resolveWorldObject(strtype, oid);
-
-			if (obj == NULL)
+			Uint32 tile;
+			while (data >> tile)
 			{
-				cout << "Invalid object type " << strtype << " ID# " << oid << ". Ignoring." << endl;
-				break;
+				tlist.push_back(tile);
+
+				if ((data.peek() == ',') || (data.peek() == ' ') || (data.peek() == '\n'))
+					data.ignore();
 			}
 
-			obj->setPosition(pos);
-			obj->setBoundingBox(bbox);
-			obj->setName(nm);
+			TileLayer* tlayer = new TileLayer(this, tlist);
+			tlayer->setVisible(vis);
+			tlayer->setOpacity(opacity);
+			tlayer->setName(tileLayer->first_attribute("name")->value());
+			layers.push_back(tlayer);
+		}
 
-			xml_node<>* propBlockNode = objNode->first_node("properties");
-			string key, val;
-			if (propBlockNode)
+		// Read in each object layer
+		//for (xml_node<>* objLayer = root->first_node("objectgroup"); objLayer; objLayer = objLayer->next_sibling("objectgroup"))
+		else if (string(childNode->name()) == "objectgroup")
+		{
+			xml_node<>* objLayer = childNode;
+			ObjectLayer* layer = new ObjectLayer(this);
+			layer->setName(objLayer->first_attribute("name")->value());
+			for (xml_node<>* objNode = objLayer->first_node("object"); objNode;
+				objNode = objNode->next_sibling("object"))
 			{
-				for (xml_node<>* propNode = propBlockNode->first_node("property"); propNode;
-						propNode = propNode->next_sibling("property"))
+				Uint32 oid = atoi(objNode->first_attribute("id")->value());
+				xml_attribute<>* attr;
+				string strtype, nm;
+
+				attr = objNode->first_attribute("type");
+				if (attr)
+					strtype = attr->value();
+
+				Vector2d pos;
+				SDL_Rect bbox;
+				pos.x = atoi(objNode->first_attribute("x")->value());
+				pos.y = atoi(objNode->first_attribute("y")->value());
+				bbox.x = bbox.y = bbox.w = bbox.h = 0;
+
+				attr = objNode->first_attribute("width");
+				if (attr)
+					bbox.w = atoi(attr->value());
+
+				attr = objNode->first_attribute("height");
+				if (attr)
+					bbox.h = atoi(attr->value());
+
+				attr = objNode->first_attribute("name");
+				if (attr)
+					nm = attr->value();
+
+				WorldObject* obj = resolveWorldObject(strtype, oid);
+
+				if (obj == NULL)
 				{
-					key = propNode->first_attribute("name")->value();
-					val = propNode->first_attribute("value")->value();
+					cout << "Invalid object type " << strtype << " ID# " << oid << ". Ignoring." << endl;
+					break;
+				}
 
-					// If property starts with "on" this is an event handler and needs to be linked as such
-					if (key.find("on") == 0)
+				obj->setPosition(pos);
+				obj->setBoundingBox(bbox);
+				obj->setName(nm);
+
+				xml_node<>* propBlockNode = objNode->first_node("properties");
+				string key, val;
+				if (propBlockNode)
+				{
+					for (xml_node<>* propNode = propBlockNode->first_node("property"); propNode;
+							propNode = propNode->next_sibling("property"))
 					{
-						WorldIOLink link;
-						vector<string> parts;
-						stringstream ss(val);
-						string next;
-						while (getline(ss, next, ','))
-						{
-							parts.push_back(next);
-						}
+						key = propNode->first_attribute("name")->value();
+						val = propNode->first_attribute("value")->value();
 
-						link.sender = obj;
-						link.senderOutputName = key;
-						link.targetObjectName = parts[0];
-						link.targetInputName = parts[1];
-						link.argument = "";
-						if (parts.size() > 2)
+						// If property starts with "on" this is an event handler and needs to be linked as such
+						if (key.find("on") == 0)
 						{
-							for (int i = 2; i < parts.size(); i++)
+							WorldIOLink link;
+							vector<string> parts;
+							stringstream ss(val);
+							string next;
+							while (getline(ss, next, ','))
 							{
-								link.argument = link.argument + parts[i];
+								parts.push_back(next);
 							}
-						}
 
-						// Have to wait until all objects are loaded before resolving IO links
-						linksToResolve.push_back(link);
-					}
-					else
-					{
-						obj->setProperty(key, val);
+							link.sender = obj;
+							link.senderOutputName = key;
+							link.targetObjectName = parts[0];
+							link.targetInputName = parts[1];
+							link.argument = "";
+							if (parts.size() > 2)
+							{
+								for (Uint32 i = 2; i < parts.size(); i++)
+								{
+									link.argument = link.argument + parts[i];
+								}
+							}
+
+							// Have to wait until all objects are loaded before resolving IO links
+							linksToResolve.push_back(link);
+						}
+						else
+						{
+							obj->setProperty(key, val);
+						}
 					}
 				}
+
+				obj->setParentLayer(layer);
+				layer->addObject(obj);
 			}
 
-			obj->setParentLayer(layer);
-			layer->addObject(obj);
+			layers.push_back(layer);
 		}
-
-		layers.push_back(layer);
 	}
 
 	// Resolve IO Links
@@ -336,4 +345,15 @@ void WorldMap::handleEvent(const SDL_Event& e)
 	{
 		(*iter)->handleEvent(e);
 	}
+}
+
+MapLayer* WorldMap::findLayer(string nm)
+{
+	for (vector<MapLayer*>::iterator iter = layers.begin(); iter != layers.end(); iter++)
+	{
+		if ((*iter)->getName() == nm)
+			return *iter;
+	}
+
+	return NULL;
 }
