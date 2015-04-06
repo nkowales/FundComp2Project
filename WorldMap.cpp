@@ -19,12 +19,10 @@ using namespace rapidxml;
 
 WorldMap::WorldMap()
 {
-	width = height = tileSize = 0;
 }
 
 WorldMap::WorldMap(string fname, ContentManager& content)
 {
-	width = height = tileSize = 0;
 	load(fname, content);
 }
 
@@ -34,6 +32,11 @@ WorldMap::~WorldMap()
 	for (vector<MapLayer*>::iterator iter = layers.begin(); iter != layers.end(); iter++)
 	{
 		delete *iter;
+	}
+
+	if (camera)
+	{
+		delete camera;
 	}
 
 	layers.clear();
@@ -57,6 +60,11 @@ void WorldMap::update(Uint32 time)
 	{
 		(*iter)->update(time);
 	}
+
+	if (camera)
+	{
+		camera->update();
+	}
 }
 
 void WorldMap::load(string fname, ContentManager& content)
@@ -78,6 +86,9 @@ void WorldMap::load(string fname, ContentManager& content)
 	width = atoi(root->first_attribute("width")->value());
 	height = atoi(root->first_attribute("height")->value());
 	tileSize = atoi(root->first_attribute("tilewidth")->value());
+
+	// Initialize the camera
+	camera = new Camera(SCREENW, SCREENH, width * tileSize, height * tileSize);
 
 	for (xml_node<>* childNode = root->first_node(); childNode; childNode = childNode->next_sibling())
 	{
@@ -356,4 +367,9 @@ MapLayer* WorldMap::findLayer(string nm)
 	}
 
 	return NULL;
+}
+
+Camera* WorldMap::getCamera()
+{
+	return camera;
 }

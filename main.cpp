@@ -11,9 +11,6 @@ created by Nathan Kowaleski
 
 using namespace std;
 
-#define SCREENW 640
-#define SCREENH 480
-
 int main(int argc, char** argv)
 {
 	SDL_Window* window = NULL;
@@ -39,7 +36,7 @@ int main(int argc, char** argv)
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	ContentManager content(renderer);
-	WorldMap world("testmap_multilayer.tmx", content);
+	WorldMap world("testmap_scrolling.tmx", content);
 
 	// Wait for user to press X button on window
 	bool quit = false;

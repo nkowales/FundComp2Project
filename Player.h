@@ -36,6 +36,7 @@ class Player : public WorldObject
 public:
 	Player();
 
+	void init();
 	void update(Uint32);
 	void draw(SDL_Renderer*);
 	void handleEvent(const SDL_Event&);

@@ -16,6 +16,8 @@
 #include "ContentManager.h"
 #include "Tileset.h"
 #include "MapLayer.h"
+#include "GameConstants.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -36,14 +38,15 @@ public:
 	void getDimensions(Uint32*, Uint32*) const;
 	Uint32 getTileSize() const;
 	MapLayer* findLayer(string);
+	Camera* getCamera();
 
 private:
 	vector<MapLayer*> layers;
 	vector<Tileset> tilesets;
-	Uint32 width;				// Map dimensions (in tiles)
-	Uint32 height;
-	Uint32 tileSize;			// Size of each tile (in px), assumed square
-
+	Uint32 width = 0;				// Map dimensions (in tiles)
+	Uint32 height = 0;
+	Uint32 tileSize = 0;			// Size of each tile (in px), assumed square
+	Camera* camera = NULL;
 };
 
 #endif /* WORLDMAP_H_ */

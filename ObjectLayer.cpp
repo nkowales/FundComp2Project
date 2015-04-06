@@ -115,6 +115,7 @@ void ObjectLayer::addObject(WorldObject* obj)
 	{
 		pair<Uint32, WorldObject*> pr(obj->getId(), obj);
 		objects.insert(pr);
+		obj->setParentLayer(this);
 
 		if (initialized)
 		{

@@ -41,8 +41,8 @@ void Tileset::drawTile(SDL_Renderer* rdr, Uint32 gid, int x, int y, Uint8 alpha)
 
 	src.w = src.h = dst.w = dst.h = tileSize;
 
-	dst.x = x * tileSize;
-	dst.y = y * tileSize;
+	dst.x = x;// * tileSize;
+	dst.y = y;// * tileSize;
 
 	src.x = imgBorder + (tile % tsetWidth) * (tileSize + tileSpace);
 	src.y = imgBorder + (tile / tsetWidth) * (tileSize + tileSpace);

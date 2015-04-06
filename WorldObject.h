@@ -14,6 +14,7 @@
 #include "Geom.h"
 #include "CollisionGroup.h"
 #include "WorldIO.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -59,6 +60,7 @@ public:
 	SDL_Rect getBoundingBox() const;
 	Uint32 getCollisionGroup() const;
 	string getName() const;
+	Camera* getCamera() const;
 
 	void setPosition(Vector2d);
 	void setVelocity(Vector2d);

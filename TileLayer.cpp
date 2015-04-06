@@ -18,6 +18,7 @@ void TileLayer::draw(SDL_Renderer* renderer)
 {
 	Uint32 index;
 	const Tileset* tset = NULL;
+	SDL_Rect viewport = getParent()->getCamera()->getViewport();
 	for (Uint32 y = 0; y < height; y++)
 	{
 		for (Uint32 x = 0; x < width; x++)
@@ -33,7 +34,7 @@ void TileLayer::draw(SDL_Renderer* renderer)
 				if (tset)
 				{
 					// Source the tile from the correct tileset and draw it
-					tset->drawTile(renderer, tiles[index], x, y, getOpacity());
+					tset->drawTile(renderer, tiles[index], x * tileSize - viewport.x, y * tileSize - viewport.y, getOpacity());
 				}
 			}
 		}

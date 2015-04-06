@@ -23,6 +23,12 @@ Player::Player() : WorldObject()
 	setCollisionGroup(COLGRP_PLAYER);
 }
 
+void Player::init()
+{
+	// Get the camera to follow the player
+	getCamera()->follow(this);
+}
+
 void Player::update(Uint32 time)
 {
 	double secs = time / 1000.;
@@ -65,7 +71,7 @@ void Player::update(Uint32 time)
 void Player::draw(SDL_Renderer* renderer)
 {
 	// Right now just draw the bounding box
-	SDL_Rect bbox = getBoundingBox();
+	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -155,9 +161,10 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		break;
 	case COLGRP_ONEWAY:
 		framesSinceTouchedGround = 0;
-		lastOneWay = static_cast<OneWayPlatform*>(other);
+
 		if ((other != ignorePlatform) && (feetPos < overlap.y) && (velocity.y > 0)) // Landed on it
 		{
+			lastOneWay = static_cast<OneWayPlatform*>(other);
 			ignorePlatform = NULL;
 			standingOnOneWay = true;
 			inAir = false;

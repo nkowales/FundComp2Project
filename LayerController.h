@@ -43,7 +43,7 @@ private:
 
 	Uint32 minFade = 0;
 	Uint32 maxFade = 255;
-	Uint32 fadeRate = 25;
+	Uint32 fadeRate = 10;
 };
 
 #endif /* LAYERCONTROLLER_H_ */

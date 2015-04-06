@@ -6,6 +6,8 @@
  */
 
 #include "WorldObject.h"
+#include "ObjectLayer.h"
+#include "WorldMap.h"
 #include <climits>
 
 WorldObject::WorldObject()
@@ -49,6 +51,7 @@ Vector2d WorldObject::getPosition() const { return position; }
 Vector2d WorldObject::getVelocity() const { return velocity; }
 Uint32 WorldObject::getCollisionGroup() const { return colGrp; }
 string WorldObject::getName() const { return name; }
+Camera* WorldObject::getCamera() const { return getParentLayer()->getParent()->getCamera(); }
 SDL_Rect WorldObject::getBoundingBox() const
 {
 	SDL_Rect bbox = boundingBox;
