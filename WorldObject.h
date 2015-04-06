@@ -75,9 +75,9 @@ public:
 	bool operator!=(const WorldObject&) const;
 
 protected:
-	Vector2d position;
-	Vector2d velocity;
-	SDL_Rect boundingBox;
+	Vector2d position = {0, 0};
+	Vector2d velocity = {0, 0};
+	SDL_Rect boundingBox = {0, 0, 0, 0};
 
 private:
 	string name;
