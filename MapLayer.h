@@ -3,6 +3,9 @@
  *
  *  Created on: Mar 14, 2015
  *      Author: naiello
+ *
+ *      Abstract base class of all layers in the WorldMap.  Each MapLayer is either a TileLayer or ObjectLayer, and WorldMaps
+ *      are made up primarily of a list of these layers that are updated and drawn every frame.
  */
 
 #ifndef MAPLAYER_H_

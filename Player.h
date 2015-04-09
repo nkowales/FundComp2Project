@@ -3,6 +3,9 @@
  *
  *  Created on: Mar 28, 2015
  *      Author: naiello
+ *
+ *      This class contains the basic update, draw, and collide logic for the Player class.  The Player CANNOT be directly
+ *      inserted into the map from Tiled, and must be spawned by a PlayerSpawn object.
  */
 
 #ifndef PLAYER_H_

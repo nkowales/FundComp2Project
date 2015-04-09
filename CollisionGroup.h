@@ -3,6 +3,9 @@
  *
  *  Created on: Mar 27, 2015
  *      Author: naiello
+ *
+ *      These collision groups are used by the WorldObject::canCollideWith overloads to determine what each object can collide
+ *      with.  Each solid WorldObject should call setCollisionGroup in its constructor.
  */
 
 #ifndef COLLISIONGROUP_H_

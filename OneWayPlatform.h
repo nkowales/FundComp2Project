@@ -3,6 +3,9 @@
  *
  *  Created on: Apr 4, 2015
  *      Author: naiello
+ *
+ *      This class describes a platform that can be jumped through from below, or dropped down from on top of.  It is only
+ *      solid when landing on it from above.
  */
 
 #ifndef ONEWAYPLATFORM_H_

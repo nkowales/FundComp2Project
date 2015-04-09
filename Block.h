@@ -3,6 +3,8 @@
  *
  *  Created on: Mar 24, 2015
  *      Author: naiello
+ *
+ *      Class describing basic platforms in the game.  They are solid to the player and to enemies from all sides.
  */
 
 #ifndef BLOCK_H_

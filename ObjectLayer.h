@@ -3,6 +3,10 @@
  *
  *  Created on: Mar 18, 2015
  *      Author: naiello
+ *
+ *      ObjectLayers are one of two kinds of MapLayer.  These are layers of the map that contain a list of WorldObjects
+ *      (Player, Block, enemies, etc.) that are updated and drawn every frame (this class also handles collisions
+ *      between two objects).
  */
 
 #ifndef OBJECTLAYER_H_

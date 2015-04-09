@@ -3,6 +3,8 @@
  *
  *  Created on: Mar 15, 2015
  *      Author: naiello
+ *
+ *      Wrapper class for SDL_Texture*
  */
 
 #ifndef TEXTURE_H_

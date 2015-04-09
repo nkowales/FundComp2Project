@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 4, 2015
  *      Author: naiello
+ *
+ *      WorldObject that controls the visibility of a given layer.  Can be placed into a map and controlled with inputs.
  */
 
 #ifndef LAYERCONTROLLER_H_

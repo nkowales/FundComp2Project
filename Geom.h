@@ -3,6 +3,8 @@
  *
  *  Created on: Mar 18, 2015
  *      Author: naiello
+ *
+ *      Basic data structures and geometric functions used by WorldObject to describe positions, hitboxes, etc.
  */
 
 #ifndef GEOM_H_

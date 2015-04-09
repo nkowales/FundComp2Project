@@ -3,6 +3,11 @@
  *
  *  Created on: Mar 18, 2015
  *      Author: naiello
+ *
+ *      Abstract base class for all objects in the world.  Player, Platforms, Enemies, Triggers, etc. (any object inside the map
+ *      that needs to be updated, collided, drawn, or handle user input should derive from this class).  All of the above
+ *      functionality can be accessed by overloading the appropriate function listed below, these functions are called as
+ *      appropriate by the ObjectLayer that contains this WorldObject.
  */
 
 #ifndef WORLDOBJECT_H_

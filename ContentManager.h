@@ -3,6 +3,9 @@
  *
  *  Created on: Mar 15, 2015
  *      Author: naiello
+ *
+ *      Manages loading and unloading textures for the game.  This way if 10 instances of an object load the same texture, only
+ *      one copy of the texture is stored in memory.
  */
 
 #ifndef CONTENTMANAGER_H_

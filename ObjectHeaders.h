@@ -3,6 +3,10 @@
  *
  *  Created on: Mar 24, 2015
  *      Author: naiello
+ *
+ *      This file is used by the WorldObject::load function.  Object types in tiled are stored as strings, and as such must
+ *      be converted to actual WorldObject instances by the resolveWorldObject function.  New WorldObjects MUST be listed here
+ *      in order to be used in Tiled (see comments below).
  */
 
 #ifndef OBJECTHEADERS_H_

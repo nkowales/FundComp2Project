@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 1, 2015
  *      Author: naiello
+ *
+ *      Contains definitions for function pointers used to link object event handlers together in Tiled.
  */
 
 #ifndef WORLDIO_H_

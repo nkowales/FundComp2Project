@@ -3,6 +3,8 @@
  *
  *  Created on: Mar 28, 2015
  *      Author: naiello
+ *
+ *      WorldObject that generates a Player instance when initialized.
  */
 
 #ifndef PLAYERSPAWN_H_

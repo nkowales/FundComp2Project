@@ -3,6 +3,9 @@
  *
  *  Created on: Mar 14, 2015
  *      Author: naiello
+ *
+ *      Describes a single tileset used in a Tiled map.  the drawTile method will take a tile ID and draw that tile's n * n cell
+ *      on the tileset texture.
  */
 
 #ifndef TILESET_H_

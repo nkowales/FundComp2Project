@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 1, 2015
  *      Author: naiello
+ *
+ *      WorldObject that generates an event when the player touches or leaves it.  Can be used for fading out layers, etc.
  */
 
 #ifndef TRIGGERAREA_H_
