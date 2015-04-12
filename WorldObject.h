@@ -85,14 +85,14 @@ protected:
 	Vector2d velocity = {0, 0};
 	SDL_Rect boundingBox = {0, 0, 0, 0};
 
+	static Uint32 getUniqueID();
+
 private:
 	string name;
 	Uint32 id;										// Unique map-defined object ID
 
 	ObjectLayer* parentLayer;
 	Uint32 colGrp;
-
-	static Uint32 getUniqueID();
 };
 
 

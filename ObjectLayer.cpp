@@ -40,6 +40,7 @@ void ObjectLayer::init()
 
 void ObjectLayer::update(Uint32 time)
 {
+	removeHoldingObjects();
 	for (ObjectMap::iterator iter = objects.begin(); iter != objects.end(); iter++)
 	{
 		// Check all objects AFTER the current one for collisions (to ensure no double-checking)
@@ -129,13 +130,21 @@ void ObjectLayer::addObject(WorldObject* obj)
 
 void ObjectLayer::removeObject(Uint32 id)
 {
-	ObjectMap::iterator target = objects.find(id);
-	WorldObject* obj = target->second;
-	if (target != objects.end())
-	{
-		target->second->uninit();
-		objects.erase(target);
-	}
+	removeNextFrame.push_back(id);
+}
 
-	delete obj;
+void ObjectLayer::removeHoldingObjects()
+{
+	for (vector<Uint32>::iterator iter = removeNextFrame.begin(); iter != removeNextFrame.end(); iter++)
+	{
+		ObjectMap::iterator objiter = objects.find(*iter);
+		if (objiter != objects.end())
+		{
+			WorldObject* obj = objiter->second;
+			obj->uninit();
+			delete obj;
+
+			objects.erase(*iter);
+		}
+	}
 }

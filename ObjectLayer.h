@@ -40,6 +40,9 @@ public:
 private:
 	bool initialized;
 	ObjectMap objects;
+	vector<Uint32> removeNextFrame;
+
+	void removeHoldingObjects();
 };
 
 #endif /* OBJECTLAYER_H_ */

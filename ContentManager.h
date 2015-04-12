@@ -17,6 +17,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Texture.h"
+#include "AnimatedTexture.h"
 
 using namespace std;
 
@@ -29,6 +30,7 @@ public:
 	~ContentManager();
 
 	Texture getTexture(string);
+	AnimatedTexture getAnimatedTexture(string, int, int, int, int, int, int, int);
 
 private:
 	SDL_Renderer* renderer;

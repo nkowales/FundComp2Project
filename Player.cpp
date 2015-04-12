@@ -24,10 +24,6 @@ void Player::init(ContentManager* content)
 {
 	// Get the camera to follow the player
 	getCamera()->follow(this);
-
-	Fireball* fball = new Fireball(100);
-	fball->setPosition(position);
-	getParentLayer()->addObject(fball);
 }
 
 void Player::update(Uint32 time)
@@ -99,6 +95,9 @@ void Player::handleEvent(const SDL_Event& e)
 				inAir = true;
 				ignorePlatform = lastOneWay;
 			}
+			break;
+		case SDLK_f:
+			rangedAttack();
 			break;
 		}
 	}
@@ -243,5 +242,8 @@ void Player::meleeAttack()
 
 void Player::rangedAttack()
 {
-	// TODO
+	Fireball* fball = new Fireball(WorldObject::getUniqueID());
+	Vector2d fpos = {position.x + PLAYER_WIDTH, position.y + PLAYER_HEIGHT / 3};
+	fball->setPosition(fpos);
+	getParentLayer()->addObject(fball);
 }

@@ -19,8 +19,8 @@ public:
 	Texture(SDL_Texture* = NULL);
 	virtual ~Texture();
 
-	virtual void draw(SDL_Renderer*, int, int) const;
-	virtual void draw(SDL_Renderer*, SDL_Rect*, SDL_Rect*) const;
+	virtual void draw(SDL_Renderer*, int, int, float = 1., float = 1.);
+	virtual void draw(SDL_Renderer*, SDL_Rect*, SDL_Rect*);
 	void getDimensions(int*, int*) const;
 	SDL_Texture* getImage() const;
 

@@ -15,18 +15,18 @@ Texture::Texture(SDL_Texture* img)
 
 Texture::~Texture() { }
 
-void Texture::draw(SDL_Renderer* renderer, int x, int y) const
+void Texture::draw(SDL_Renderer* renderer, int x, int y, float xs, float ys)
 {
 	SDL_Rect dst;
 	dst.x = x;
 	dst.y = y;
-	dst.w = width;
-	dst.h = height;
+	dst.w = width * xs;
+	dst.h = height * ys;
 
 	SDL_RenderCopy(renderer, image, NULL, &dst);
 }
 
-void Texture::draw(SDL_Renderer* renderer, SDL_Rect* src, SDL_Rect* dst) const
+void Texture::draw(SDL_Renderer* renderer, SDL_Rect* src, SDL_Rect* dst)
 {
 	SDL_RenderCopy(renderer, image, src, dst);
 }
