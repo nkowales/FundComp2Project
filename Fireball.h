@@ -11,7 +11,7 @@
 #include "WorldObject.h"
 
 #define FIREBALL_MAX_BOUNCES 3
-#define FIREBALL_HSPEED 150
+#define FIREBALL_HSPEED 220
 #define FIREBALL_SIZE 16
 
 class Fireball : public WorldObject

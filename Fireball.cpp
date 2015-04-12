@@ -24,10 +24,12 @@ bool Fireball::canCollideWith(const WorldObject* other)
 void Fireball::update(Uint32 time)
 {
 	double secs = time / 1000.;
-	velocity.y += 50 * secs;
+	velocity.y += 1000 * secs;
 
 	if (nBounces > FIREBALL_MAX_BOUNCES)
 		kill();
+
+	WorldObject::update(time);
 }
 
 void Fireball::reverseDirection()
