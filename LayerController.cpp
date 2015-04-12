@@ -41,7 +41,7 @@ void LayerController::fadeOut(WorldObject* sender, string arg)
 	state = FADEOUT;
 }
 
-void LayerController::init()
+void LayerController::init(ContentManager* content)
 {
 	targetLayer = getParentLayer()->getParent()->findLayer(layerName);
 }

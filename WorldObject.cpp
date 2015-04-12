@@ -27,7 +27,7 @@ WorldObject::WorldObject(Uint32 oid)
 
 WorldObject::~WorldObject() { }
 
-void WorldObject::init() { }
+void WorldObject::init(ContentManager* content) { }
 void WorldObject::uninit() { }
 void WorldObject::update(Uint32 time)
 {

@@ -29,7 +29,7 @@ public:
 	LayerController(Uint32);
 
 	WorldInput resolveInput(string);
-	void init();
+	void init(ContentManager*);
 	void update(Uint32);
 
 	void hide(WorldObject* = NULL, string = "");

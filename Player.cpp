@@ -23,7 +23,7 @@ Player::Player() : WorldObject()
 	setCollisionGroup(COLGRP_PLAYER);
 }
 
-void Player::init()
+void Player::init(ContentManager* content)
 {
 	// Get the camera to follow the player
 	getCamera()->follow(this);

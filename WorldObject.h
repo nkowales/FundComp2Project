@@ -20,6 +20,7 @@
 #include "CollisionGroup.h"
 #include "WorldIO.h"
 #include "Camera.h"
+#include "ContentManager.h"
 
 using namespace std;
 
@@ -47,7 +48,7 @@ public:
 	WorldObject(Uint32);							// Initializes the object BEFORE it is added to an object layer
 	virtual ~WorldObject();							// Runs whenever object is destroyed
 
-	virtual void init();										// Initializes the object AFTER it is added to an object layer
+	virtual void init(ContentManager* content);					// Initializes the object AFTER it is added to an object layer
 	virtual void uninit();										// Runs whenever object is REMOVED from an object layer
 	virtual void update(Uint32);								// Update object's state
 	virtual void draw(SDL_Renderer*);							// Draw the object

@@ -6,6 +6,8 @@
  */
 
 #include "ObjectLayer.h"
+#include "ContentManager.h"
+#include "WorldMap.h"
 #include "Geom.h"
 
 ObjectLayer::ObjectLayer(WorldMap* parent) : MapLayer(parent)
@@ -28,9 +30,10 @@ ObjectLayer::~ObjectLayer()
 
 void ObjectLayer::init()
 {
+	ContentManager* content = getParent()->getContentManager();
 	for (ObjectMap::iterator iter = objects.begin(); iter != objects.end(); iter++)
 	{
-		iter->second->init();
+		iter->second->init(content);
 	}
 	initialized = true;
 }
@@ -119,7 +122,7 @@ void ObjectLayer::addObject(WorldObject* obj)
 
 		if (initialized)
 		{
-			obj->init();
+			obj->init(getParent()->getContentManager());
 		}
 	}
 }
