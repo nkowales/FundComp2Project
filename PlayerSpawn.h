@@ -22,7 +22,7 @@ class PlayerSpawn : public WorldObject
 public:
 	PlayerSpawn(Uint32);
 
-	void init();
+	void init(ContentManager*);
 
 	void setProperty(string, string);
 

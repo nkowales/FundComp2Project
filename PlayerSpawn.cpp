@@ -14,7 +14,7 @@ PlayerSpawn::PlayerSpawn(Uint32 id)
 
 }
 
-void PlayerSpawn::init()
+void PlayerSpawn::init(ContentManager* content)
 {
 	if (spawnOnInit)
 	{

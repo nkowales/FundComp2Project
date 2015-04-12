@@ -29,12 +29,12 @@ class WorldMap
 {
 public:
 	WorldMap();
-	WorldMap(string, ContentManager&);
+	WorldMap(string, SDL_Renderer*);
 	~WorldMap();
 
 	void update(Uint32);
 	void draw(SDL_Renderer*);
-	void load(string, ContentManager&);
+	void load(string, SDL_Renderer*);
 	void handleEvent(const SDL_Event&);
 
 	const Tileset* resolveTile(Uint32) const;
@@ -42,6 +42,7 @@ public:
 	Uint32 getTileSize() const;
 	MapLayer* findLayer(string);
 	Camera* getCamera();
+	ContentManager* getContentManager() const;
 
 private:
 	vector<MapLayer*> layers;
@@ -50,6 +51,7 @@ private:
 	Uint32 height = 0;
 	Uint32 tileSize = 0;			// Size of each tile (in px), assumed square
 	Camera* camera = NULL;
+	ContentManager* content = NULL;
 };
 
 #endif /* WORLDMAP_H_ */

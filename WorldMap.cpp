@@ -21,9 +21,9 @@ WorldMap::WorldMap()
 {
 }
 
-WorldMap::WorldMap(string fname, ContentManager& content)
+WorldMap::WorldMap(string fname, SDL_Renderer* renderer)
 {
-	load(fname, content);
+	load(fname, renderer);
 }
 
 WorldMap::~WorldMap()
@@ -37,6 +37,11 @@ WorldMap::~WorldMap()
 	if (camera)
 	{
 		delete camera;
+	}
+
+	if (content)
+	{
+		delete content;
 	}
 
 	layers.clear();
@@ -67,11 +72,12 @@ void WorldMap::update(Uint32 time)
 	}
 }
 
-void WorldMap::load(string fname, ContentManager& content)
+void WorldMap::load(string fname, SDL_Renderer* renderer)
 {
 	file<> fl(fname.c_str());
 	xml_document<> doc;
 	vector<WorldIOLink> linksToResolve;
+	content = new ContentManager(renderer);
 
 	//cout << fl.data() << endl;
 
@@ -119,7 +125,7 @@ void WorldMap::load(string fname, ContentManager& content)
 			tsetFile = tsetNode->first_node("image")->first_attribute("source")->value();
 
 			// Load the texture thru the Content Manager
-			Texture tiletex = content.getTexture(tsetFile);
+			Texture tiletex = content->getTexture(tsetFile);
 
 			// Read image dimensions
 			int imgw, imgh;
@@ -268,6 +274,7 @@ void WorldMap::load(string fname, ContentManager& content)
 				}
 
 				obj->setParentLayer(layer);
+
 				layer->addObject(obj);
 			}
 
@@ -367,6 +374,11 @@ MapLayer* WorldMap::findLayer(string nm)
 	}
 
 	return NULL;
+}
+
+ContentManager* WorldMap::getContentManager() const
+{
+	return content;
 }
 
 Camera* WorldMap::getCamera()
