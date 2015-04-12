@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 {
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
-
+	SDL_Joystick* gGameController = NULL;
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
 		cout << "Failed to init SDL." << endl;
@@ -29,6 +29,20 @@ int main(int argc, char** argv)
 	{
 		cout << "Failed to open window." << endl;
 		return 2;
+	}
+	//Check for joysticks
+	if( SDL_NumJoysticks() < 1 )
+	{
+		cout <<"Warning: No joysticks connected!\n";
+	}
+	else
+	{
+		//Load joystick
+		gGameController = SDL_JoystickOpen( 0 );
+		if( gGameController == NULL )
+		{
+			printf( "Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError() );
+		}
 	}
 
 	IMG_Init(IMG_INIT_PNG);
@@ -67,6 +81,7 @@ int main(int argc, char** argv)
 	SDL_DestroyWindow(window);
 	IMG_Quit();
 	SDL_Quit();
-
+	SDL_JoystickClose( gGameController );
+	gGameController = NULL;
 	return 0;
 }

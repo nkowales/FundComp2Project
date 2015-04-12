@@ -119,6 +119,52 @@ void Player::handleEvent(const SDL_Event& e)
 			break;
 		}
 	}
+	else if (e.type == SDL_JOYAXISMOTION ){
+		if (e.jaxis.which == 0 )
+		{
+			//X axis motion
+			if( e.jaxis.axis == 0 )
+			{
+			//Left of dead zone
+				if( e.jaxis.value < -8000 )
+				{
+					state = PLYR_MVG_LEFT;
+				}
+				//Right of dead zone
+				else if( e.jaxis.value > 8000 )
+				{
+					state = PLYR_MVG_RIGHT;
+				}
+				else
+				{
+					state = PLYR_STANDING;
+				}
+			}
+				//Y axis motion
+			else if( e.jaxis.axis == 1 )
+			{
+				// down press
+				if( e.jaxis.value > 8000 )
+				{
+					if (standingOnOneWay){
+						inAir = true;
+						ignorePlatform = lastOneWay;
+					}
+				}
+				//up press
+				else if( e.jaxis.value < -8000 )
+				{
+					jump();
+					canJump = true;
+				}
+				else
+				{
+				
+				}
+			}
+
+		}
+	}
 }
 
 bool Player::canCollideWith(const WorldObject* other)
