@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "ObjectLayer.h"
 #include "Fireball.h"
+#include "Bullet.h"
 
 Player::Player() : WorldObject()
 {
@@ -242,8 +243,13 @@ void Player::meleeAttack()
 
 void Player::rangedAttack()
 {
-	Fireball* fball = new Fireball(WorldObject::getUniqueID());
+	/*Fireball* fball = new Fireball(WorldObject::getUniqueID());
 	Vector2d fpos = {position.x + PLAYER_WIDTH, position.y + PLAYER_HEIGHT / 3};
 	fball->setPosition(fpos);
-	getParentLayer()->addObject(fball);
+	getParentLayer()->addObject(fball);*/
+
+	Bullet* bullet = new Bullet(WorldObject::getUniqueID());
+	bullet->setPosition(position);
+	bullet->setAngle(0.125);
+	getParentLayer()->addObject(bullet);
 }

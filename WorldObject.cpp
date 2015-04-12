@@ -55,8 +55,8 @@ Camera* WorldObject::getCamera() const { return getParentLayer()->getParent()->g
 SDL_Rect WorldObject::getBoundingBox() const
 {
 	SDL_Rect bbox = boundingBox;
-	bbox.x = position.x;
-	bbox.y = position.y;
+	bbox.x += position.x;
+	bbox.y += position.y;
 	return bbox;
 }
 
