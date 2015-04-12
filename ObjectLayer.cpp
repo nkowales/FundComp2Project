@@ -126,3 +126,16 @@ void ObjectLayer::addObject(WorldObject* obj)
 		}
 	}
 }
+
+void ObjectLayer::removeObject(Uint32 id)
+{
+	ObjectMap::iterator target = objects.find(id);
+	WorldObject* obj = target->second;
+	if (target != objects.end())
+	{
+		target->second->uninit();
+		objects.erase(target);
+	}
+
+	delete obj;
+}

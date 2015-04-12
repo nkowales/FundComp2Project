@@ -35,6 +35,7 @@ public:
 	WorldObject* getObject(Uint32);
 	WorldObject* getByName(string);
 	void addObject(WorldObject*);
+	void removeObject(Uint32);
 
 private:
 	bool initialized;

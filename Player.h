@@ -34,6 +34,14 @@ enum PlayerState
 	PLYR_MVG_LEFT
 };
 
+enum Character
+{
+	CH_MARIO,
+	CH_LINK,
+	CH_SPYRO,
+	CH_MCHIEF
+};
+
 class Player : public WorldObject
 {
 public:
@@ -47,15 +55,18 @@ public:
 	void handleCollision(WorldObject*, const SDL_Rect&);
 
 private:
-	int state;
-	bool inAir;
-	bool canJump;
-	bool standingOnOneWay;
+	int state = PLYR_STANDING;
+	int character = CH_MARIO;
+	bool inAir = false;
+	bool canJump = true;
+	bool standingOnOneWay = false;
 	OneWayPlatform* lastOneWay = NULL;
 	OneWayPlatform* ignorePlatform = NULL;
-	Uint32 framesSinceTouchedGround;
+	Uint32 framesSinceTouchedGround = 0;
 
 	void jump();
+	void meleeAttack();
+	void rangedAttack();
 };
 
 

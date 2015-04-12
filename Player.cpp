@@ -6,27 +6,28 @@
  */
 
 #include "Player.h"
+#include "ObjectLayer.h"
+#include "Fireball.h"
 
 Player::Player() : WorldObject()
 {
-	state = PLYR_STANDING;
-	inAir = true;			// Assume player will spawn in air
-	canJump = true;
-	standingOnOneWay = false;
-	framesSinceTouchedGround = 0;
-
 	SDL_Rect bbox;
 	bbox.x = bbox.y = 0;
 	bbox.w = PLAYER_WIDTH;
 	bbox.h = PLAYER_HEIGHT;
 	setBoundingBox(bbox);
 	setCollisionGroup(COLGRP_PLAYER);
+	setName("PLAYER");
 }
 
 void Player::init(ContentManager* content)
 {
 	// Get the camera to follow the player
 	getCamera()->follow(this);
+
+	Fireball* fball = new Fireball(100);
+	fball->setPosition(position);
+	getParentLayer()->addObject(fball);
 }
 
 void Player::update(Uint32 time)
@@ -183,4 +184,14 @@ void Player::jump()
 		position.y -= PLAYER_JUMP_TOL;
 		velocity.y = -PLAYER_JUMP_VEL;
 	}
+}
+
+void Player::meleeAttack()
+{
+	// TODO
+}
+
+void Player::rangedAttack()
+{
+	// TODO
 }
