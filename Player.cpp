@@ -165,6 +165,10 @@ void Player::handleEvent(const SDL_Event& e)
 
 		}
 	}
+	else if (e.type == SDL_JOYBUTTONDOWN)
+	{
+		cout << (int)e.jbutton.button << endl;
+	}
 }
 
 bool Player::canCollideWith(const WorldObject* other)
