@@ -17,7 +17,7 @@
 
 using namespace std;
 
-#define PLAYER_WALK_SPEED 125
+#define PLAYER_WALK_SPEED 150
 #define PLAYER_JUMP_VEL 275
 #define PLAYER_JUMP_TOL 5
 #define PLAYER_FLYING_FRAMETOL 1
@@ -68,9 +68,15 @@ private:
 
 	bool facingLeft = false;
 
+	void moveLeft();
+	void moveRight();
+	void duck();
+	void stopMoveRight();
+	void stopMoveLeft();
 	void jump();
 	void meleeAttack();
 	void rangedAttack();
+	void resetAnimation();
 };
 
 

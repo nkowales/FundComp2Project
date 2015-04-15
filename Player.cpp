@@ -29,8 +29,9 @@ void Player::init(ContentManager* content)
 	//marioSprite = content->getAnimatedTexture("sprites/m-mariowithfireball.png", 45, 54, 14, 27, 0, 1, 5);
 	//marioSprite.addAnimation("walk", 62, 54, 16, 27, 3, 2);
 
-	marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 29, 16, 27, 0, 1, 5);
-	marioSprite.addAnimation("walk", 90, 29, 16, 27, 1, 3);
+	marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 0, 16, 27, 0, 1, 5);
+	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3);
+	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
 }
 
 void Player::update(Uint32 time)
@@ -90,32 +91,16 @@ void Player::handleEvent(const SDL_Event& e)
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_d:
-			if (state != PLYR_MVG_RIGHT)
-			{
-				marioSprite.setAnimation("walk");
-				facingLeft = false;
-				state = PLYR_MVG_RIGHT;
-				marioSprite.setFlipH(false);
-			}
+			moveRight();
 			break;
 		case SDLK_a:
-			if (state != PLYR_MVG_LEFT)
-			{
-				state = PLYR_MVG_LEFT;
-				facingLeft = true;
-				marioSprite.setAnimation("walk");
-				marioSprite.setFlipH(true);
-			}
+			moveLeft();
 			break;
 		case SDLK_w:
 			jump();
 			break;
 		case SDLK_s:
-			if (standingOnOneWay)
-			{
-				inAir = true;
-				ignorePlatform = lastOneWay;
-			}
+			duck();
 			break;
 		case SDLK_f:
 			rangedAttack();
@@ -127,18 +112,10 @@ void Player::handleEvent(const SDL_Event& e)
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_d:
-			if (state == PLYR_MVG_RIGHT)
-			{
-				marioSprite.setAnimation("default");
-				state = PLYR_STANDING;
-			}
+			stopMoveRight();
 			break;
 		case SDLK_a:
-			if (state == PLYR_MVG_LEFT)
-			{
-				marioSprite.setAnimation("default");
-				state = PLYR_STANDING;
-			}
+			stopMoveLeft();
 			break;
 		case SDLK_w:
 			canJump = true;
@@ -154,16 +131,17 @@ void Player::handleEvent(const SDL_Event& e)
 			//Left of dead zone
 				if( e.jaxis.value < -8000 )
 				{
-					state = PLYR_MVG_LEFT;
+					moveLeft();
 				}
 				//Right of dead zone
 				else if( e.jaxis.value > 8000 )
 				{
-					state = PLYR_MVG_RIGHT;
+					moveRight();
 				}
 				else
 				{
-					state = PLYR_STANDING;
+					stopMoveRight();
+					stopMoveLeft();
 				}
 			}
 				//Y axis motion
@@ -172,10 +150,7 @@ void Player::handleEvent(const SDL_Event& e)
 				// down press
 				if( e.jaxis.value > 8000 )
 				{
-					if (standingOnOneWay){
-						inAir = true;
-						ignorePlatform = lastOneWay;
-					}
+					duck();
 				}
 				//up press
 				else if( e.jaxis.value < -8000 )
@@ -219,6 +194,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			standingOnOneWay = false;
 			inAir = false;
 			position.y = other->getPosition().y - PLAYER_HEIGHT;
+			resetAnimation();
 		}
 		else if (overlap.h > overlap.w) // hit from side
 		{
@@ -246,6 +222,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			standingOnOneWay = true;
 			inAir = false;
 			position.y = other->getPosition().y - PLAYER_HEIGHT;
+			resetAnimation();
 		}
 		break;
 	}
@@ -255,6 +232,7 @@ void Player::jump()
 {
 	if (!inAir && canJump)
 	{
+		marioSprite.setAnimation("jump");
 		inAir = true;
 		canJump = false;
 		position.y -= PLAYER_JUMP_TOL;
@@ -280,4 +258,62 @@ void Player::rangedAttack()
 	bullet->setPosition(position);
 	bullet->setAngle(0.125);
 	getParentLayer()->addObject(bullet);*/
+}
+
+void Player::moveLeft()
+{
+	if (state != PLYR_MVG_LEFT)
+	{
+		state = PLYR_MVG_LEFT;
+		facingLeft = true;
+		if (!inAir)
+			marioSprite.setAnimation("walk");
+		marioSprite.setFlipH(true);
+	}
+}
+
+void Player::moveRight()
+{
+	if (state != PLYR_MVG_RIGHT)
+	{
+		marioSprite.setAnimation("walk");
+		facingLeft = false;
+		state = PLYR_MVG_RIGHT;
+		marioSprite.setFlipH(false);
+	}
+}
+
+void Player::stopMoveRight()
+{
+	if (state == PLYR_MVG_RIGHT)
+	{
+		marioSprite.setAnimation("default");
+		state = PLYR_STANDING;
+	}
+}
+
+void Player::stopMoveLeft()
+{
+	if (state == PLYR_MVG_LEFT)
+	{
+		marioSprite.setAnimation("default");
+		state = PLYR_STANDING;
+	}
+}
+
+void Player::duck()
+{
+	if (standingOnOneWay)
+	{
+		inAir = true;
+		ignorePlatform = lastOneWay;
+	}
+}
+
+void Player::resetAnimation()
+{
+	if (state == PLYR_STANDING)
+		marioSprite.setAnimation("default");
+	else
+		marioSprite.setAnimation("walk");
 }
