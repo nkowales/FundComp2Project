@@ -17,14 +17,14 @@
 
 using namespace std;
 
-#define PLAYER_WALK_SPEED 100
+#define PLAYER_WALK_SPEED 125
 #define PLAYER_JUMP_VEL 275
 #define PLAYER_JUMP_TOL 5
 #define PLAYER_FLYING_FRAMETOL 1
 #define PLAYER_HEAD_ELASTICITY 0.5
 #define PLAYER_FEET 6
-#define PLAYER_WIDTH 24
-#define PLAYER_HEIGHT 48
+#define PLAYER_WIDTH 14
+#define PLAYER_HEIGHT 27
 #define GRAVITY 600
 
 enum PlayerState
@@ -63,6 +63,10 @@ private:
 	OneWayPlatform* lastOneWay = NULL;
 	OneWayPlatform* ignorePlatform = NULL;
 	Uint32 framesSinceTouchedGround = 0;
+
+	AnimatedTexture marioSprite;
+
+	bool facingLeft = false;
 
 	void jump();
 	void meleeAttack();

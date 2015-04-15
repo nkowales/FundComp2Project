@@ -25,6 +25,12 @@ void Player::init(ContentManager* content)
 {
 	// Get the camera to follow the player
 	getCamera()->follow(this);
+
+	//marioSprite = content->getAnimatedTexture("sprites/m-mariowithfireball.png", 45, 54, 14, 27, 0, 1, 5);
+	//marioSprite.addAnimation("walk", 62, 54, 16, 27, 3, 2);
+
+	marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 29, 16, 27, 0, 1, 5);
+	marioSprite.addAnimation("walk", 90, 29, 16, 27, 1, 3);
 }
 
 void Player::update(Uint32 time)
@@ -69,10 +75,12 @@ void Player::update(Uint32 time)
 void Player::draw(SDL_Renderer* renderer)
 {
 	// Right now just draw the bounding box
-	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
+	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
+	Vector2d pos = getCamera()->transform(position);
+	marioSprite.draw(renderer, pos.x, pos.y);
 }
 
 void Player::handleEvent(const SDL_Event& e)
@@ -82,10 +90,22 @@ void Player::handleEvent(const SDL_Event& e)
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_d:
-			state = PLYR_MVG_RIGHT;
+			if (state != PLYR_MVG_RIGHT)
+			{
+				marioSprite.setAnimation("walk");
+				facingLeft = false;
+				state = PLYR_MVG_RIGHT;
+				marioSprite.setFlipH(false);
+			}
 			break;
 		case SDLK_a:
-			state = PLYR_MVG_LEFT;
+			if (state != PLYR_MVG_LEFT)
+			{
+				state = PLYR_MVG_LEFT;
+				facingLeft = true;
+				marioSprite.setAnimation("walk");
+				marioSprite.setFlipH(true);
+			}
 			break;
 		case SDLK_w:
 			jump();
@@ -108,11 +128,17 @@ void Player::handleEvent(const SDL_Event& e)
 		{
 		case SDLK_d:
 			if (state == PLYR_MVG_RIGHT)
+			{
+				marioSprite.setAnimation("default");
 				state = PLYR_STANDING;
+			}
 			break;
 		case SDLK_a:
 			if (state == PLYR_MVG_LEFT)
+			{
+				marioSprite.setAnimation("default");
 				state = PLYR_STANDING;
+			}
 			break;
 		case SDLK_w:
 			canJump = true;
@@ -243,13 +269,15 @@ void Player::meleeAttack()
 
 void Player::rangedAttack()
 {
-	/*Fireball* fball = new Fireball(WorldObject::getUniqueID());
-	Vector2d fpos = {position.x + PLAYER_WIDTH, position.y + PLAYER_HEIGHT / 3};
+	Fireball* fball = new Fireball(WorldObject::getUniqueID());
+	Vector2d fpos = {(facingLeft) ? position.x : position.x + PLAYER_WIDTH, position.y + PLAYER_HEIGHT / 3};
 	fball->setPosition(fpos);
-	getParentLayer()->addObject(fball);*/
+	if (facingLeft)
+		fball->reverseDirection();
+	getParentLayer()->addObject(fball);
 
-	Bullet* bullet = new Bullet(WorldObject::getUniqueID());
+	/*Bullet* bullet = new Bullet(WorldObject::getUniqueID());
 	bullet->setPosition(position);
 	bullet->setAngle(0.125);
-	getParentLayer()->addObject(bullet);
+	getParentLayer()->addObject(bullet);*/
 }

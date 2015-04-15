@@ -13,7 +13,7 @@
 #define FIREBALL_MAX_BOUNCES 3
 #define FIREBALL_HSPEED 250
 #define FIREBALL_VSPEED 200
-#define FIREBALL_SIZE 12
+#define FIREBALL_SIZE 8
 #define FIREBALL_GRAVITY 800
 
 #define FIREBALL_FRMW 8
@@ -22,7 +22,7 @@
 #define FIREBALL_SPC  3
 #define FIREBALL_ANIMSPD 5
 
-#define FIREBALL_SCALE 1.5
+#define FIREBALL_SCALE 1.
 
 class Fireball : public WorldObject
 {

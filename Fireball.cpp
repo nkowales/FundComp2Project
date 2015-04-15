@@ -46,9 +46,10 @@ void Fireball::reverseDirection()
 
 void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 {
-	if ((position.y + FIREBALL_SIZE / 2) < overlap.y)
+	if ((position.y + 2) < overlap.y)
 	{
 		velocity.y = -velocity.y;
+		position.y = other->getPosition().y - FIREBALL_SIZE - 1;
 		nBounces++;
 	}
 	else
@@ -59,11 +60,10 @@ void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 
 void Fireball::draw(SDL_Renderer* renderer)
 {
+	//SDL_SetRenderDrawColor(renderer, 255, 128, 0, 255);
 	SDL_Rect rect = getCamera()->transform(getBoundingBox());
-	/*SDL_SetRenderDrawColor(renderer, 255, 128, 0, 255);
-	SDL_Rect rect = getCamera()->transform(getBoundingBox());
-	SDL_RenderDrawRect(renderer, &rect);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
+	//SDL_RenderDrawRect(renderer, &rect);
+	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 	sprite.draw(renderer, rect.x, rect.y, FIREBALL_SCALE, FIREBALL_SCALE);
 }

@@ -9,41 +9,80 @@
 
 AnimatedTexture::AnimatedTexture(SDL_Texture* img, int xoffs, int yoffs, int frmw, int frmh, int spc, int frms, int rate)
 	: Texture(img),
-	  offset({xoffs, yoffs}),
-	  spacing(spc),
-	  nFrames(frms),
-	  animSpeed(rate),
-	  frameWidth(frmw),
-	  frameHeight(frmh)
+	  animSpeed(rate)
 {
-
+	addAnimation("default", xoffs, yoffs, frmw, frmh, spc, frms);
+	setAnimation("default");
 }
 
 void AnimatedTexture::draw(SDL_Renderer* renderer, int x, int y, float xs, float ys)
 {
-	tick();
-	SDL_Rect src;
-	src.x = offset.x + (frameWidth + spacing) * currentFrame;
-	src.y = offset.y;
-	src.w = frameWidth;
-	src.h = frameHeight;
+	if (currentAnimation)
+	{
+		tick();
+		SDL_Rect src;
+		src.x = currentAnimation->srcOffsetX + (currentAnimation->frameWidth + currentAnimation->spacing) * currentFrame;
+		src.y = currentAnimation->srcOffsetY;
+		src.w = currentAnimation->frameWidth;
+		src.h = currentAnimation->frameHeight;
 
-	SDL_Rect dst = {x, y, (int)(frameWidth * xs), (int)(frameHeight * ys)};
+		SDL_Rect dst = {x, y, (int)(currentAnimation->frameWidth * xs), (int)(currentAnimation->frameHeight * ys)};
 
-	Texture::draw(renderer, &src, &dst);
+		Texture::draw(renderer, &src, &dst);
+	}
 }
 
 void AnimatedTexture::tick()
 {
-	ticksSinceLastShift++;
-	if (ticksSinceLastShift > animSpeed)
+	if (!paused)
 	{
-		ticksSinceLastShift = 0;
-		currentFrame++;
-
-		if (currentFrame >= nFrames)
+		ticksSinceLastShift++;
+		if (ticksSinceLastShift > animSpeed)
 		{
-				currentFrame = 0;
+			ticksSinceLastShift = 0;
+			currentFrame++;
+
+			if (currentFrame >= currentAnimation->nFrames)
+			{
+					currentFrame = 0;
+					if (!looping)
+					{
+						setAnimation("default");
+					}
+			}
 		}
 	}
+}
+
+void AnimatedTexture::setLooping(bool loop)
+{
+	looping = loop;
+}
+
+void AnimatedTexture::pause()
+{
+	paused = true;
+}
+
+void AnimatedTexture::play()
+{
+	paused = false;
+}
+
+void AnimatedTexture::setAnimation(string anim)
+{
+	AnimList::iterator iter = animations.find(anim);
+	if (iter != animations.end())
+		currentAnimation = &(iter->second);
+	else
+		currentAnimation = NULL;
+
+	currentFrame = 0;
+}
+
+void AnimatedTexture::addAnimation(string nm, int xoffs, int yoffs, int frmw, int frmh, int spc, int frms)
+{
+	Animation anim = {xoffs, yoffs, frmw, frmh, spc, frms};
+	pair<string, Animation> pr(nm, anim);
+	animations.insert(pr);
 }

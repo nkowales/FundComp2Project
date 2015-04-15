@@ -24,10 +24,15 @@ public:
 	void getDimensions(int*, int*) const;
 	SDL_Texture* getImage() const;
 
+	void setFlipH(bool);
+	void setFlipV(bool);
+	Uint32 getFlags();
+
 private:
 	SDL_Texture* image;
 	int width;
 	int height;
+	Uint32 flags = 0;
 };
 
 
