@@ -29,9 +29,11 @@ void Player::init(ContentManager* content)
 	//marioSprite = content->getAnimatedTexture("sprites/m-mariowithfireball.png", 45, 54, 14, 27, 0, 1, 5);
 	//marioSprite.addAnimation("walk", 62, 54, 16, 27, 3, 2);
 
-	marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 0, 16, 27, 0, 1, 5);
-	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3);
-	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
+	//marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 0, 16, 27, 0, 1, 5);
+	//marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3);
+	//marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
+	spyroSprite = content->getAnimatedTexture("sprites/Spyro.png", 0,45,50,41,12,9,5); // 50 41
+	spyroSprite.addAnimation("walk", 6, 296, 50, 44, 12, 9); // was 50 44
 }
 
 void Player::update(Uint32 time)
@@ -81,7 +83,12 @@ void Player::draw(SDL_Renderer* renderer)
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
 	Vector2d pos = getCamera()->transform(position);
-	marioSprite.draw(renderer, pos.x, pos.y);
+	//marioSprite.draw(renderer, pos.x, pos.y);
+	
+	spyroSprite.draw(renderer, pos.x, pos.y);
+	
+
+	
 }
 
 void Player::handleEvent(const SDL_Event& e)
@@ -232,7 +239,7 @@ void Player::jump()
 {
 	if (!inAir && canJump)
 	{
-		marioSprite.setAnimation("jump");
+		//marioSprite.setAnimation("jump");
 		inAir = true;
 		canJump = false;
 		position.y -= PLAYER_JUMP_TOL;
@@ -253,7 +260,7 @@ void Player::rangedAttack()
 	if (facingLeft)
 		fball->reverseDirection();
 	getParentLayer()->addObject(fball);
-
+	
 	/*Bullet* bullet = new Bullet(WorldObject::getUniqueID());
 	bullet->setPosition(position);
 	bullet->setAngle(0.125);
@@ -267,8 +274,10 @@ void Player::moveLeft()
 		state = PLYR_MVG_LEFT;
 		facingLeft = true;
 		if (!inAir)
-			marioSprite.setAnimation("walk");
-		marioSprite.setFlipH(true);
+			spyroSprite.setAnimation("walk");
+			//marioSprite.setAnimation("walk");
+		//marioSprite.setFlipH(true);
+		spyroSprite.setFlipH(true);
 	}
 }
 
@@ -276,10 +285,13 @@ void Player::moveRight()
 {
 	if (state != PLYR_MVG_RIGHT)
 	{
-		marioSprite.setAnimation("walk");
+		
+		//marioSprite.setAnimation("walk");
+		spyroSprite.setAnimation("walk");
 		facingLeft = false;
 		state = PLYR_MVG_RIGHT;
-		marioSprite.setFlipH(false);
+		//marioSprite.setFlipH(false);
+		spyroSprite.setFlipH(false);
 	}
 }
 
@@ -287,7 +299,8 @@ void Player::stopMoveRight()
 {
 	if (state == PLYR_MVG_RIGHT)
 	{
-		marioSprite.setAnimation("default");
+		//marioSprite.setAnimation("default");
+		spyroSprite.setAnimation("default");
 		state = PLYR_STANDING;
 	}
 }
@@ -296,7 +309,8 @@ void Player::stopMoveLeft()
 {
 	if (state == PLYR_MVG_LEFT)
 	{
-		marioSprite.setAnimation("default");
+		//marioSprite.setAnimation("default");
+		spyroSprite.setAnimation("default");
 		state = PLYR_STANDING;
 	}
 }
@@ -313,7 +327,9 @@ void Player::duck()
 void Player::resetAnimation()
 {
 	if (state == PLYR_STANDING)
-		marioSprite.setAnimation("default");
+		spyroSprite.setAnimation("default");
+		//marioSprite.setAnimation("default");
 	else
-		marioSprite.setAnimation("walk");
+		spyroSprite.setAnimation("walk");
+		//marioSprite.setAnimation("walk");
 }

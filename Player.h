@@ -23,7 +23,7 @@ using namespace std;
 #define PLAYER_FLYING_FRAMETOL 1
 #define PLAYER_HEAD_ELASTICITY 0.5
 #define PLAYER_FEET 6
-#define PLAYER_WIDTH 14
+#define PLAYER_WIDTH 55
 #define PLAYER_HEIGHT 27
 #define GRAVITY 600
 
@@ -57,6 +57,7 @@ public:
 private:
 	int state = PLYR_STANDING;
 	int character = CH_MARIO;
+	int character2 = CH_SPYRO;
 	bool inAir = false;
 	bool canJump = true;
 	bool standingOnOneWay = false;
@@ -65,7 +66,7 @@ private:
 	Uint32 framesSinceTouchedGround = 0;
 
 	AnimatedTexture marioSprite;
-
+	AnimatedTexture spyroSprite;
 	bool facingLeft = false;
 
 	void moveLeft();
