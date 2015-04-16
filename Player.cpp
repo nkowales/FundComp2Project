@@ -14,8 +14,8 @@ Player::Player() : WorldObject()
 {
 	SDL_Rect bbox;
 	bbox.x = bbox.y = 0;
-	bbox.w = PLAYER_WIDTH;
-	bbox.h = PLAYER_HEIGHT;
+	bbox.w = MARIO_WIDTH;
+	bbox.h = MARIO_HEIGHT;
 	setBoundingBox(bbox);
 	setCollisionGroup(COLGRP_PLAYER);
 	setName("PLAYER");
@@ -30,10 +30,10 @@ void Player::init(ContentManager* content)
 	//marioSprite.addAnimation("walk", 62, 54, 16, 27, 3, 2);
 
 	marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 0, 16, 27, 0, 1, 5);
-	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3);
+	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); // ("name", xpos, ypos, width, height,  # frames, pixels in betwen)
 	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
-	spyroSprite = content->getAnimatedTexture("sprites/Spyro.png", 0,45,50,41,12,9,5); // 50 41
-	spyroSprite.addAnimation("walk", 6, 296, 50, 44, 12, 9); // was 50 44
+	spyroSprite = content->getAnimatedTexture("sprites/Spyro.png", 3,46,49,40,12,13,5); // 50 41
+	spyroSprite.addAnimation("walk", 6, 297, 49, 40, 12, 13); // was 50 44
 }
 
 void Player::update(Uint32 time)
@@ -200,7 +200,16 @@ bool Player::canCollideWith(const WorldObject* other)
 void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 {
 	Uint32 grp = other->getCollisionGroup();
-	int feetPos = position.y + PLAYER_HEIGHT - PLAYER_FEET;
+	int feetPos;
+	switch(currentCharacter){
+		case CH_MARIO:
+			feetPos = position.y + MARIO_HEIGHT - PLAYER_FEET;
+			break;
+		case CH_SPYRO:
+			feetPos = position.y + SPYRO_HEIGHT - PLAYER_FEET;
+			break;
+	}
+	
 
 	switch (grp)
 	{
@@ -211,14 +220,30 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		{
 			standingOnOneWay = false;
 			inAir = false;
-			position.y = other->getPosition().y - PLAYER_HEIGHT;
+			switch(currentCharacter){
+				case CH_MARIO:
+					position.y = other->getPosition().y - MARIO_HEIGHT;
+					break;
+				case CH_SPYRO:
+					position.y = other->getPosition().y - SPYRO_HEIGHT;
+					break;
+			}
+			
 			resetAnimation();
 		}
 		else if (overlap.h > overlap.w) // hit from side
 		{
 			if (overlap.x > position.x) // hit walking right
 			{
-				position.x = other->getPosition().x - PLAYER_WIDTH;
+				switch(currentCharacter){
+					case CH_MARIO:
+						position.x = other->getPosition().x - MARIO_WIDTH;
+						break;
+					case CH_SPYRO:
+						position.x = other->getPosition().x - SPYRO_WIDTH;
+						break;
+				}	
+				
 			}
 			else //hit walking left
 			{
@@ -239,7 +264,15 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			ignorePlatform = NULL;
 			standingOnOneWay = true;
 			inAir = false;
-			position.y = other->getPosition().y - PLAYER_HEIGHT;
+			switch(currentCharacter){
+				case CH_MARIO:
+					position.y = other->getPosition().y - MARIO_HEIGHT;
+					break;
+				case CH_SPYRO:
+					position.y = other->getPosition().y - SPYRO_HEIGHT;
+					break;
+			}
+			
 			resetAnimation();
 		}
 		break;
@@ -272,7 +305,17 @@ void Player::meleeAttack()
 void Player::rangedAttack()
 {
 	Fireball* fball = new Fireball(WorldObject::getUniqueID());
-	Vector2d fpos = {(facingLeft) ? position.x : position.x + PLAYER_WIDTH, position.y + PLAYER_HEIGHT / 3};
+	Vector2d fpos;
+	switch(currentCharacter)
+	{
+		case CH_MARIO:
+			fpos = {(facingLeft) ? position.x : position.x + MARIO_WIDTH, position.y + MARIO_HEIGHT / 3};
+			break;
+		case CH_SPYRO:
+			fpos = {(facingLeft) ? position.x : position.x + SPYRO_WIDTH, position.y + SPYRO_HEIGHT / 3};
+			break;
+	}
+	
 	fball->setPosition(fpos);
 	if (facingLeft)
 		fball->reverseDirection();
@@ -400,8 +443,18 @@ void Player::switchCharacter()
 {
 	if (currentCharacter == CH_MARIO){
 		currentCharacter = CH_SPYRO;
+		SDL_Rect bbox;
+		bbox.x = bbox.y = 0;
+		bbox.w = SPYRO_WIDTH;
+		bbox.h = SPYRO_HEIGHT;
+		setBoundingBox(bbox);
 	} else if (currentCharacter == CH_SPYRO){
 		currentCharacter = CH_MARIO;
+		SDL_Rect bbox;
+		bbox.x = bbox.y = 0;
+		bbox.w = MARIO_WIDTH;
+		bbox.h = MARIO_HEIGHT;
+		setBoundingBox(bbox);
 	}
 
 
