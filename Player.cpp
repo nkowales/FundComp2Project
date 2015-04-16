@@ -26,17 +26,21 @@ void Player::init(ContentManager* content)
 	// Get the camera to follow the player
 	getCamera()->follow(this);
 
-	//marioSprite = content->getAnimatedTexture("sprites/m-mariowithfireball.png", 45, 54, 14, 27, 0, 1, 5);
-	//marioSprite.addAnimation("walk", 62, 54, 16, 27, 3, 2);
-
+	
+	// ("name", xpos, ypos, width, height,  pixels in betwen, frames, [framerate])
 	marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 0, 16, 27, 0, 1, 5);
-	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); // ("name", xpos, ypos, width, height,  pixels in betwen, frames)
+	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); 
 	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
 	spyroSprite = content->getAnimatedTexture("sprites/Spyro.png", 3,46,49,40,17,7,5); // 50 41
 	spyroSprite.addAnimation("walk", 6, 297, 50, 40, 14, 9); // was 50 44
 	spyroSprite.addAnimation("jump", 11, 985, 45, 50,12 ,14);
 	lBlueSprite = content->getAnimatedTexture("sprites/S-littleblue.png", 0,1,49,34,4,7,6);
 	lBlueSprite.addAnimation("walk",0,41,55,35,5,8);
+	linkSprite = content->getAnimatedTexture("sprites/Link.png", 3, 69, 20, 24, 0, 1, 5);
+	linkSprite.addAnimation("walk", 6, 215, LINK_WIDTH, LINK_HEIGHT, 11, 6);
+	linkSprite.addAnimation("ranged", 2, 481, 23, 25, 4, 5);
+	linkSprite.addAnimation("melee", 140, 69, 30, 26, 16, 9);
+	linkSprite.addAnimation("jump", 103, 215, LINK_WIDTH, LINK_HEIGHT, 0, 1); 
 }
 
 void Player::update(Uint32 time)
@@ -95,6 +99,11 @@ void Player::draw(SDL_Renderer* renderer)
 			break;
 		case CH_LBLUE:
 			lBlueSprite.draw(renderer, pos.x, pos.y);
+			break;
+		case CH_LINK:
+			linkSprite.draw(renderer, pos.x, pos.y);
+			break;
+			
 	}
 	
 
@@ -142,6 +151,9 @@ void Player::handleEvent(const SDL_Event& e)
 			break;
 		case SDLK_f:
 			rangedAttack();
+			break;
+		case SDLK_v:
+			meleeAttack();
 			break;
 		}
 	}
@@ -216,6 +228,9 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		case CH_LBLUE:
 			feetPos = position.y + LBLUE_HEIGHT - PLAYER_FEET;
 			break;
+		case CH_LINK:
+			feetPos = position.y + LINK_HEIGHT - PLAYER_FEET;
+			break;
 	}
 	
 
@@ -238,6 +253,9 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 				case CH_LBLUE:
 					position.y = other->getPosition().y - LBLUE_HEIGHT;
 					break;
+				case CH_LINK:
+					position.y = other->getPosition().y - LINK_HEIGHT;
+					break;
 			}
 			
 			resetAnimation();
@@ -255,6 +273,10 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 						break;
 					case CH_LBLUE:
 						position.x = other->getPosition().x - LBLUE_WIDTH;
+						break;
+					case CH_LINK:
+						position.x = other->getPosition().x - LINK_WIDTH;
+						break;
 				}	
 				
 			}
@@ -287,6 +309,9 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 				case CH_LBLUE:
 					position.y = other->getPosition().y - LBLUE_HEIGHT;
 					break;
+				case CH_LINK:
+					position.y = other->getPosition().y - LINK_HEIGHT;
+					break;
 			}
 			
 			resetAnimation();
@@ -304,11 +329,15 @@ void Player::jump()
 			marioSprite.setAnimation("jump");
 			break;
 		case CH_SPYRO:
-			break;
 			spyroSprite.setAnimation("jump");
+			break;
 		case CH_LBLUE:
 			break;
 			lBlueSprite.setAnimation("jump");
+		case CH_LINK:
+			linkSprite.setAnimation("jump");
+			break;
+				
 		}
 		inAir = true;
 		canJump = false;
@@ -319,6 +348,18 @@ void Player::jump()
 
 void Player::meleeAttack()
 {
+	switch(currentCharacter){
+		case CH_LINK:
+			linkSprite.setAnimation("melee");
+			SDL_Rect bbox;
+			bbox.x = bbox.y = 0;
+			bbox.w = 30;
+			bbox.h = 26;
+			setBoundingBox(bbox);
+			break;
+		default:
+			break;
+	}
 	// TODO
 }
 
@@ -326,6 +367,7 @@ void Player::rangedAttack()
 {
 	Fireball* fball = new Fireball(WorldObject::getUniqueID());
 	Vector2d fpos;
+	string current;
 	switch(currentCharacter)
 	{
 		case CH_MARIO:
@@ -337,8 +379,15 @@ void Player::rangedAttack()
 		case CH_LBLUE:
 			fpos = {(facingLeft) ? position.x : position.x + LBLUE_WIDTH, position.y + LBLUE_HEIGHT / 3};
 			break;
+		case CH_LINK:
+			current = linkSprite.getAnimation();
+			linkSprite.setAnimation("ranged");
+			current = linkSprite.getAnimation();
+			fpos = {(facingLeft) ? position.x : position.x + LINK_WIDTH, position.y + LINK_HEIGHT / 3};
+			break;
 	}
-	
+	cout <<  current << endl;
+	linkSprite.setAnimation( current );
 	fball->setPosition(fpos);
 	if (facingLeft)
 		fball->reverseDirection();
@@ -369,6 +418,8 @@ void Player::moveLeft()
 				bbox.h = LBLUERUN_HEIGHT;
 				setBoundingBox(bbox);
 			}
+			linkSprite.setAnimation("walk");
+			linkSprite.setFlipH(false);
 			lBlueSprite.setAnimation("walk");
 			lBlueSprite.setFlipH(true);
 		}					
@@ -392,6 +443,8 @@ void Player::moveRight()
 			bbox.h = LBLUERUN_HEIGHT;
 			setBoundingBox(bbox);
 		}
+		linkSprite.setAnimation("walk");
+		linkSprite.setFlipH(true);
 		lBlueSprite.setAnimation("walk");
 		lBlueSprite.setFlipH(false);			
 		facingLeft = false;
@@ -416,6 +469,7 @@ void Player::stopMoveRight()
 			setBoundingBox(bbox);			
 		}
 		lBlueSprite.setAnimation("default");
+		linkSprite.setAnimation("default");
 		state = PLYR_STANDING;
 	}
 }
@@ -433,7 +487,8 @@ void Player::stopMoveLeft()
 			bbox.h = LBLUERUN_HEIGHT;
 			setBoundingBox(bbox);			
 		}
-		lBlueSprite.setAnimation("default");			
+		lBlueSprite.setAnimation("default");
+		linkSprite.setAnimation("default");
 		state = PLYR_STANDING;
 	}
 }
@@ -454,7 +509,8 @@ void Player::resetAnimation()
 		
 		marioSprite.setAnimation("default");
 		spyroSprite.setAnimation("default");	
-		lBlueSprite.setAnimation("default");		
+		lBlueSprite.setAnimation("default");
+		linkSprite.setAnimation("default");		
 		
 	}
 	else
@@ -463,6 +519,7 @@ void Player::resetAnimation()
 		marioSprite.setAnimation("walk");	
 		spyroSprite.setAnimation("walk");
 		lBlueSprite.setAnimation("walk");
+		linkSprite.setAnimation("walk");
 		
 	
 	}
@@ -484,13 +541,20 @@ void Player::switchCharacter()
 		bbox.h = LBLUE_HEIGHT;
 		setBoundingBox(bbox);
 	} else if (currentCharacter == CH_LBLUE){
+		currentCharacter = CH_LINK;
+		SDL_Rect bbox;
+		bbox.x = bbox.y = 0;
+		bbox.w = LINK_WIDTH;
+		bbox.h = LINK_HEIGHT;
+		setBoundingBox(bbox);
+	} else if (currentCharacter == CH_LINK){
 		currentCharacter = CH_MARIO;
 		SDL_Rect bbox;
 		bbox.x = bbox.y = 0;
 		bbox.w = MARIO_WIDTH;
 		bbox.h = MARIO_HEIGHT;
 		setBoundingBox(bbox);
-	}
+	} 
 
 
 }

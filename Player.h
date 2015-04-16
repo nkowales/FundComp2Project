@@ -31,7 +31,8 @@ using namespace std;
 #define LBLUERUN_HEIGHT 35
 #define LBLUE_WIDTH 49
 #define LBLUE_HEIGHT 35
-
+#define LINK_WIDTH 20
+#define LINK_HEIGHT 24
 
 #define GRAVITY 600
 
@@ -69,6 +70,7 @@ private:
 	int character = CH_MARIO;
 	int character2 = CH_SPYRO;
 	int character3 = CH_LBLUE;
+	int character4 = CH_LINK;
 	bool inAir = false;
 	bool canJump = true;
 	bool standingOnOneWay = false;
@@ -79,6 +81,7 @@ private:
 	AnimatedTexture marioSprite;
 	AnimatedTexture spyroSprite;
 	AnimatedTexture lBlueSprite;
+	AnimatedTexture linkSprite;
 	bool facingLeft = false;
 	int currentCharacter = CH_MARIO;
 	void moveLeft();

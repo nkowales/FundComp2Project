@@ -44,6 +44,14 @@ void AnimatedTexture::tick()
 
 			if (currentFrame >= currentAnimation->nFrames)
 			{
+					if (animName == "ranged" | animName == "melee")
+					{
+						looping = false;
+					} 
+					else
+					{ 
+						looping = true;
+					}
 					currentFrame = 0;
 					if (!looping)
 					{
@@ -72,6 +80,7 @@ void AnimatedTexture::play()
 void AnimatedTexture::setAnimation(string anim)
 {
 	AnimList::iterator iter = animations.find(anim);
+	animName = anim;
 	if (iter != animations.end())
 		currentAnimation = &(iter->second);
 	else
@@ -79,7 +88,10 @@ void AnimatedTexture::setAnimation(string anim)
 
 	currentFrame = 0;
 }
+string AnimatedTexture::getAnimation(){
+	return animName;
 
+}
 void AnimatedTexture::addAnimation(string nm, int xoffs, int yoffs, int frmw, int frmh, int spc, int frms)
 {
 	Animation anim = {xoffs, yoffs, frmw, frmh, spc, frms};

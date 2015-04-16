@@ -13,7 +13,7 @@
 #include "Animation.h"
 #include <map>
 #include <iostream>
-
+#include <string>
 using namespace std;
 
 typedef map<string, Animation> AnimList;
@@ -27,7 +27,7 @@ public:
 	void setLooping(bool);
 	void play();
 	void pause();
-
+	string getAnimation();
 	void addAnimation(string, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0);
 	void setAnimation(string);
 
@@ -39,7 +39,7 @@ private:
 	int animSpeed = 5;
 	int currentFrame = 0;
 	int ticksSinceLastShift = 0;
-
+	string animName;
 	void tick();
 };
 
