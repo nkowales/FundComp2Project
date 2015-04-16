@@ -30,10 +30,13 @@ void Player::init(ContentManager* content)
 	//marioSprite.addAnimation("walk", 62, 54, 16, 27, 3, 2);
 
 	marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 0, 16, 27, 0, 1, 5);
-	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); // ("name", xpos, ypos, width, height,  # frames, pixels in betwen)
+	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); // ("name", xpos, ypos, width, height,  pixels in betwen, frames)
 	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
-	spyroSprite = content->getAnimatedTexture("sprites/Spyro.png", 3,46,49,40,12,13,5); // 50 41
-	spyroSprite.addAnimation("walk", 6, 297, 49, 40, 12, 13); // was 50 44
+	spyroSprite = content->getAnimatedTexture("sprites/Spyro.png", 3,46,49,40,17,7,5); // 50 41
+	spyroSprite.addAnimation("walk", 6, 297, 50, 40, 14, 9); // was 50 44
+	spyroSprite.addAnimation("jump", 11, 985, 45, 50,12 ,14);
+	lBlueSprite = content->getAnimatedTexture("sprites/S-littleblue.png", 0,1,49,34,4,7,6);
+	lBlueSprite.addAnimation("walk",0,41,55,35,5,8);
 }
 
 void Player::update(Uint32 time)
@@ -90,6 +93,8 @@ void Player::draw(SDL_Renderer* renderer)
 		case CH_SPYRO:
 			spyroSprite.draw(renderer, pos.x, pos.y);
 			break;
+		case CH_LBLUE:
+			lBlueSprite.draw(renderer, pos.x, pos.y);
 	}
 	
 
@@ -208,6 +213,9 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		case CH_SPYRO:
 			feetPos = position.y + SPYRO_HEIGHT - PLAYER_FEET;
 			break;
+		case CH_LBLUE:
+			feetPos = position.y + LBLUE_HEIGHT - PLAYER_FEET;
+			break;
 	}
 	
 
@@ -227,6 +235,9 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 				case CH_SPYRO:
 					position.y = other->getPosition().y - SPYRO_HEIGHT;
 					break;
+				case CH_LBLUE:
+					position.y = other->getPosition().y - LBLUE_HEIGHT;
+					break;
 			}
 			
 			resetAnimation();
@@ -242,6 +253,8 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 					case CH_SPYRO:
 						position.x = other->getPosition().x - SPYRO_WIDTH;
 						break;
+					case CH_LBLUE:
+						position.x = other->getPosition().x - LBLUE_WIDTH;
 				}	
 				
 			}
@@ -271,6 +284,9 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 				case CH_SPYRO:
 					position.y = other->getPosition().y - SPYRO_HEIGHT;
 					break;
+				case CH_LBLUE:
+					position.y = other->getPosition().y - LBLUE_HEIGHT;
+					break;
 			}
 			
 			resetAnimation();
@@ -289,6 +305,10 @@ void Player::jump()
 			break;
 		case CH_SPYRO:
 			break;
+			spyroSprite.setAnimation("jump");
+		case CH_LBLUE:
+			break;
+			lBlueSprite.setAnimation("jump");
 		}
 		inAir = true;
 		canJump = false;
@@ -314,6 +334,9 @@ void Player::rangedAttack()
 		case CH_SPYRO:
 			fpos = {(facingLeft) ? position.x : position.x + SPYRO_WIDTH, position.y + SPYRO_HEIGHT / 3};
 			break;
+		case CH_LBLUE:
+			fpos = {(facingLeft) ? position.x : position.x + LBLUE_WIDTH, position.y + LBLUE_HEIGHT / 3};
+			break;
 	}
 	
 	fball->setPosition(fpos);
@@ -334,17 +357,21 @@ void Player::moveLeft()
 		state = PLYR_MVG_LEFT;
 		facingLeft = true;
 		if (!inAir)
-			switch(currentCharacter){
-				case CH_MARIO:
-					marioSprite.setAnimation("walk");
-					marioSprite.setFlipH(true);
-					break;
-				case CH_SPYRO:
-					spyroSprite.setAnimation("walk");
-					spyroSprite.setFlipH(true);
-					break;
-			}			
-		
+		{	
+			marioSprite.setAnimation("walk");
+			marioSprite.setFlipH(true);
+			spyroSprite.setAnimation("walk");
+			spyroSprite.setFlipH(true);
+			if (currentCharacter == CH_LBLUE){
+				SDL_Rect bbox;
+				bbox.x = bbox.y = 0;
+				bbox.w = LBLUERUN_WIDTH;
+				bbox.h = LBLUERUN_HEIGHT;
+				setBoundingBox(bbox);
+			}
+			lBlueSprite.setAnimation("walk");
+			lBlueSprite.setFlipH(true);
+		}					
 	}
 }
 
@@ -352,17 +379,21 @@ void Player::moveRight()
 {
 	if (state != PLYR_MVG_RIGHT)
 	{
-		switch(currentCharacter){
-			case CH_MARIO:
-				marioSprite.setAnimation("walk");
-				marioSprite.setFlipH(false);
-				break;
-			case CH_SPYRO:
-				spyroSprite.setAnimation("walk");
-				spyroSprite.setFlipH(false);
-				break;
-		}		
 		
+			
+		marioSprite.setAnimation("walk");
+		marioSprite.setFlipH(false);
+		spyroSprite.setAnimation("walk");
+		spyroSprite.setFlipH(false);
+		if (currentCharacter == CH_LBLUE){
+			SDL_Rect bbox;
+			bbox.x = bbox.y = 0;
+			bbox.w = LBLUERUN_WIDTH;
+			bbox.h = LBLUERUN_HEIGHT;
+			setBoundingBox(bbox);
+		}
+		lBlueSprite.setAnimation("walk");
+		lBlueSprite.setFlipH(false);			
 		facingLeft = false;
 		state = PLYR_MVG_RIGHT;
 		
@@ -374,15 +405,17 @@ void Player::stopMoveRight()
 {
 	if (state == PLYR_MVG_RIGHT)
 	{
-		switch(currentCharacter){
-			case CH_MARIO:
-				marioSprite.setAnimation("default");
-				break;
-			case CH_SPYRO:
-				spyroSprite.setAnimation("default");
-				break;
-		}
 
+		marioSprite.setAnimation("default");
+		spyroSprite.setAnimation("default");
+		if(currentCharacter == CH_LBLUE){
+			SDL_Rect bbox;
+			bbox.x = bbox.y = 0;
+			bbox.w = LBLUERUN_WIDTH;
+			bbox.h = LBLUERUN_HEIGHT;
+			setBoundingBox(bbox);			
+		}
+		lBlueSprite.setAnimation("default");
 		state = PLYR_STANDING;
 	}
 }
@@ -391,15 +424,16 @@ void Player::stopMoveLeft()
 {
 	if (state == PLYR_MVG_LEFT)
 	{
-		switch(currentCharacter){
-			case CH_MARIO:
-				marioSprite.setAnimation("default");
-				break;
-			case CH_SPYRO:
-				spyroSprite.setAnimation("default");
-				break;
+		marioSprite.setAnimation("default");
+		spyroSprite.setAnimation("default");
+		if(currentCharacter == CH_LBLUE){
+			SDL_Rect bbox;
+			bbox.x = bbox.y = 0;
+			bbox.w = LBLUERUN_WIDTH;
+			bbox.h = LBLUERUN_HEIGHT;
+			setBoundingBox(bbox);			
 		}
-
+		lBlueSprite.setAnimation("default");			
 		state = PLYR_STANDING;
 	}
 }
@@ -417,25 +451,19 @@ void Player::resetAnimation()
 {
 	if (state == PLYR_STANDING)
 	{
-		switch(currentCharacter){
-			case CH_MARIO:
-				marioSprite.setAnimation("default");
-				break;
-			case CH_SPYRO:
-				spyroSprite.setAnimation("default");
-				break;
-		}
+		
+		marioSprite.setAnimation("default");
+		spyroSprite.setAnimation("default");	
+		lBlueSprite.setAnimation("default");		
+		
 	}
 	else
 	{
-		switch(currentCharacter){
-			case CH_MARIO:
-				marioSprite.setAnimation("walk");
-				break;
-			case CH_SPYRO:
-				spyroSprite.setAnimation("walk");
-				break;
-		}
+		
+		marioSprite.setAnimation("walk");	
+		spyroSprite.setAnimation("walk");
+		lBlueSprite.setAnimation("walk");
+		
 	
 	}
 }
@@ -449,6 +477,13 @@ void Player::switchCharacter()
 		bbox.h = SPYRO_HEIGHT;
 		setBoundingBox(bbox);
 	} else if (currentCharacter == CH_SPYRO){
+		currentCharacter = CH_LBLUE;
+		SDL_Rect bbox;
+		bbox.x = bbox.y = 0;
+		bbox.w = LBLUE_WIDTH;
+		bbox.h = LBLUE_HEIGHT;
+		setBoundingBox(bbox);
+	} else if (currentCharacter == CH_LBLUE){
 		currentCharacter = CH_MARIO;
 		SDL_Rect bbox;
 		bbox.x = bbox.y = 0;

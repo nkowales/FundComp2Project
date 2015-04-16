@@ -22,11 +22,17 @@ using namespace std;
 #define PLAYER_JUMP_TOL 5
 #define PLAYER_FLYING_FRAMETOL 1
 #define PLAYER_HEAD_ELASTICITY 0.5
-#define PLAYER_FEET 6
+#define PLAYER_FEET 40
 #define MARIO_WIDTH 16
 #define MARIO_HEIGHT 27
 #define SPYRO_HEIGHT 40
 #define SPYRO_WIDTH 49
+#define LBLUERUN_WIDTH 55
+#define LBLUERUN_HEIGHT 35
+#define LBLUE_WIDTH 49
+#define LBLUE_HEIGHT 35
+
+
 #define GRAVITY 600
 
 enum PlayerState
@@ -41,7 +47,8 @@ enum Character
 	CH_MARIO,
 	CH_LINK,
 	CH_SPYRO,
-	CH_MCHIEF
+	CH_MCHIEF,
+	CH_LBLUE
 };
 
 class Player : public WorldObject
@@ -61,6 +68,7 @@ private:
 	int state = PLYR_STANDING;
 	int character = CH_MARIO;
 	int character2 = CH_SPYRO;
+	int character3 = CH_LBLUE;
 	bool inAir = false;
 	bool canJump = true;
 	bool standingOnOneWay = false;
@@ -70,6 +78,7 @@ private:
 
 	AnimatedTexture marioSprite;
 	AnimatedTexture spyroSprite;
+	AnimatedTexture lBlueSprite;
 	bool facingLeft = false;
 	int currentCharacter = CH_MARIO;
 	void moveLeft();
