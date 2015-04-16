@@ -23,7 +23,7 @@ using namespace std;
 #define PLAYER_FLYING_FRAMETOL 1
 #define PLAYER_HEAD_ELASTICITY 0.5
 #define PLAYER_FEET 6
-#define PLAYER_WIDTH 55
+#define PLAYER_WIDTH 16
 #define PLAYER_HEIGHT 27
 #define GRAVITY 600
 
@@ -53,6 +53,7 @@ public:
 	void handleEvent(const SDL_Event&);
 	bool canCollideWith(const WorldObject*);
 	void handleCollision(WorldObject*, const SDL_Rect&);
+	
 
 private:
 	int state = PLYR_STANDING;
@@ -68,7 +69,7 @@ private:
 	AnimatedTexture marioSprite;
 	AnimatedTexture spyroSprite;
 	bool facingLeft = false;
-
+	int currentCharacter = CH_MARIO;
 	void moveLeft();
 	void moveRight();
 	void duck();
@@ -78,6 +79,7 @@ private:
 	void meleeAttack();
 	void rangedAttack();
 	void resetAnimation();
+	void switchCharacter();
 };
 
 
