@@ -98,3 +98,8 @@ void AnimatedTexture::addAnimation(string nm, int xoffs, int yoffs, int frmw, in
 	pair<string, Animation> pr(nm, anim);
 	animations.insert(pr);
 }
+
+void AnimatedTexture::setRate(int r)
+{
+	animSpeed = r;
+}

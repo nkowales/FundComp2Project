@@ -40,6 +40,7 @@ Texture ContentManager::getTexture(string name)
 		if (surf)
 		{
 			tex = SDL_CreateTextureFromSurface(renderer, surf);
+
 			SDL_FreeSurface(surf);
 			surf = NULL;
 			pair<string, SDL_Texture*> keyval(name, tex);
@@ -68,6 +69,7 @@ AnimatedTexture ContentManager::getAnimatedTexture(string name, int xoffs, int y
 		if (surf)
 		{
 			tex = SDL_CreateTextureFromSurface(renderer, surf);
+
 			SDL_FreeSurface(surf);
 			surf = NULL;
 			pair<string, SDL_Texture*> keyval(name, tex);

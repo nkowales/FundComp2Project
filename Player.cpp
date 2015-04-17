@@ -26,21 +26,32 @@ void Player::init(ContentManager* content)
 	// Get the camera to follow the player
 	getCamera()->follow(this);
 
-	
+
+	AnimatedTexture marioSprite, spyroSprite, lBlueSprite, linkSprite;
 	// ("name", xpos, ypos, width, height,  pixels in betwen, frames, [framerate])
 	marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 0, 16, 27, 0, 1, 5);
 	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); 
 	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
-	spyroSprite = content->getAnimatedTexture("sprites/Spyro.png", 3,46,49,40,17,7,5); // 50 41
-	spyroSprite.addAnimation("walk", 6, 297, 50, 40, 14, 9); // was 50 44
-	spyroSprite.addAnimation("jump", 11, 985, 45, 50,12 ,14);
+
+	spyroSprite = content->getAnimatedTexture("sprites/Spyro2.png", 3,48,48,40,16,1,4); // 50 41
+	//spyroSprite.addAnimation("walk", 6, 297, 50, 40, 14, 9); // was 50 44
+	spyroSprite.addAnimation("walk", 12, 297, 48, 40, 10, 9);
+	spyroSprite.addAnimation("jump", 10, 985, 58, 50, 0, 2);
+
 	lBlueSprite = content->getAnimatedTexture("sprites/S-littleblue.png", 0,1,49,34,4,7,6);
 	lBlueSprite.addAnimation("walk",0,41,55,35,5,8);
-	linkSprite = content->getAnimatedTexture("sprites/Link.png", 3, 69, 20, 24, 0, 1, 5);
-	linkSprite.addAnimation("walk", 6, 215, LINK_WIDTH, LINK_HEIGHT, 11, 6);
+
+	linkSprite = content->getAnimatedTexture("sprites/Link2.png", 3, 69, 20, 24, 0, 1, 8);
+	//linkSprite.addAnimation("walk", 1, 215, 32, 24, 0, 6);
+	linkSprite.addAnimation("walk", 6, 215, 27, 24, 5, 6);
 	linkSprite.addAnimation("ranged", 2, 481, 23, 25, 4, 5);
 	linkSprite.addAnimation("melee", 140, 69, 30, 26, 16, 9);
 	linkSprite.addAnimation("jump", 103, 215, LINK_WIDTH, LINK_HEIGHT, 0, 1); 
+
+	sprites.push_back(marioSprite);
+	sprites.push_back(linkSprite);
+	sprites.push_back(spyroSprite);
+	sprites.push_back(lBlueSprite);
 }
 
 void Player::update(Uint32 time)
@@ -63,7 +74,7 @@ void Player::update(Uint32 time)
 	// Apply gravity, etc.
 	if (inAir)
 	{
-		velocity.y += GRAVITY * secs;
+		velocity.y += ((currentCharacter == CH_SPYRO) ? SPYRO_GRAVITY : GRAVITY) * secs;
 		standingOnOneWay = false;
 	}
 	else
@@ -84,13 +95,13 @@ void Player::update(Uint32 time)
 
 void Player::draw(SDL_Renderer* renderer)
 {
-	// Right now just draw the bounding box
-	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
+	/*L_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
+
 	Vector2d pos = getCamera()->transform(position);
-	switch (currentCharacter){
+	/*switch (currentCharacter){
 		case CH_MARIO:
 			marioSprite.draw(renderer, pos.x, pos.y);
 			break;
@@ -104,7 +115,8 @@ void Player::draw(SDL_Renderer* renderer)
 			linkSprite.draw(renderer, pos.x, pos.y);
 			break;
 			
-	}
+	}*/
+	sprites[currentCharacter].draw(renderer, pos.x, pos.y);
 	
 
 	
@@ -131,8 +143,14 @@ void Player::handleEvent(const SDL_Event& e)
 		case SDLK_f:
 			//rangedAttack();
 			break;
-		case SDLK_r:
-			switchCharacter();
+		case SDLK_1:
+			switchCharacter(CH_MARIO);
+			break;
+		case SDLK_2:
+			switchCharacter(CH_LINK);
+			break;
+		case SDLK_3:
+			switchCharacter(CH_SPYRO);
 			break;
 		}
 	}
@@ -193,10 +211,6 @@ void Player::handleEvent(const SDL_Event& e)
 					jump();
 					canJump = true;
 				}
-				else
-				{
-				
-				}
 			}
 
 		}
@@ -218,7 +232,9 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 {
 	Uint32 grp = other->getCollisionGroup();
 	int feetPos;
-	switch(currentCharacter){
+	SDL_Rect bbox = getBoundingBox();
+	feetPos = position.y + bbox.h - PLAYER_FEET;
+	/*switch(currentCharacter){
 		case CH_MARIO:
 			feetPos = position.y + MARIO_HEIGHT - PLAYER_FEET;
 			break;
@@ -231,7 +247,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		case CH_LINK:
 			feetPos = position.y + LINK_HEIGHT - PLAYER_FEET;
 			break;
-	}
+	}*/
 	
 
 	switch (grp)
@@ -243,7 +259,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		{
 			standingOnOneWay = false;
 			inAir = false;
-			switch(currentCharacter){
+			/*switch(currentCharacter){
 				case CH_MARIO:
 					position.y = other->getPosition().y - MARIO_HEIGHT;
 					break;
@@ -256,7 +272,8 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 				case CH_LINK:
 					position.y = other->getPosition().y - LINK_HEIGHT;
 					break;
-			}
+			}*/
+			position.y = other->getPosition().y - bbox.h;
 			
 			resetAnimation();
 		}
@@ -264,7 +281,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		{
 			if (overlap.x > position.x) // hit walking right
 			{
-				switch(currentCharacter){
+				/*switch(currentCharacter){
 					case CH_MARIO:
 						position.x = other->getPosition().x - MARIO_WIDTH;
 						break;
@@ -277,7 +294,8 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 					case CH_LINK:
 						position.x = other->getPosition().x - LINK_WIDTH;
 						break;
-				}	
+				}*/
+				position.x = other->getPosition().x - bbox.w;
 				
 			}
 			else //hit walking left
@@ -299,7 +317,8 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			ignorePlatform = NULL;
 			standingOnOneWay = true;
 			inAir = false;
-			switch(currentCharacter){
+			position.y = other->getPosition().y - bbox.h;
+			/*switch(currentCharacter){
 				case CH_MARIO:
 					position.y = other->getPosition().y - MARIO_HEIGHT;
 					break;
@@ -312,7 +331,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 				case CH_LINK:
 					position.y = other->getPosition().y - LINK_HEIGHT;
 					break;
-			}
+			}*/
 			
 			resetAnimation();
 		}
@@ -324,7 +343,7 @@ void Player::jump()
 {
 	if (!inAir && canJump)
 	{
-		switch(currentCharacter){
+		/*switch(currentCharacter){
 		case CH_MARIO:
 			marioSprite.setAnimation("jump");
 			break;
@@ -332,17 +351,32 @@ void Player::jump()
 			spyroSprite.setAnimation("jump");
 			break;
 		case CH_LBLUE:
-			break;
 			lBlueSprite.setAnimation("jump");
+			break;
 		case CH_LINK:
 			linkSprite.setAnimation("jump");
 			break;
 				
+		}*/
+
+		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		{
+			iter->setAnimation("jump");
 		}
+
+		sprites[CH_SPYRO].setRate(25);
 		inAir = true;
 		canJump = false;
+
 		position.y -= PLAYER_JUMP_TOL;
-		velocity.y = -PLAYER_JUMP_VEL;
+		if (currentCharacter != CH_SPYRO)
+		{
+			velocity.y = -PLAYER_JUMP_VEL;
+		}
+		else
+		{
+			velocity.y = -SPYRO_JUMP_VEL;
+		}
 	}
 }
 
@@ -350,7 +384,7 @@ void Player::meleeAttack()
 {
 	switch(currentCharacter){
 		case CH_LINK:
-			linkSprite.setAnimation("melee");
+			sprites[CH_LINK].setAnimation("melee");
 			SDL_Rect bbox;
 			bbox.x = bbox.y = 0;
 			bbox.w = 30;
@@ -380,14 +414,14 @@ void Player::rangedAttack()
 			fpos = {(facingLeft) ? position.x : position.x + LBLUE_WIDTH, position.y + LBLUE_HEIGHT / 3};
 			break;
 		case CH_LINK:
-			current = linkSprite.getAnimation();
-			linkSprite.setAnimation("ranged");
-			current = linkSprite.getAnimation();
+			current = sprites[CH_LINK].getAnimation();
+			sprites[CH_LINK].setAnimation("ranged");
+			current = sprites[CH_LINK].getAnimation();
 			fpos = {(facingLeft) ? position.x : position.x + LINK_WIDTH, position.y + LINK_HEIGHT / 3};
 			break;
 	}
 	cout <<  current << endl;
-	linkSprite.setAnimation( current );
+	sprites[CH_LINK].setAnimation( current );
 	fball->setPosition(fpos);
 	if (facingLeft)
 		fball->reverseDirection();
@@ -405,24 +439,20 @@ void Player::moveLeft()
 	{
 		state = PLYR_MVG_LEFT;
 		facingLeft = true;
-		if (!inAir)
-		{	
-			marioSprite.setAnimation("walk");
-			marioSprite.setFlipH(true);
-			spyroSprite.setAnimation("walk");
-			spyroSprite.setFlipH(true);
-			if (currentCharacter == CH_LBLUE){
-				SDL_Rect bbox;
-				bbox.x = bbox.y = 0;
-				bbox.w = LBLUERUN_WIDTH;
-				bbox.h = LBLUERUN_HEIGHT;
-				setBoundingBox(bbox);
-			}
-			linkSprite.setAnimation("walk");
-			linkSprite.setFlipH(false);
-			lBlueSprite.setAnimation("walk");
-			lBlueSprite.setFlipH(true);
-		}					
+		if (currentCharacter == CH_LBLUE)
+		{
+			SDL_Rect bbox;
+			bbox.x = bbox.y = 0;
+			bbox.w = LBLUERUN_WIDTH;
+			bbox.h = LBLUERUN_HEIGHT;
+			setBoundingBox(bbox);
+		}
+		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		{
+			if (!inAir)
+				iter->setAnimation("walk");
+			iter->setFlipH(currentCharacter != CH_LINK);
+		}
 	}
 }
 
@@ -430,12 +460,20 @@ void Player::moveRight()
 {
 	if (state != PLYR_MVG_RIGHT)
 	{
-		
+		facingLeft = false;
+		state = PLYR_MVG_RIGHT;
+
+		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		{
+			if (!inAir)
+				iter->setAnimation("walk");
+			iter->setFlipH(currentCharacter == CH_LINK);
+		}
 			
-		marioSprite.setAnimation("walk");
+		/*marioSprite.setAnimation("walk");
 		marioSprite.setFlipH(false);
 		spyroSprite.setAnimation("walk");
-		spyroSprite.setFlipH(false);
+		spyroSprite.setFlipH(false);*/
 		if (currentCharacter == CH_LBLUE){
 			SDL_Rect bbox;
 			bbox.x = bbox.y = 0;
@@ -443,14 +481,10 @@ void Player::moveRight()
 			bbox.h = LBLUERUN_HEIGHT;
 			setBoundingBox(bbox);
 		}
-		linkSprite.setAnimation("walk");
+		/*linkSprite.setAnimation("walk");
 		linkSprite.setFlipH(true);
 		lBlueSprite.setAnimation("walk");
-		lBlueSprite.setFlipH(false);			
-		facingLeft = false;
-		state = PLYR_MVG_RIGHT;
-		
-		
+		lBlueSprite.setFlipH(false);*/
 	}
 }
 
@@ -458,9 +492,16 @@ void Player::stopMoveRight()
 {
 	if (state == PLYR_MVG_RIGHT)
 	{
+		if (!inAir)
+		{
+			for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+			{
+				iter->setAnimation("default");
+			}
+		}
 
-		marioSprite.setAnimation("default");
-		spyroSprite.setAnimation("default");
+		//marioSprite.setAnimation("default");
+		//spyroSprite.setAnimation("default");
 		if(currentCharacter == CH_LBLUE){
 			SDL_Rect bbox;
 			bbox.x = bbox.y = 0;
@@ -468,8 +509,8 @@ void Player::stopMoveRight()
 			bbox.h = LBLUERUN_HEIGHT;
 			setBoundingBox(bbox);			
 		}
-		lBlueSprite.setAnimation("default");
-		linkSprite.setAnimation("default");
+		//lBlueSprite.setAnimation("default");
+		//linkSprite.setAnimation("default");
 		state = PLYR_STANDING;
 	}
 }
@@ -478,17 +519,25 @@ void Player::stopMoveLeft()
 {
 	if (state == PLYR_MVG_LEFT)
 	{
-		marioSprite.setAnimation("default");
-		spyroSprite.setAnimation("default");
-		if(currentCharacter == CH_LBLUE){
+		if (!inAir)
+		{
+			for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+			{
+				iter->setAnimation("default");
+			}
+		}
+		//marioSprite.setAnimation("default");
+		//spyroSprite.setAnimation("default");
+		if(currentCharacter == CH_LBLUE)
+		{
 			SDL_Rect bbox;
 			bbox.x = bbox.y = 0;
 			bbox.w = LBLUERUN_WIDTH;
 			bbox.h = LBLUERUN_HEIGHT;
 			setBoundingBox(bbox);			
 		}
-		lBlueSprite.setAnimation("default");
-		linkSprite.setAnimation("default");
+		//lBlueSprite.setAnimation("default");
+		//linkSprite.setAnimation("default");
 		state = PLYR_STANDING;
 	}
 }
@@ -506,55 +555,58 @@ void Player::resetAnimation()
 {
 	if (state == PLYR_STANDING)
 	{
-		
-		marioSprite.setAnimation("default");
-		spyroSprite.setAnimation("default");	
-		lBlueSprite.setAnimation("default");
-		linkSprite.setAnimation("default");		
-		
+		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		{
+			iter->setAnimation("default");
+		}
 	}
 	else
 	{
-		
-		marioSprite.setAnimation("walk");	
-		spyroSprite.setAnimation("walk");
-		lBlueSprite.setAnimation("walk");
-		linkSprite.setAnimation("walk");
-		
-	
+		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		{
+			iter->setAnimation("walk");
+		}
 	}
+
+	sprites[CH_SPYRO].setRate(SPYRO_ANIMSPD);
 }
-void Player::switchCharacter()
+void Player::switchCharacter(int character)
 {
-	if (currentCharacter == CH_MARIO){
+	SDL_Rect bbox;
+	int oldh = getBoundingBox().h;
+	switch (character)
+	{
+	case CH_SPYRO:
 		currentCharacter = CH_SPYRO;
-		SDL_Rect bbox;
 		bbox.x = bbox.y = 0;
 		bbox.w = SPYRO_WIDTH;
 		bbox.h = SPYRO_HEIGHT;
 		setBoundingBox(bbox);
-	} else if (currentCharacter == CH_SPYRO){
+		break;
+	case CH_LBLUE:
 		currentCharacter = CH_LBLUE;
-		SDL_Rect bbox;
 		bbox.x = bbox.y = 0;
 		bbox.w = LBLUE_WIDTH;
 		bbox.h = LBLUE_HEIGHT;
 		setBoundingBox(bbox);
-	} else if (currentCharacter == CH_LBLUE){
+		break;
+	case CH_LINK:
 		currentCharacter = CH_LINK;
-		SDL_Rect bbox;
 		bbox.x = bbox.y = 0;
 		bbox.w = LINK_WIDTH;
 		bbox.h = LINK_HEIGHT;
 		setBoundingBox(bbox);
-	} else if (currentCharacter == CH_LINK){
+		break;
+	case CH_MARIO:
 		currentCharacter = CH_MARIO;
-		SDL_Rect bbox;
 		bbox.x = bbox.y = 0;
 		bbox.w = MARIO_WIDTH;
 		bbox.h = MARIO_HEIGHT;
 		setBoundingBox(bbox);
-	} 
+		break;
+	}
 
-
+	//if (oldh < bbox.h)
+	position.y -= bbox.h - oldh;
+	sprites[currentCharacter].setFlipH((currentCharacter == CH_LINK) ^ facingLeft);
 }

@@ -52,7 +52,7 @@ void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		position.y = other->getPosition().y - FIREBALL_SIZE - 1;
 		nBounces++;
 	}
-	else
+	else if (other->getCollisionGroup() != COLGRP_ONEWAY)
 	{
 		kill();
 	}

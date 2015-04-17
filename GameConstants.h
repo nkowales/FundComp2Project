@@ -22,6 +22,4 @@
 #define BUTTON10 9 // start (right middle button)
 
 
-#
-
 #endif /* GAMECONSTANTS_H_ */

@@ -30,6 +30,7 @@ public:
 	string getAnimation();
 	void addAnimation(string, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0);
 	void setAnimation(string);
+	void setRate(int);
 
 private:
 	AnimList animations;

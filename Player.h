@@ -19,6 +19,7 @@ using namespace std;
 
 #define PLAYER_WALK_SPEED 150
 #define PLAYER_JUMP_VEL 275
+#define SPYRO_JUMP_VEL 285
 #define PLAYER_JUMP_TOL 5
 #define PLAYER_FLYING_FRAMETOL 1
 #define PLAYER_HEAD_ELASTICITY 0.5
@@ -27,6 +28,8 @@ using namespace std;
 #define MARIO_HEIGHT 27
 #define SPYRO_HEIGHT 40
 #define SPYRO_WIDTH 49
+#define SPYRO_JUMP_ANIMSPD 25
+#define SPYRO_ANIMSPD 4
 #define LBLUERUN_WIDTH 55
 #define LBLUERUN_HEIGHT 35
 #define LBLUE_WIDTH 49
@@ -35,6 +38,7 @@ using namespace std;
 #define LINK_HEIGHT 24
 
 #define GRAVITY 600
+#define SPYRO_GRAVITY 300
 
 enum PlayerState
 {
@@ -67,10 +71,6 @@ public:
 
 private:
 	int state = PLYR_STANDING;
-	int character = CH_MARIO;
-	int character2 = CH_SPYRO;
-	int character3 = CH_LBLUE;
-	int character4 = CH_LINK;
 	bool inAir = false;
 	bool canJump = true;
 	bool standingOnOneWay = false;
@@ -78,10 +78,11 @@ private:
 	OneWayPlatform* ignorePlatform = NULL;
 	Uint32 framesSinceTouchedGround = 0;
 
-	AnimatedTexture marioSprite;
-	AnimatedTexture spyroSprite;
-	AnimatedTexture lBlueSprite;
-	AnimatedTexture linkSprite;
+	//AnimatedTexture marioSprite;
+	//AnimatedTexture spyroSprite;
+	//AnimatedTexture lBlueSprite;
+	//AnimatedTexture linkSprite;
+	vector<AnimatedTexture> sprites;
 	bool facingLeft = false;
 	int currentCharacter = CH_MARIO;
 	void moveLeft();
@@ -93,7 +94,7 @@ private:
 	void meleeAttack();
 	void rangedAttack();
 	void resetAnimation();
-	void switchCharacter();
+	void switchCharacter(int character);
 };
 
 
