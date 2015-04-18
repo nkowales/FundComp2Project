@@ -19,7 +19,7 @@ using namespace std;
 
 #define PLAYER_WALK_SPEED 150
 #define PLAYER_JUMP_VEL 275
-#define SPYRO_JUMP_VEL 285
+#define SPYRO_JUMP_VEL 340
 #define PLAYER_JUMP_TOL 5
 #define PLAYER_FLYING_FRAMETOL 1
 #define PLAYER_HEAD_ELASTICITY 0.5
@@ -28,7 +28,7 @@ using namespace std;
 #define MARIO_HEIGHT 27
 #define SPYRO_HEIGHT 40
 #define SPYRO_WIDTH 49
-#define SPYRO_JUMP_ANIMSPD 25
+#define SPYRO_JUMP_ANIMSPD 4
 #define SPYRO_ANIMSPD 4
 #define LBLUERUN_WIDTH 55
 #define LBLUERUN_HEIGHT 35
@@ -38,7 +38,7 @@ using namespace std;
 #define LINK_HEIGHT 24
 
 #define GRAVITY 600
-#define SPYRO_GRAVITY 300
+#define SPYRO_GRAVITY 100
 
 enum PlayerState
 {
@@ -95,6 +95,7 @@ private:
 	void rangedAttack();
 	void resetAnimation();
 	void switchCharacter(int character);
+	void glide();
 };
 
 

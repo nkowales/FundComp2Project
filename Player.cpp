@@ -36,7 +36,8 @@ void Player::init(ContentManager* content)
 	spyroSprite = content->getAnimatedTexture("sprites/Spyro2.png", 3,48,48,40,16,1,2); // 50 41
 	//spyroSprite.addAnimation("walk", 6, 297, 50, 40, 14, 9); // was 50 44
 	spyroSprite.addAnimation("walk", 12, 297, 48, 40, 10, 9);
-	spyroSprite.addAnimation("jump", 10, 985, 63, 50, 0, 9);
+	spyroSprite.addAnimation("jump", 10, 985, 63, 50, 0, 5);
+	spyroSprite.addAnimation("glide", 325, 990, 63, 50, 0, 4);
 
 	lBlueSprite = content->getAnimatedTexture("sprites/S-littleblue.png", 0,1,49,34,4,7,6);
 	lBlueSprite.addAnimation("walk",0,41,55,35,5,8);
@@ -74,7 +75,13 @@ void Player::update(Uint32 time)
 	// Apply gravity, etc.
 	if (inAir)
 	{
-		velocity.y += ((currentCharacter == CH_SPYRO) ? SPYRO_GRAVITY : GRAVITY) * secs;
+		//velocity.y += ((currentCharacter == CH_SPYRO) ? SPYRO_GRAVITY : GRAVITY) * secs;
+		if ( velocity.y > 0 && currentCharacter == CH_SPYRO){
+			sprites[CH_SPYRO].setAnimation("glide");
+			velocity.y += SPYRO_GRAVITY*secs;
+		}else{
+			velocity.y += (GRAVITY) * secs;
+		}	
 		standingOnOneWay = false;
 	}
 	else
@@ -135,7 +142,11 @@ void Player::handleEvent(const SDL_Event& e)
 			moveLeft();
 			break;
 		case SDLK_w:
-			jump();
+			if (inAir){
+				glide();	
+			} else{
+				jump();
+			}
 			break;
 		case SDLK_s:
 			duck();
@@ -375,11 +386,18 @@ void Player::jump()
 		}
 		else
 		{
+			
 			velocity.y = -SPYRO_JUMP_VEL;
 		}
 	}
 }
+void Player::glide(){
+	if (currentCharacter == CH_SPYRO){
+		velocity.y = 0;
+		sprites[CH_SPYRO].setAnimation("glide");
 
+	} else {}
+}
 void Player::meleeAttack()
 {
 	switch(currentCharacter){
