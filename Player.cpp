@@ -33,10 +33,10 @@ void Player::init(ContentManager* content)
 	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); 
 	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
 
-	spyroSprite = content->getAnimatedTexture("sprites/Spyro2.png", 3,48,48,40,16,1,4); // 50 41
+	spyroSprite = content->getAnimatedTexture("sprites/Spyro2.png", 3,48,48,40,16,1,2); // 50 41
 	//spyroSprite.addAnimation("walk", 6, 297, 50, 40, 14, 9); // was 50 44
 	spyroSprite.addAnimation("walk", 12, 297, 48, 40, 10, 9);
-	spyroSprite.addAnimation("jump", 10, 985, 58, 50, 0, 2);
+	spyroSprite.addAnimation("jump", 10, 985, 63, 50, 0, 9);
 
 	lBlueSprite = content->getAnimatedTexture("sprites/S-littleblue.png", 0,1,49,34,4,7,6);
 	lBlueSprite.addAnimation("walk",0,41,55,35,5,8);
