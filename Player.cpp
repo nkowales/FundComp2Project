@@ -40,16 +40,16 @@ void Player::init(ContentManager* content)
 	spyroSprite.addAnimation("jump", 10, 985, 63, 50, 0, 5);
 	spyroSprite.addAnimation("glide", 325, 990, 63, 50, 0, 4);
 	spyroSprite.addAnimation("ranged",5 ,2548 , 58,38,0,6);
-	spyroSprite.addAnimation("melee",5 ,1898 , 63, 51, 0, 9);
+	spyroSprite.addAnimation("melee",5 ,1898 , 70, 51, 0, 9);
 	lBlueSprite = content->getAnimatedTexture("sprites/S-littleblue.png", 0,1,49,34,4,7,6);
 	lBlueSprite.addAnimation("walk",0,41,55,35,5,8);
 
 	linkSprite = content->getAnimatedTexture("sprites/Link2.png", 3, 69, 20, 24, 0, 1, 8);
 	//linkSprite.addAnimation("walk", 1, 215, 32, 24, 0, 6);
-	linkSprite.addAnimation("walk", 6, 215, 27, 24, 5, 6);
+	linkSprite.addAnimation("walk", 6, 215, 30, 24, 0, 6);
 	linkSprite.addAnimation("ranged", 2, 481, 23, 25, 4, 5);
 	linkSprite.addAnimation("melee", 140, 69, 40, 35, 0, 9);
-	linkSprite.addAnimation("jump", 103, 215, LINK_WIDTH, LINK_HEIGHT, 0, 1); 
+	linkSprite.addAnimation("jump", 95, 215, LINK_WIDTH, LINK_HEIGHT, 0, 1); 
 
 	sprites.push_back(marioSprite);
 	sprites.push_back(linkSprite);
