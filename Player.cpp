@@ -9,6 +9,7 @@
 #include "ObjectLayer.h"
 #include "Fireball.h"
 #include "Bullet.h"
+#include "Boomerang.h"
 
 Player::Player() : WorldObject()
 {
@@ -59,6 +60,9 @@ void Player::update(Uint32 time)
 {
 	double secs = time / 1000.;
 
+	if (fireballCooldown > 0.)
+		fireballCooldown -= secs;
+
 	// Update horizontal movement
 	switch (state)
 	{
@@ -108,21 +112,6 @@ void Player::draw(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
 
 	Vector2d pos = getCamera()->transform(position);
-	/*switch (currentCharacter){
-		case CH_MARIO:
-			marioSprite.draw(renderer, pos.x, pos.y);
-			break;
-		case CH_SPYRO:
-			spyroSprite.draw(renderer, pos.x, pos.y);
-			break;
-		case CH_LBLUE:
-			lBlueSprite.draw(renderer, pos.x, pos.y);
-			break;
-		case CH_LINK:
-			linkSprite.draw(renderer, pos.x, pos.y);
-			break;
-			
-	}*/
 	sprites[currentCharacter].draw(renderer, pos.x, pos.y);
 	
 
@@ -245,20 +234,6 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	int feetPos;
 	SDL_Rect bbox = getBoundingBox();
 	feetPos = position.y + bbox.h - PLAYER_FEET;
-	/*switch(currentCharacter){
-		case CH_MARIO:
-			feetPos = position.y + MARIO_HEIGHT - PLAYER_FEET;
-			break;
-		case CH_SPYRO:
-			feetPos = position.y + SPYRO_HEIGHT - PLAYER_FEET;
-			break;
-		case CH_LBLUE:
-			feetPos = position.y + LBLUE_HEIGHT - PLAYER_FEET;
-			break;
-		case CH_LINK:
-			feetPos = position.y + LINK_HEIGHT - PLAYER_FEET;
-			break;
-	}*/
 	
 
 	switch (grp)
@@ -270,20 +245,6 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		{
 			standingOnOneWay = false;
 			inAir = false;
-			/*switch(currentCharacter){
-				case CH_MARIO:
-					position.y = other->getPosition().y - MARIO_HEIGHT;
-					break;
-				case CH_SPYRO:
-					position.y = other->getPosition().y - SPYRO_HEIGHT;
-					break;
-				case CH_LBLUE:
-					position.y = other->getPosition().y - LBLUE_HEIGHT;
-					break;
-				case CH_LINK:
-					position.y = other->getPosition().y - LINK_HEIGHT;
-					break;
-			}*/
 			position.y = other->getPosition().y - bbox.h;
 			
 			resetAnimation();
@@ -292,20 +253,6 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		{
 			if (overlap.x > position.x) // hit walking right
 			{
-				/*switch(currentCharacter){
-					case CH_MARIO:
-						position.x = other->getPosition().x - MARIO_WIDTH;
-						break;
-					case CH_SPYRO:
-						position.x = other->getPosition().x - SPYRO_WIDTH;
-						break;
-					case CH_LBLUE:
-						position.x = other->getPosition().x - LBLUE_WIDTH;
-						break;
-					case CH_LINK:
-						position.x = other->getPosition().x - LINK_WIDTH;
-						break;
-				}*/
 				position.x = other->getPosition().x - bbox.w;
 				
 			}
@@ -329,24 +276,15 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			standingOnOneWay = true;
 			inAir = false;
 			position.y = other->getPosition().y - bbox.h;
-			/*switch(currentCharacter){
-				case CH_MARIO:
-					position.y = other->getPosition().y - MARIO_HEIGHT;
-					break;
-				case CH_SPYRO:
-					position.y = other->getPosition().y - SPYRO_HEIGHT;
-					break;
-				case CH_LBLUE:
-					position.y = other->getPosition().y - LBLUE_HEIGHT;
-					break;
-				case CH_LINK:
-					position.y = other->getPosition().y - LINK_HEIGHT;
-					break;
-			}*/
 			
 			resetAnimation();
 		}
 		break;
+	case COLGRP_PROJECTILE:
+			Boomerang* boom = dynamic_cast<Boomerang*>(other);
+			if (boom && boom->isReturning())
+				hasBoomerang = true;
+			break;
 	}
 }
 
@@ -354,21 +292,6 @@ void Player::jump()
 {
 	if (!inAir && canJump)
 	{
-		/*switch(currentCharacter){
-		case CH_MARIO:
-			marioSprite.setAnimation("jump");
-			break;
-		case CH_SPYRO:
-			spyroSprite.setAnimation("jump");
-			break;
-		case CH_LBLUE:
-			lBlueSprite.setAnimation("jump");
-			break;
-		case CH_LINK:
-			linkSprite.setAnimation("jump");
-			break;
-				
-		}*/
 
 		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
 		{
@@ -417,13 +340,26 @@ void Player::meleeAttack()
 
 void Player::rangedAttack()
 {
-	Fireball* fball = new Fireball(WorldObject::getUniqueID());
+	Fireball* fball;
+	Boomerang* boom;
 	Vector2d fpos;
 	string current;
 	switch(currentCharacter)
 	{
 		case CH_MARIO:
+			if (fireballCooldown > 0.) break;
+
+			fireballCooldown = FIREBALL_COOLDOWN;
+
+			fball = new Fireball(WorldObject::getUniqueID());
+
 			fpos = {(facingLeft) ? position.x : position.x + MARIO_WIDTH, position.y + MARIO_HEIGHT / 3};
+			fball->setPosition(fpos);
+
+			if (facingLeft)
+				fball->reverseDirection();
+
+			getParentLayer()->addObject(fball);
 			break;
 		case CH_SPYRO:
 			fpos = {(facingLeft) ? position.x : position.x + SPYRO_WIDTH, position.y + SPYRO_HEIGHT / 3};
@@ -432,18 +368,44 @@ void Player::rangedAttack()
 			fpos = {(facingLeft) ? position.x : position.x + LBLUE_WIDTH, position.y + LBLUE_HEIGHT / 3};
 			break;
 		case CH_LINK:
-			current = sprites[CH_LINK].getAnimation();
+			// Make sure we haven't already thrown
+			if (!hasBoomerang) break;
+
+			hasBoomerang = false;
+
+			// Handle the animation
 			sprites[CH_LINK].setAnimation("ranged");
 			current = sprites[CH_LINK].getAnimation();
+
+			// Spawn point of the boomerang
 			fpos = {(facingLeft) ? position.x : position.x + LINK_WIDTH, position.y + LINK_HEIGHT / 3};
+
+			// Trace out the control points for the bezier path
+			Path p;
+			if (facingLeft)
+			{
+				p.push_back(fpos);
+				p.push_back({fpos.x - BOOMERANG_RANGE, fpos.y + 25});
+				p.push_back({fpos.x - BOOMERANG_RANGE + 25, fpos.y - 50});
+				p.push_back({fpos.x - BOOMERANG_RANGE, fpos.y - 100});
+			}
+			else
+			{
+				p.push_back(fpos);
+				p.push_back({fpos.x + BOOMERANG_RANGE, fpos.y + 25});
+				p.push_back({fpos.x + BOOMERANG_RANGE + 25, fpos.y - 50});
+				p.push_back({fpos.x + BOOMERANG_RANGE, fpos.y - 100});
+			}
+
+			boom = new Boomerang(WorldObject::getUniqueID());
+			boom->setPath(p);									 // Calculates bezier path from control points
+			boom->setReturnTarget(this);						// Return to the player after it completes the path
+			boom->setPosition(fpos);
+			boom->setName("[BOOMERANG]");
+			getParentLayer()->addObject(boom);
 			break;
 	}
-	cout <<  current << endl;
-	sprites[CH_LINK].setAnimation( current );
-	fball->setPosition(fpos);
-	if (facingLeft)
-		fball->reverseDirection();
-	getParentLayer()->addObject(fball);
+	//cout <<  current << endl;
 	
 	/*Bullet* bullet = new Bullet(WorldObject::getUniqueID());
 	bullet->setPosition(position);
@@ -488,21 +450,6 @@ void Player::moveRight()
 			iter->setFlipH(currentCharacter == CH_LINK);
 		}
 			
-		/*marioSprite.setAnimation("walk");
-		marioSprite.setFlipH(false);
-		spyroSprite.setAnimation("walk");
-		spyroSprite.setFlipH(false);*/
-		if (currentCharacter == CH_LBLUE){
-			SDL_Rect bbox;
-			bbox.x = bbox.y = 0;
-			bbox.w = LBLUERUN_WIDTH;
-			bbox.h = LBLUERUN_HEIGHT;
-			setBoundingBox(bbox);
-		}
-		/*linkSprite.setAnimation("walk");
-		linkSprite.setFlipH(true);
-		lBlueSprite.setAnimation("walk");
-		lBlueSprite.setFlipH(false);*/
 	}
 }
 
@@ -518,17 +465,6 @@ void Player::stopMoveRight()
 			}
 		}
 
-		//marioSprite.setAnimation("default");
-		//spyroSprite.setAnimation("default");
-		if(currentCharacter == CH_LBLUE){
-			SDL_Rect bbox;
-			bbox.x = bbox.y = 0;
-			bbox.w = LBLUERUN_WIDTH;
-			bbox.h = LBLUERUN_HEIGHT;
-			setBoundingBox(bbox);			
-		}
-		//lBlueSprite.setAnimation("default");
-		//linkSprite.setAnimation("default");
 		state = PLYR_STANDING;
 	}
 }
@@ -544,8 +480,7 @@ void Player::stopMoveLeft()
 				iter->setAnimation("default");
 			}
 		}
-		//marioSprite.setAnimation("default");
-		//spyroSprite.setAnimation("default");
+
 		if(currentCharacter == CH_LBLUE)
 		{
 			SDL_Rect bbox;
@@ -554,8 +489,6 @@ void Player::stopMoveLeft()
 			bbox.h = LBLUERUN_HEIGHT;
 			setBoundingBox(bbox);			
 		}
-		//lBlueSprite.setAnimation("default");
-		//linkSprite.setAnimation("default");
 		state = PLYR_STANDING;
 	}
 }

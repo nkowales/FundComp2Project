@@ -36,6 +36,7 @@ using namespace std;
 #define LBLUE_HEIGHT 35
 #define LINK_WIDTH 20
 #define LINK_HEIGHT 24
+#define FIREBALL_COOLDOWN 0.5
 
 #define GRAVITY 600
 #define SPYRO_GRAVITY 100
@@ -77,14 +78,12 @@ private:
 	OneWayPlatform* lastOneWay = NULL;
 	OneWayPlatform* ignorePlatform = NULL;
 	Uint32 framesSinceTouchedGround = 0;
-
-	//AnimatedTexture marioSprite;
-	//AnimatedTexture spyroSprite;
-	//AnimatedTexture lBlueSprite;
-	//AnimatedTexture linkSprite;
 	vector<AnimatedTexture> sprites;
 	bool facingLeft = false;
 	int currentCharacter = CH_MARIO;
+	bool hasBoomerang = true;
+	double fireballCooldown = 0.;
+
 	void moveLeft();
 	void moveRight();
 	void duck();
