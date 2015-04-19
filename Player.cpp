@@ -39,7 +39,8 @@ void Player::init(ContentManager* content)
 	spyroSprite.addAnimation("walk", 12, 297, 48, 40, 10, 9);
 	spyroSprite.addAnimation("jump", 10, 985, 63, 50, 0, 5);
 	spyroSprite.addAnimation("glide", 325, 990, 63, 50, 0, 4);
-
+	spyroSprite.addAnimation("ranged",5 ,2548 , 58,38,0,6);
+	spyroSprite.addAnimation("melee",5 ,1898 , 63, 51, 0, 9);
 	lBlueSprite = content->getAnimatedTexture("sprites/S-littleblue.png", 0,1,49,34,4,7,6);
 	lBlueSprite.addAnimation("walk",0,41,55,35,5,8);
 
@@ -47,7 +48,7 @@ void Player::init(ContentManager* content)
 	//linkSprite.addAnimation("walk", 1, 215, 32, 24, 0, 6);
 	linkSprite.addAnimation("walk", 6, 215, 27, 24, 5, 6);
 	linkSprite.addAnimation("ranged", 2, 481, 23, 25, 4, 5);
-	linkSprite.addAnimation("melee", 140, 69, 30, 26, 16, 9);
+	linkSprite.addAnimation("melee", 140, 69, 40, 35, 0, 9);
 	linkSprite.addAnimation("jump", 103, 215, LINK_WIDTH, LINK_HEIGHT, 0, 1); 
 
 	sprites.push_back(marioSprite);
@@ -115,11 +116,18 @@ void Player::draw(SDL_Renderer* renderer)
 	sprites[currentCharacter].draw(renderer, pos.x, pos.y);
 	
 
-	
+		
 }
 
 void Player::handleEvent(const SDL_Event& e)
 {
+	if (currentCharacter == CH_SPYRO){
+		SDL_Rect bbox;
+		bbox.x = bbox.y = 0;
+		bbox.w = SPYRO_WIDTH;
+		bbox.h = SPYRO_HEIGHT;
+		setBoundingBox(bbox);
+	}
 	if (e.type == SDL_KEYDOWN)
 	{
 		switch (e.key.keysym.sym)
@@ -328,8 +336,16 @@ void Player::meleeAttack()
 			sprites[CH_LINK].setAnimation("melee");
 			SDL_Rect bbox;
 			bbox.x = bbox.y = 0;
-			bbox.w = 30;
+			bbox.w = 35;
 			bbox.h = 26;
+			setBoundingBox(bbox);
+			break;
+		case CH_SPYRO:
+			sprites[CH_SPYRO].setAnimation("melee");
+			
+			bbox.x = bbox.y = 0;
+			bbox.w = 63;
+			bbox.h = SPYRO_HEIGHT;
 			setBoundingBox(bbox);
 			break;
 		default:
@@ -362,7 +378,11 @@ void Player::rangedAttack()
 			getParentLayer()->addObject(fball);
 			break;
 		case CH_SPYRO:
+			current = sprites[CH_SPYRO].getAnimation();
+			sprites[CH_SPYRO].setAnimation("ranged");
+			current = sprites[CH_SPYRO].getAnimation();
 			fpos = {(facingLeft) ? position.x : position.x + SPYRO_WIDTH, position.y + SPYRO_HEIGHT / 3};
+
 			break;
 		case CH_LBLUE:
 			fpos = {(facingLeft) ? position.x : position.x + LBLUE_WIDTH, position.y + LBLUE_HEIGHT / 3};
