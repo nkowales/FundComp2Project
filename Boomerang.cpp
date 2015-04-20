@@ -16,7 +16,7 @@ Boomerang::Boomerang(Uint32 id) : WorldObject(id)
 
 void Boomerang::init(ContentManager* content)
 {
-	sprite = content->getAnimatedTexture("sprites/Link.png", 36, 543, 10, 10, 2, 4, 5);
+	sprite = content->getAnimatedTexture("sprites/L-Link.png", 36, 543, 10, 10, 2, 4, 5);
 	position = bezierCurve[0];
 }
 

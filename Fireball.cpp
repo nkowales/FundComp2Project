@@ -19,7 +19,7 @@ Fireball::Fireball(Uint32 id) : WorldObject(id)
 
 void Fireball::init(ContentManager* content)
 {
-	sprite = content->getAnimatedTexture("sprites/fireball.png", 0, 0, FIREBALL_FRMW,
+	sprite = content->getAnimatedTexture("sprites/M-fireball.png", 0, 0, FIREBALL_FRMW,
 			FIREBALL_FRMH, FIREBALL_SPC, FIREBALL_NFRM, FIREBALL_ANIMSPD);
 }
 
