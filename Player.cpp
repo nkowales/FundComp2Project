@@ -30,11 +30,11 @@ void Player::init(ContentManager* content)
 
 	AnimatedTexture marioSprite, spyroSprite, lBlueSprite, linkSprite;
 	// ("name", xpos, ypos, width, height,  pixels in betwen, frames, [framerate])
-	marioSprite = content->getAnimatedTexture("sprites/mario.png", 90, 0, 16, 27, 0, 1, 5);
+	marioSprite = content->getAnimatedTexture("sprites/M-Mario.png", 90, 0, 16, 27, 0, 1, 5);
 	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); 
 	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
 
-	spyroSprite = content->getAnimatedTexture("sprites/Spyro2.png", 3,48,48,40,16,1,2); // 50 41
+	spyroSprite = content->getAnimatedTexture("sprites/S-spyro2.png", 3,48,48,40,16,1,2); // 50 41
 	//spyroSprite.addAnimation("walk", 6, 297, 50, 40, 14, 9); // was 50 44
 	spyroSprite.addAnimation("walk", 12, 297, 48, 40, 10, 9);
 	spyroSprite.addAnimation("jump", 10, 985, 63, 50, 0, 5);
@@ -44,7 +44,7 @@ void Player::init(ContentManager* content)
 	lBlueSprite = content->getAnimatedTexture("sprites/S-littleblue.png", 0,1,49,34,4,7,6);
 	lBlueSprite.addAnimation("walk",0,41,55,35,5,8);
 
-	linkSprite = content->getAnimatedTexture("sprites/Link2.png", 3, 69, 20, 24, 0, 1, 8);
+	linkSprite = content->getAnimatedTexture("sprites/L-Link2.png", 3, 69, 20, 24, 0, 1, 8);
 	//linkSprite.addAnimation("walk", 1, 215, 32, 24, 0, 6);
 	linkSprite.addAnimation("walk", 6, 215, 30, 24, 0, 6);
 	linkSprite.addAnimation("ranged", 2, 481, 23, 25, 4, 5);
