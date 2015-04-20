@@ -34,9 +34,9 @@ void Player::init(ContentManager* content)
 	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); 
 	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
 
-	spyroSprite = content->getAnimatedTexture("sprites/Spyro3.png", 3,48,48,40,16,1,2); // 50 41
+	spyroSprite = content->getAnimatedTexture("sprites/S-spyro2.png", 3,48,48,40,16,1,2); // 50 41
 	//spyroSprite.addAnimation("walk", 6, 297, 50, 40, 14, 9); // was 50 44
-	spyroSprite.addAnimation("walk", 12, 297, 48, 40, 10, 9);
+	spyroSprite.addAnimation("walk", 10, 401, 65, 40, 0, 8); // 396, 46
 	spyroSprite.addAnimation("jump", 10, 985, 63, 50, 0, 5);
 	spyroSprite.addAnimation("glide", 325, 990, 63, 50, 0, 4);
 	spyroSprite.addAnimation("ranged",5 ,2548 , 58,38,0,6);
