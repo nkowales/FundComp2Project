@@ -6,6 +6,7 @@
  */
 
 #include "Enemy.h"
+#include "ObjectLayer.h"
 
 Enemy::Enemy(Uint32 id) : WorldObject(id)
 {
@@ -35,6 +36,9 @@ int Enemy::getMaxHealth() const
 void Enemy::hurt(int dmg)
 {
 	health -= dmg;
+
+	if (health <= 0)
+		die();
 }
 
 void Enemy::kill()
@@ -125,4 +129,9 @@ void Enemy::update(Uint32 time)
 		velocity.y = 0.;
 
 	WorldObject::update(time);
+}
+
+void Enemy::die()
+{
+	getParentLayer()->removeObject(getId());
 }

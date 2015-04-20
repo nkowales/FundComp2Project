@@ -30,6 +30,7 @@ public:
 	virtual void kill();
 	virtual void setHealth(int);
 	virtual bool isAlive();
+	virtual void die();
 
 	virtual void onWalkIntoWall(WorldObject*, const SDL_Rect&);
 

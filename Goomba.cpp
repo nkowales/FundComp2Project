@@ -19,7 +19,7 @@ void Goomba::init(ContentManager* content)
 	setHealth(GOOMBA_HEALTH);
 	setContactDamage(10);		// Damage taken by player for walking into the goomba
 
-	sprite = content->getAnimatedTexture("sprites/m-enemies.png", 15, 4, 16, 16, 34, 2, 20);
+	sprite = content->getAnimatedTexture("sprites/M-goomba.png", 15, 4, 16, 16, 34, 2, 20);
 	velocity.x = -GOOMBA_WALKSPEED;
 }
 
@@ -30,6 +30,10 @@ void Goomba::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 
 void Goomba::draw(SDL_Renderer* renderer)
 {
+	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderDrawRect(renderer, &bbox);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	Vector2d tpos = getCamera()->transform(position);
 	sprite.draw(renderer, tpos.x, tpos.y);
 }

@@ -25,6 +25,7 @@
 #include "WorldDebugger.h"
 #include "LayerController.h"
 #include "OneWayPlatform.h"
+#include "Goomba.h"
 
 using namespace std;
 
@@ -42,6 +43,7 @@ WorldObject* resolveWorldObject(string type, Uint32 id)
 	REGISTER_OBJ_NAME("WorldDebugger", WorldDebugger)
 	REGISTER_OBJ_NAME("LayerController", LayerController)
 	REGISTER_OBJ_NAME("OneWay", OneWayPlatform)
+	REGISTER_OBJ_NAME("Goomba", Goomba)
 
 	return NULL;
 }

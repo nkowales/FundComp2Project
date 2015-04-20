@@ -14,6 +14,7 @@
 #include <iostream>
 #include "WorldObject.h"
 #include "OneWayPlatform.h"
+#include "ProgressBar.h"
 
 using namespace std;
 
@@ -37,6 +38,14 @@ using namespace std;
 #define LINK_WIDTH 20
 #define LINK_HEIGHT 24
 #define FIREBALL_COOLDOWN 0.5
+#define PLAYER_MAXHEALTH 100
+#define PLAYER_INVULN_TIME 2.0
+
+#define HEALTHBAR_W 100
+#define HEALTHBAR_H 16
+#define HEALTHBAR_OFFSET 10
+
+#define SWORD_DAMAGE 10
 
 #define GRAVITY 600
 #define SPYRO_GRAVITY 100
@@ -83,6 +92,11 @@ private:
 	int currentCharacter = CH_MARIO;
 	bool hasBoomerang = true;
 	double fireballCooldown = 0.;
+	int health = PLAYER_MAXHEALTH;
+	int maxHealth = PLAYER_MAXHEALTH;
+	double invulnTimer = 0.;
+
+	ProgressBar healthBar;
 
 	void moveLeft();
 	void moveRight();
@@ -93,8 +107,10 @@ private:
 	void meleeAttack();
 	void rangedAttack();
 	void resetAnimation();
-	void switchCharacter(int character);
+	void switchCharacter(int);
 	void glide();
+	void hurt(int);
+	void die();
 };
 
 

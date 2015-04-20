@@ -10,8 +10,9 @@
 #include "Fireball.h"
 #include "Bullet.h"
 #include "Boomerang.h"
+#include "Enemy.h"
 
-Player::Player() : WorldObject()
+Player::Player() : WorldObject(), healthBar(maxHealth)
 {
 	SDL_Rect bbox;
 	bbox.x = bbox.y = 0;
@@ -20,6 +21,9 @@ Player::Player() : WorldObject()
 	setBoundingBox(bbox);
 	setCollisionGroup(COLGRP_PLAYER);
 	setName("PLAYER");
+	healthBar.setBackground({75, 0, 0, 255});
+	healthBar.setForeground({200, 0, 0, 255});
+	healthBar.setBorder({75, 0, 0, 255});
 }
 
 void Player::init(ContentManager* content)
@@ -63,6 +67,9 @@ void Player::update(Uint32 time)
 
 	if (fireballCooldown > 0.)
 		fireballCooldown -= secs;
+
+	if (invulnTimer > 0.)
+		invulnTimer -= secs;
 
 	// Update horizontal movement
 	switch (state)
@@ -111,6 +118,15 @@ void Player::draw(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
+
+	healthBar.draw(renderer, {HEALTHBAR_OFFSET, HEALTHBAR_OFFSET, HEALTHBAR_W, HEALTHBAR_H}, health);
+
+	if (invulnTimer > 0.)
+	{
+		int blink = (int)(invulnTimer * 10) % 2;
+		if (blink)
+			return;
+	}
 
 	double sx = 1.;
 	double sy = 1.;
@@ -237,7 +253,7 @@ bool Player::canCollideWith(const WorldObject* other)
 {
 	Uint32 grp = other->getCollisionGroup();
 	return ((grp == COLGRP_WORLD) || (grp == COLGRP_ONEWAY) ||
-			(grp == COLGRP_PROJECTILE));
+			(grp == COLGRP_PROJECTILE) || (grp == COLGRP_ENEMY));
 }
 
 void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
@@ -246,7 +262,8 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	int feetPos;
 	SDL_Rect bbox = getBoundingBox();
 	feetPos = position.y + bbox.h - PLAYER_FEET;
-	
+	Boomerang* boom;
+	Enemy* enemy;
 
 	switch (grp)
 	{
@@ -293,10 +310,25 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		break;
 	case COLGRP_PROJECTILE:
-			Boomerang* boom = dynamic_cast<Boomerang*>(other);
+			boom = dynamic_cast<Boomerang*>(other);
 			if (boom && boom->isReturning())
 				hasBoomerang = true;
 			break;
+
+	case COLGRP_ENEMY:
+		enemy = static_cast<Enemy*>(other);
+		if (sprites[currentCharacter].getAnimation() == "melee")
+		{
+			if ((facingLeft && (position.x > enemy->getPosition().x))
+				|| (!facingLeft && (position.x < enemy->getPosition().x)))
+			{
+				enemy->hurt(SWORD_DAMAGE);
+			}
+		}
+		else
+			hurt(enemy->getContactDamage());
+
+		break;
 	}
 }
 
@@ -339,19 +371,11 @@ void Player::meleeAttack()
 		case CH_LINK:
 			sprites[CH_LINK].setAnimation("melee");
 			sprites[CH_LINK].setRate(3);
-			SDL_Rect bbox;
-			bbox.x = bbox.y = 0;
-			bbox.w = 35;
-			bbox.h = 26;
-			setBoundingBox(bbox);
+
 			break;
 		case CH_SPYRO:
 			sprites[CH_SPYRO].setAnimation("melee");
 			
-			bbox.x = bbox.y = 0;
-			bbox.w = 63;
-			bbox.h = SPYRO_HEIGHT;
-			setBoundingBox(bbox);
 			break;
 		default:
 			break;
@@ -505,15 +529,6 @@ void Player::stopMoveLeft()
 				iter->setAnimation("default");
 			}
 		}
-
-		if(currentCharacter == CH_LBLUE)
-		{
-			SDL_Rect bbox;
-			bbox.x = bbox.y = 0;
-			bbox.w = LBLUERUN_WIDTH;
-			bbox.h = LBLUERUN_HEIGHT;
-			setBoundingBox(bbox);			
-		}
 		state = PLYR_STANDING;
 	}
 }
@@ -584,5 +599,26 @@ void Player::switchCharacter(int character)
 
 	//if (oldh < bbox.h)
 	position.y -= bbox.h - oldh;
-	sprites[currentCharacter].setFlipH((currentCharacter == CH_LINK) ^ facingLeft);
+
+	// flip sprite if we are link or we are facing left, but not both
+	sprites[currentCharacter].setFlipH((currentCharacter == CH_LINK) != facingLeft);
+}
+
+void Player::hurt(int dmg)
+{
+	if (invulnTimer <= 0.)
+	{
+		invulnTimer = PLAYER_INVULN_TIME;
+		health -= dmg;
+		if (health <= 0)
+			die();
+	}
+
+	//cout << health << endl;
+}
+
+void Player::die()
+{
+	// TODO
+	health = PLAYER_MAXHEALTH;
 }
