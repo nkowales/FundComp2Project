@@ -26,8 +26,8 @@ using namespace std;
 #define PLAYER_FEET 40
 #define MARIO_WIDTH 16
 #define MARIO_HEIGHT 27
-#define SPYRO_HEIGHT 40
-#define SPYRO_WIDTH 49
+#define SPYRO_HEIGHT 30
+#define SPYRO_WIDTH 38
 #define SPYRO_JUMP_ANIMSPD 4
 #define SPYRO_ANIMSPD 4
 #define LBLUERUN_WIDTH 55

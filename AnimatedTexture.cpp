@@ -44,7 +44,7 @@ void AnimatedTexture::tick()
 
 			if (currentFrame >= currentAnimation->nFrames)
 			{
-					if (animName == "ranged" | animName == "melee")
+					if (animName == "ranged" || animName == "melee")
 					{
 						looping = false;
 					} 

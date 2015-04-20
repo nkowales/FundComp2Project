@@ -21,5 +21,7 @@
 #define BUTTON9 8 // select (left middle button)
 #define BUTTON10 9 // start (right middle button)
 
+#define GRAVITY 600
+
 
 #endif /* GAMECONSTANTS_H_ */

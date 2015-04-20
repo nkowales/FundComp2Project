@@ -107,20 +107,24 @@ void Player::update(Uint32 time)
 
 void Player::draw(SDL_Renderer* renderer)
 {
-	/*L_Rect bbox = getCamera()->transform(getBoundingBox());
+	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
 
-	Vector2d pos = getCamera()->transform(position);
-	sprites[currentCharacter].draw(renderer, pos.x, pos.y);
-	
+	double sx = 1.;
+	double sy = 1.;
 
-		
+	if (currentCharacter == CH_SPYRO)
+		sx = sy = 0.75;
+
+	Vector2d pos = getCamera()->transform(position);
+	sprites[currentCharacter].draw(renderer, pos.x, pos.y, sx, sy);
 }
 
 void Player::handleEvent(const SDL_Event& e)
 {
+	sprites[CH_LINK].setRate(8);
 	if (currentCharacter == CH_SPYRO){
 		SDL_Rect bbox;
 		bbox.x = bbox.y = 0;
@@ -334,6 +338,7 @@ void Player::meleeAttack()
 	switch(currentCharacter){
 		case CH_LINK:
 			sprites[CH_LINK].setAnimation("melee");
+			sprites[CH_LINK].setRate(3);
 			SDL_Rect bbox;
 			bbox.x = bbox.y = 0;
 			bbox.w = 35;
