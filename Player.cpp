@@ -47,12 +47,12 @@ void Player::init(ContentManager* content)
 
 	linkSprite = content->getAnimatedTexture("sprites/L-Link2.png", 1, 107, 50, 24, 0, 1, 8);
 
-	linkSprite.addAnimation("walk", 6, 215, 30, 24, 0, 6);
+	linkSprite.addAnimation("walk", 1, 215, 56, 24, 0, 6);
 	linkSprite.addAnimation("ranged", 2, 481, 23, 26, 4, 5);
 	linkSprite.addAnimation("melee", 37, 67, 56, 35, 0, 6); // maybe expand to 15 frames
 	//linkSprite.addAnimation("meleeRight", 263,68,40,35,0,6);
-	linkSprite.addAnimation("jump", 101, 217, 19, 23, 0, 1); 
-	linkSprite.setSplitAnimation(6);
+	linkSprite.addAnimation("jump", 18, 216, 19, 23, 0, 1); 
+	
 
 	sprites.push_back(marioSprite);
 	sprites.push_back(linkSprite);
@@ -266,6 +266,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	switch (grp)
 	{
 	case COLGRP_WORLD: // Ordinary platform
+		cout << "[ " << position.x << ", " << position.y << " ]" << endl;
 		framesSinceTouchedGround = 0;
 		ignorePlatform = NULL;
 		if ((feetPos < overlap.y) && (velocity.y > 0)) // Landed on it
@@ -285,7 +286,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			}
 			else //hit walking left
 			{
-				position.x = other->getPosition().x + other->getBoundingBox().w;
+				position.x = other->getPosition().x + other->getBoundingBox().w + 160;
 			}
 		}
 		else if ((velocity.y < 0) && (other->getPosition().y < position.y))// hit our heads
