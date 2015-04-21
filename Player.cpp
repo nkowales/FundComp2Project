@@ -38,22 +38,21 @@ void Player::init(ContentManager* content)
 	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); 
 	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
 
-	spyroSprite = content->getAnimatedTexture("sprites/S-spyro2.png", 3,48,48,40,16,1,2); // 50 41
-	//spyroSprite.addAnimation("walk", 6, 297, 50, 40, 14, 9); // was 50 44
+	spyroSprite = content->getAnimatedTexture("sprites/S-Spyro2.png", 3,48,48,40,16,1,2); // 50 41
 	spyroSprite.addAnimation("walk", 10, 401, 65, 40, 0, 8); // 396, 46
 	spyroSprite.addAnimation("jump", 10, 985, 63, 50, 0, 5);
 	spyroSprite.addAnimation("glide", 325, 990, 63, 50, 0, 4);
 	spyroSprite.addAnimation("ranged",5 ,2548 , 58,38,0,6);
 	spyroSprite.addAnimation("melee",5 ,1898 , 70, 51, 0, 9);
-	lBlueSprite = content->getAnimatedTexture("sprites/S-littleblue.png", 0,1,49,34,4,7,6);
-	lBlueSprite.addAnimation("walk",0,41,55,35,5,8);
 
-	linkSprite = content->getAnimatedTexture("sprites/L-Link2.png", 3, 69, 20, 24, 0, 1, 8);
-	//linkSprite.addAnimation("walk", 1, 215, 32, 24, 0, 6);
+	linkSprite = content->getAnimatedTexture("sprites/L-Link2.png", 1, 107, 50, 24, 0, 1, 8);
+
 	linkSprite.addAnimation("walk", 6, 215, 30, 24, 0, 6);
-	linkSprite.addAnimation("ranged", 2, 481, 23, 25, 4, 5);
-	linkSprite.addAnimation("melee", 140, 69, 40, 35, 0, 9);
-	linkSprite.addAnimation("jump", 95, 215, LINK_WIDTH, LINK_HEIGHT, 0, 1); 
+	linkSprite.addAnimation("ranged", 2, 481, 23, 26, 4, 5);
+	linkSprite.addAnimation("melee", 37, 67, 56, 35, 0, 6); // maybe expand to 15 frames
+	//linkSprite.addAnimation("meleeRight", 263,68,40,35,0,6);
+	linkSprite.addAnimation("jump", 101, 217, 19, 23, 0, 1); 
+	linkSprite.setSplitAnimation(6);
 
 	sprites.push_back(marioSprite);
 	sprites.push_back(linkSprite);
@@ -63,8 +62,11 @@ void Player::init(ContentManager* content)
 
 void Player::update(Uint32 time)
 {
+	
 	double secs = time / 1000.;
-
+	if (sprites[currentCharacter].getAnimation() == "default"){
+		resetBBox();
+	}
 	if (fireballCooldown > 0.)
 		fireballCooldown -= secs;
 
@@ -114,10 +116,11 @@ void Player::update(Uint32 time)
 
 void Player::draw(SDL_Renderer* renderer)
 {
-	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
+	// comment / uncomment these next four lines to get bounding box to show up
+	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 	healthBar.draw(renderer, {HEALTHBAR_OFFSET, HEALTHBAR_OFFSET, HEALTHBAR_W, HEALTHBAR_H}, health);
 
@@ -135,19 +138,14 @@ void Player::draw(SDL_Renderer* renderer)
 		sx = sy = 0.75;
 
 	Vector2d pos = getCamera()->transform(position);
+	
 	sprites[currentCharacter].draw(renderer, pos.x, pos.y, sx, sy);
 }
 
 void Player::handleEvent(const SDL_Event& e)
 {
+	
 	sprites[CH_LINK].setRate(8);
-	if (currentCharacter == CH_SPYRO){
-		SDL_Rect bbox;
-		bbox.x = bbox.y = 0;
-		bbox.w = SPYRO_WIDTH;
-		bbox.h = SPYRO_HEIGHT;
-		setBoundingBox(bbox);
-	}
 	if (e.type == SDL_KEYDOWN)
 	{
 		switch (e.key.keysym.sym)
@@ -367,11 +365,30 @@ void Player::glide(){
 }
 void Player::meleeAttack()
 {
+	SDL_Rect bbox;
+	velocity.x = 0;
 	switch(currentCharacter){
 		case CH_LINK:
-			sprites[CH_LINK].setAnimation("melee");
-			sprites[CH_LINK].setRate(3);
-
+			if (facingLeft)
+			{
+				sprites[CH_LINK].setAnimation("melee");
+				sprites[CH_LINK].setRate(3);
+				bbox.x = 0;
+				bbox.y = 0;
+				bbox.w = 33;
+				bbox.h = LINK_HEIGHT;
+				setBoundingBox(bbox);
+			}
+			else {	
+				sprites[CH_LINK].setAnimation("melee");
+				sprites[CH_LINK].setRate(3);
+				sprites[currentCharacter].setFlipH(false);
+				bbox.x = 16;
+				bbox.y = 0;
+				bbox.w = 36;
+				bbox.h = LINK_HEIGHT;
+				setBoundingBox(bbox);
+			} 
 			break;
 		case CH_SPYRO:
 			sprites[CH_SPYRO].setAnimation("melee");
@@ -468,19 +485,12 @@ void Player::moveLeft()
 	{
 		state = PLYR_MVG_LEFT;
 		facingLeft = true;
-		if (currentCharacter == CH_LBLUE)
-		{
-			SDL_Rect bbox;
-			bbox.x = bbox.y = 0;
-			bbox.w = LBLUERUN_WIDTH;
-			bbox.h = LBLUERUN_HEIGHT;
-			setBoundingBox(bbox);
-		}
+
 		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
 		{
 			if (!inAir)
 				iter->setAnimation("walk");
-			iter->setFlipH(currentCharacter != CH_LINK);
+			iter->setFlipH(true);
 		}
 	}
 }
@@ -496,7 +506,7 @@ void Player::moveRight()
 		{
 			if (!inAir)
 				iter->setAnimation("walk");
-			iter->setFlipH(currentCharacter == CH_LINK);
+			iter->setFlipH(false);
 		}
 			
 	}
@@ -583,7 +593,8 @@ void Player::switchCharacter(int character)
 		break;
 	case CH_LINK:
 		currentCharacter = CH_LINK;
-		bbox.x = bbox.y = 0;
+		bbox.x = 16;
+		bbox.y = 0;
 		bbox.w = LINK_WIDTH;
 		bbox.h = LINK_HEIGHT;
 		setBoundingBox(bbox);
@@ -601,7 +612,8 @@ void Player::switchCharacter(int character)
 	position.y -= bbox.h - oldh;
 
 	// flip sprite if we are link or we are facing left, but not both
-	sprites[currentCharacter].setFlipH((currentCharacter == CH_LINK) != facingLeft);
+	//sprites[currentCharacter].setFlipH((currentCharacter == CH_LINK) != facingLeft);
+	sprites[currentCharacter].setFlipH(facingLeft);
 }
 
 void Player::hurt(int dmg)
@@ -621,4 +633,32 @@ void Player::die()
 {
 	// TODO
 	health = PLAYER_MAXHEALTH;
+}
+void Player::resetBBox(){
+	SDL_Rect bbox;
+
+	switch (currentCharacter)
+	{
+	case CH_SPYRO:
+		bbox.x = bbox.y = 0;
+		bbox.w = SPYRO_WIDTH;
+		bbox.h = SPYRO_HEIGHT;
+		setBoundingBox(bbox);
+		break;
+	case CH_LINK:
+		bbox.x = 16; 
+		bbox.y = 0;
+		bbox.w = LINK_WIDTH;
+		bbox.h = LINK_HEIGHT;
+		setBoundingBox(bbox);
+		break;
+	case CH_MARIO:
+		currentCharacter = CH_MARIO;
+		bbox.x = bbox.y = 0;
+		bbox.w = MARIO_WIDTH;
+		bbox.h = MARIO_HEIGHT;
+		setBoundingBox(bbox);
+		break;
+	}	
+
 }

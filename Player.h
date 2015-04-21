@@ -111,6 +111,7 @@ private:
 	void glide();
 	void hurt(int);
 	void die();
+	void resetBBox();
 };
 
 
