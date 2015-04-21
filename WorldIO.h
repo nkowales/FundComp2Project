@@ -12,6 +12,7 @@
 
 #include <functional>
 #include <iostream>
+#include <string>
 
 // Forward declaration of WorldObject
 class WorldObject;

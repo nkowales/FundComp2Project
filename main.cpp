@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	//ContentManager content(renderer);
-	WorldMap world("testmap_mario2.tmx", renderer);
+	WorldMap world("Mario-level.tmx", renderer); //testmap_mario2.tmx
 
 	// Wait for user to press X button on window
 	bool quit = false;
