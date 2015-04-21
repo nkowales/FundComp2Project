@@ -49,6 +49,9 @@ WorldMap::~WorldMap()
 
 void WorldMap::draw(SDL_Renderer* renderer)
 {
+	// Draw the background
+	//SDL_Surface* background;
+	//SDL_Load("filename"); ...
 	// Draw each map layer
 	for (vector<MapLayer*>::iterator iter = layers.begin(); iter != layers.end(); iter++)
 	{
