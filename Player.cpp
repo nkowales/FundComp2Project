@@ -269,8 +269,9 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		//cout << "[ " << position.x << ", " << position.y << " ]" << endl;
 		framesSinceTouchedGround = 0;
 		ignorePlatform = NULL;
-		if ((feetPos < overlap.y) && (velocity.y > 0)) // Landed on it
+		if ((feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.w > 2)) // Landed on it
 		{
+			cout << "hi" << endl;
 			standingOnOneWay = false;
 			inAir = false;
 			position.y = other->getPosition().y - bbox.h;
@@ -289,7 +290,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 				position.x = other->getPosition().x + other->getBoundingBox().w - (bbox.x - position.x);
 			}
 		}
-		else if ((velocity.y < 0) && (other->getPosition().y < position.y))// hit our heads
+		else if ((velocity.y < 0) && (other->getPosition().y < position.y) && (overlap.w > 2))// hit our heads
 		{
 			velocity.y = velocity.y * -PLAYER_HEAD_ELASTICITY;
 		}
