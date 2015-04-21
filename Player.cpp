@@ -279,14 +279,14 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		else if (overlap.h > overlap.w) // hit from side
 		{
-			if (overlap.x > position.x) // hit walking right
+			if (overlap.x > bbox.x) // hit walking right
 			{
-				position.x = other->getPosition().x - bbox.w;
+				position.x = other->getPosition().x - bbox.w - (bbox.x - position.x);
 				
 			}
 			else //hit walking left
 			{
-				position.x = other->getPosition().x + other->getBoundingBox().w ;
+				position.x = other->getPosition().x + other->getBoundingBox().w - (bbox.x - position.x);
 			}
 		}
 		else if ((velocity.y < 0) && (other->getPosition().y < position.y))// hit our heads
@@ -653,7 +653,7 @@ void Player::resetBBox(){
 		setBoundingBox(bbox);
 		break;
 	case CH_LINK:
-		bbox.x = 16; 
+		bbox.x = 16;
 		bbox.y = 0;
 		bbox.w = LINK_WIDTH;
 		bbox.h = LINK_HEIGHT;
