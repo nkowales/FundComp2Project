@@ -271,7 +271,6 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		ignorePlatform = NULL;
 		if ((feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.w > 2)) // Landed on it
 		{
-			cout << "hi" << endl;
 			standingOnOneWay = false;
 			inAir = false;
 			position.y = other->getPosition().y - bbox.h;
