@@ -135,3 +135,7 @@ void Enemy::die()
 {
 	getParentLayer()->removeObject(getId());
 }
+void Enemy::squish()
+{
+
+}

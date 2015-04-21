@@ -20,6 +20,7 @@ void Goomba::init(ContentManager* content)
 	setContactDamage(10);		// Damage taken by player for walking into the goomba
 
 	sprite = content->getAnimatedTexture("sprites/M-goomba.png", 15, 4, 16, 16, 34, 2, 20);
+	sprite.addAnimation("squish", 314, 4, 17,16, 0, 1);
 	velocity.x = -GOOMBA_WALKSPEED;
 }
 
@@ -36,4 +37,9 @@ void Goomba::draw(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	Vector2d tpos = getCamera()->transform(position);
 	sprite.draw(renderer, tpos.x, tpos.y);
+}
+void Goomba::squish(){
+	sprite.setAnimation("squish");
+	
+	die();
 }

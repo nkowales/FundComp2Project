@@ -31,6 +31,7 @@ public:
 	virtual void setHealth(int);
 	virtual bool isAlive();
 	virtual void die();
+	virtual void squish();
 
 	virtual void onWalkIntoWall(WorldObject*, const SDL_Rect&);
 

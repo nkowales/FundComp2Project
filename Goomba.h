@@ -21,7 +21,7 @@ public:
 
 	void init(ContentManager*);
 	void draw(SDL_Renderer*);
-
+	void squish();
 	void onWalkIntoWall(WorldObject*, const SDL_Rect&);
 
 private:
