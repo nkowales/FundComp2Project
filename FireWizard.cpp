@@ -73,13 +73,13 @@ void FireWizard::update(Uint32 time)
 	{
 		switch (state)
 		{
-		case STANDING:
+		case FW_STANDING:
 			velocity.x = 0;
 			break;
-		case MVG_RIGHT:
+		case FW_MVG_RIGHT:
 			velocity.x = FIREWIZARD_WALKSPD;
 			break;
-		case MVG_LEFT:
+		case FW_MVG_LEFT:
 			velocity.x = -FIREWIZARD_WALKSPD;
 		}
 	}
@@ -87,12 +87,12 @@ void FireWizard::update(Uint32 time)
 	{
 		switch (state)
 		{
-		case STANDING:
+		case FW_STANDING:
 			break;
-		case MVG_RIGHT:
+		case FW_MVG_RIGHT:
 			stop();
 			break;
-		case MVG_LEFT:
+		case FW_MVG_LEFT:
 			stop();
 			break;
 		}
@@ -125,9 +125,9 @@ void FireWizard::update(Uint32 time)
 }
 void FireWizard::walkLeft()
 {
-	if(state != MVG_LEFT)
+	if(state != FW_MVG_LEFT)
 	{
-		state = MVG_LEFT;
+		state = FW_MVG_LEFT;
 		facingLeft = true;
 		sprite.setFlipH(true);
 
@@ -135,9 +135,9 @@ void FireWizard::walkLeft()
 }
 void FireWizard::walkRight()
 {
-	if(state != MVG_RIGHT)
+	if(state != FW_MVG_RIGHT)
 	{
-		state = MVG_RIGHT;
+		state = FW_MVG_RIGHT;
 		facingLeft = false;
 		sprite.setFlipH(false);
 

@@ -21,9 +21,9 @@
 #define MAGIC_COOLDOWN 3.5
 enum FireWizardState
 {
-	STANDING,
-	MVG_RIGHT,
-	MVG_LEFT
+	FW_STANDING,
+	FW_MVG_RIGHT,
+	FW_MVG_LEFT
 };
 class FireWizard : public Enemy 
 {
