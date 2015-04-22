@@ -7,14 +7,22 @@
 
 #include "Fireball.h"
 #include "ObjectLayer.h"
-
-Fireball::Fireball(Uint32 id) : WorldObject(id)
+#include "Enemy.h"
+Fireball::Fireball(Uint32 id) : Projectile(id)
 {
-	SDL_Rect bbox = {0, 0, FIREBALL_SIZE, FIREBALL_SIZE};
-	setBoundingBox(bbox);
+	
 	setCollisionGroup(COLGRP_PROJECTILE);
-	velocity.x = FIREBALL_HSPEED;
-	velocity.y = FIREBALL_VSPEED;
+	velocity.x = 250;
+	velocity.y = 200;
+	maxBounces = 3;
+	hSpeed = 250;
+	vSpeed = 200;
+	size = 8;
+	gravity = 800;
+	damage = 5;
+	SDL_Rect bbox = {0, 0, size, size};
+	setBoundingBox(bbox);
+
 }
 
 void Fireball::init(ContentManager* content)
@@ -25,15 +33,16 @@ void Fireball::init(ContentManager* content)
 
 bool Fireball::canCollideWith(const WorldObject* other)
 {
-	return ((other->getCollisionGroup() == COLGRP_WORLD) || (other->getCollisionGroup() == COLGRP_ONEWAY));
+	Uint32 grp = other->getCollisionGroup();
+	return ( (grp == COLGRP_WORLD)||(grp == COLGRP_ONEWAY)||(grp == COLGRP_ENEMY) );
 }
 
 void Fireball::update(Uint32 time)
 {
 	double secs = time / 1000.;
-	velocity.y += FIREBALL_GRAVITY * secs;
+	velocity.y += gravity * secs;
 
-	if (nBounces > FIREBALL_MAX_BOUNCES)
+	if (nBounces > maxBounces)
 		kill();
 
 	WorldObject::update(time);
@@ -46,16 +55,34 @@ void Fireball::reverseDirection()
 
 void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 {
-	if ((position.y + 2) < overlap.y)
+	Uint32 grp = other->getCollisionGroup();
+	Enemy* enemy;
+	switch (grp)
 	{
-		velocity.y = -velocity.y;
-		position.y = other->getPosition().y - FIREBALL_SIZE - 1;
-		nBounces++;
-	}
-	else if (other->getCollisionGroup() != COLGRP_ONEWAY)
-	{
+	case COLGRP_WORLD:
+		if ((position.y + 2) < overlap.y)
+		{
+			velocity.y = -velocity.y;
+			position.y = other->getPosition().y - size - 1;
+			nBounces++;
+		}
+		break;
+	case COLGRP_ONEWAY:
+		if ((position.y + 2) < overlap.y)
+		{
+			velocity.y = -velocity.y;
+			position.y = other->getPosition().y - size - 1;
+			nBounces++;
+		}
+		break;
+	case COLGRP_ENEMY:
+		enemy = static_cast<Enemy*>(other);
+		enemy->hurt(damage);
 		kill();
+		break;
 	}
+
+	
 }
 
 void Fireball::draw(SDL_Renderer* renderer)

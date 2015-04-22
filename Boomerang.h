@@ -17,8 +17,8 @@
 #include <vector>
 #include <cmath>
 #include "WorldObject.h"
-
-class Boomerang : public WorldObject
+#include "Projectile.h"
+class Boomerang : public Projectile
 {
 public:
 	Boomerang(Uint32);
@@ -33,7 +33,6 @@ public:
 
 private:
 	Path bezierCurve;
-	AnimatedTexture sprite;
 	int currentTarget = 1;
 	WorldObject* returnTo = NULL;
 	int delay = BOOMERANG_DELAY;

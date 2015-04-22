@@ -9,12 +9,7 @@
 #define FIREBALL_H_
 
 #include "WorldObject.h"
-
-#define FIREBALL_MAX_BOUNCES 3
-#define FIREBALL_HSPEED 250
-#define FIREBALL_VSPEED 200
-#define FIREBALL_SIZE 8
-#define FIREBALL_GRAVITY 800
+#include "Projectile.h"
 
 #define FIREBALL_FRMW 8
 #define FIREBALL_FRMH 9
@@ -24,7 +19,7 @@
 
 #define FIREBALL_SCALE 1.
 
-class Fireball : public WorldObject
+class Fireball : public Projectile
 {
 public:
 	Fireball(Uint32);
@@ -38,8 +33,6 @@ public:
 	void kill();
 	void reverseDirection();
 private:
-	AnimatedTexture sprite;
-	int nBounces = 0;
 };
 
 #endif /* FIREBALL_H_ */

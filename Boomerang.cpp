@@ -8,8 +8,14 @@
 #include "Boomerang.h"
 #include "ObjectLayer.h"
 
-Boomerang::Boomerang(Uint32 id) : WorldObject(id)
+Boomerang::Boomerang(Uint32 id) : Projectile(id)
 {
+	velocity.x = 250;
+	velocity.y = 200;
+	maxBounces = 3;
+	size = 10;
+	gravity = 800;
+	damage = 5;
 	setCollisionGroup(COLGRP_PROJECTILE);
 	setBoundingBox({0, 0, BOOMERANG_SIZE, BOOMERANG_SIZE});
 }
