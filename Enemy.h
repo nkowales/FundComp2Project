@@ -12,6 +12,7 @@
 
 #include "WorldObject.h"
 #include "GameConstants.h"
+#include "ProgressBar.h"
 
 class Enemy : public WorldObject
 {
@@ -21,6 +22,7 @@ public:
 	virtual bool canCollideWith(const WorldObject*);
 	virtual void handleCollision(WorldObject*, const SDL_Rect&);
 	virtual void update(Uint32);
+	virtual void draw(SDL_Renderer*);
 
 	int getContactDamage() const;
 	int getHealth() const;
@@ -45,7 +47,7 @@ private:
 	int contactDamage = 0;
 	int health = 100;
 	int maxHealth = 100;
-
+	ProgressBar healthBar;
 };
 
 #endif /* ENEMY_H_ */

@@ -1,7 +1,7 @@
 CMP = g++
 MAIN = main
-DOT_OS = AnimatedTexture.o Block.o Boomerang.o Bullet.o Camera.o ContentManager.o Enemy.o Fireball.o Geom.o Goomba.o Hammer.o HammerBro.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o WorldMap.o WorldObject.o
-HEADERS = AnimatedTexture.h Animation.h Block.h Boomerang.h Bullet.h Camera.h CollisionGroup.h ContentManager.h Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h Hammer.h HammerBro.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Player.h PlayerSpawn.h ProgressBar.h TestCollider.h Texture.h TileLayer.h Tileset.h TriggerArea.h WorldDebugger.h WorldIO.h WorldMap.h WorldObject.h
+DOT_OS = AnimatedTexture.o Block.o Boomerang.o Bullet.o Camera.o ContentManager.o Enemy.o Fireball.o Geom.o Goomba.o Hammer.o HammerBro.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o Projectile.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o WorldMap.o WorldObject.o
+HEADERS = AnimatedTexture.h Animation.h Block.h Boomerang.h Bullet.h Camera.h CollisionGroup.h ContentManager.h Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h Hammer.h HammerBro.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Player.h PlayerSpawn.h ProgressBar.h Projectile.h TestCollider.h Texture.h TileLayer.h Tileset.h TriggerArea.h WorldDebugger.h WorldIO.h WorldMap.h WorldObject.h
 FUNC1 = AnimatedTexture
 FUNC2 = Block
 FUNC3 = Boomerang
@@ -21,16 +21,17 @@ FUNC16 = OneWayPlatform
 FUNC17 = Player
 FUNC18 = PlayerSpawn
 FUNC19 = ProgressBar
-FUNC20 = TestCollider
-FUNC21 = Texture
-FUNC22 = TileLayer
-FUNC23 = Tileset
-FUNC24 = TriggerArea
-FUNC25 = WorldDebugger
-FUNC26 = WorldMap
-FUNC27 = WorldObject
+FUNC20 = Projectile
+FUNC21 = TestCollider
+FUNC22 = Texture
+FUNC23 = TileLayer
+FUNC24 = Tileset
+FUNC25 = TriggerArea
+FUNC26 = WorldDebugger
+FUNC27 = WorldMap
+FUNC28 = WorldObject
 EXEC = fc2proj
-FLAGS = -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++ -g3 -O0
+FLAGS = -O0 -g3 -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++
 
 all: $(EXEC)
 
@@ -120,6 +121,9 @@ $(FUNC26).o: $(FUNC26).cpp
 
 $(FUNC27).o: $(FUNC27).cpp
 	$(CMP) $(FLAGS) -c $(FUNC27).cpp
+
+$(FUNC28).o: $(FUNC28).cpp
+	$(CMP) $(FLAGS) -c $(FUNC28).cpp
 
 clean:
 	rm *.o $(EXEC) *~

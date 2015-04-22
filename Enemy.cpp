@@ -8,9 +8,10 @@
 #include "Enemy.h"
 #include "ObjectLayer.h"
 
-Enemy::Enemy(Uint32 id) : WorldObject(id)
+Enemy::Enemy(Uint32 id) : WorldObject(id), healthBar(maxHealth)
 {
 	setCollisionGroup(COLGRP_ENEMY);
+	healthBar.setForeground({0, 255, 0, 255});
 }
 
 void Enemy::setContactDamage(int dmg)
@@ -54,6 +55,7 @@ void Enemy::setHealth(int h)
 void Enemy::setMaxHealth(int mh)
 {
 	maxHealth = mh;
+	healthBar.setMax(mh);
 }
 
 bool Enemy::isAlive()
@@ -85,7 +87,7 @@ void Enemy::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		{
 			if (overlap.x > position.x)
 			{
-				position.x = other->getPosition().x - bbox.x - 1;
+				position.x = other->getPosition().x - bbox.w - 1;
 			}
 			else
 			{
@@ -129,6 +131,18 @@ void Enemy::update(Uint32 time)
 		velocity.y = 0.;
 
 	WorldObject::update(time);
+}
+
+void Enemy::draw(SDL_Renderer* renderer)
+{
+	if (health < maxHealth)	// draw healthbar
+	{
+		SDL_Rect bbox = getBoundingBox();
+		bbox.y = position.y - 15;
+		bbox.h = 5;
+
+		healthBar.draw(renderer, getCamera()->transform(bbox), health);
+	}
 }
 
 void Enemy::die()
