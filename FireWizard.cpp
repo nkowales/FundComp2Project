@@ -15,6 +15,7 @@ FireWizard::FireWizard(Uint32 id) : Enemy(id)
 
 void FireWizard::init(ContentManager* content)
 {
+
  	srand (time(NULL));
 	setName("FireWizard");
 	setBoundingBox({0, 0, FIREWIZARD_WIDTH, FIREWIZARD_HEIGHT});
@@ -34,12 +35,17 @@ void FireWizard::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 
 void FireWizard::draw(SDL_Renderer* renderer)
 {
+	
 	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	Vector2d tpos = getCamera()->transform(position);
-	sprite.draw(renderer, tpos.x - 13, tpos.y);
+	if (sprite.getAnimation() == "ranged"){
+		sprite.draw(renderer, tpos.x - 13, tpos.y - 6);
+	} else {
+		sprite.draw(renderer, tpos.x - 13, tpos.y);
+	}
 	
 }
 void FireWizard::doMagic(){
@@ -52,7 +58,7 @@ void FireWizard::doMagic(){
 		sprite.setAnimation("ranged");
 		magicCooldown = MAGIC_COOLDOWN;
 		mag = new FireMagic(WorldObject::getUniqueID());
-		fpos = {(facingLeft) ? position.x : position.x + FIREWIZARD_WIDTH, position.y - FIREWIZARD_HEIGHT};
+		fpos = {(facingLeft) ? position.x : position.x + FIREWIZARD_WIDTH, position.y + (FIREWIZARD_HEIGHT / 3)};
 		mag->setPosition(fpos);
 		if (facingLeft)
 			mag->reverseDirection();
