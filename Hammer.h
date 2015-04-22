@@ -11,15 +11,15 @@
 #include "WorldObject.h"
 
 
-#define HAMMER_HSPEED 50
+#define HAMMER_HSPEED 80
 #define HAMMER_VSPEED -150
 #define HAMMER_SIZE 8
-#define HAMMER_GRAVITY 250
-#define HAMMER_FRMW 16
-#define HAMMER_FRMH 16
+#define HAMMER_GRAVITY 285
+#define HAMMER_FRMW 20
+#define HAMMER_FRMH 20
 #define HAMMER_NFRM 8
 #define HAMMER_SPC  0
-#define HAMMER_ANIMSPD 8
+#define HAMMER_ANIMSPD 5
 #define HAMMER_DAMAGE 30
 #define HAMMER_SCALE 1.
 
@@ -38,6 +38,7 @@ public:
 private:
 	AnimatedTexture sprite;
 	int contactDamage = HAMMER_DAMAGE;
+	int delay = 20;
 
 };
 

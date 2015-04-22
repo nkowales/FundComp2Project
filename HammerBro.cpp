@@ -22,8 +22,8 @@ void HammerBro::init(ContentManager* content)
 	setHealth(HAMMERBRO_HEALTH);
 	setContactDamage(15);		// Damage taken by player for walking into the HammerBro
 
-	sprite = content->getAnimatedTexture("sprites/M-hammerkoopa.png", 5, 10, 24, 29, 0, 4, 10);
-	sprite.addAnimation("ranged", 120, 10, 24, 29, 0, 3);
+	sprite = content->getAnimatedTexture("sprites/M-hammerkoopa.png", 1, 10, 40, 29, 0, 4, 10);
+	sprite.addAnimation("ranged", 160, 10, 40, 29, 0, 3);
 	velocity.x = 0;
 }
 
@@ -39,7 +39,7 @@ void HammerBro::draw(SDL_Renderer* renderer)
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	Vector2d tpos = getCamera()->transform(position);
-	sprite.draw(renderer, tpos.x, tpos.y);
+	sprite.draw(renderer, tpos.x - 12, tpos.y);
 	
 }
 void HammerBro::throwHammer(){

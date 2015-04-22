@@ -19,17 +19,21 @@ Hammer::Hammer(Uint32 id) : WorldObject(id)
 
 void Hammer::init(ContentManager* content)
 {
-	sprite = content->getAnimatedTexture("sprites/M-hammerkoopa.png", 164, 21, HAMMER_FRMW,
+	sprite = content->getAnimatedTexture("sprites/M-hammerkoopa.png", 333, 20, HAMMER_FRMW,
 			HAMMER_FRMH, HAMMER_SPC, HAMMER_NFRM, HAMMER_ANIMSPD);
 }
 
 bool Hammer::canCollideWith(const WorldObject* other)
 {
-	return (other->getCollisionGroup() == COLGRP_PLAYER);
+	Uint32 grp = other->getCollisionGroup();
+	return ( (grp == COLGRP_WORLD)||(grp == COLGRP_PROJECTILE)||(grp == COLGRP_PLAYER) );
+
 }
 
 void Hammer::update(Uint32 time)
 {
+	if (delay > 0)
+		return;
 	double secs = time / 1000.;
 	velocity.y += HAMMER_GRAVITY * secs;
 	
@@ -44,6 +48,10 @@ void Hammer::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 
 void Hammer::draw(SDL_Renderer* renderer)
 {
+	if (delay > 0 ){
+		delay--;
+		return;
+	}
 	SDL_Rect rect = getCamera()->transform(getBoundingBox());
 	sprite.draw(renderer, rect.x, rect.y, HAMMER_SCALE, HAMMER_SCALE);
 }
