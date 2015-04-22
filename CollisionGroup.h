@@ -17,7 +17,8 @@ enum CollisionGroup
 	COLGRP_WORLD,			// All platforms in the world
 	COLGRP_ENEMY,			// Enemies
 	COLGRP_ONEWAY,			// One-way platforms
-	COLGRP_PROJECTILE		// Bullets, fireballs, etc.
+	COLGRP_PROJECTILE,		// Bullets, fireballs, etc.
+	COLGRP_ENEMPROJECTILE		// Hammers, etc.
 };
 
 #endif /* COLLISIONGROUP_H_ */

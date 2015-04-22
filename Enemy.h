@@ -39,13 +39,13 @@ protected:
 	void setContactDamage(int);
 	void setMaxHealth(int);
 
+	Uint32 framesSinceTouchedGround = 0;
+	bool inAir = true;
 private:
 	int contactDamage = 0;
 	int health = 100;
 	int maxHealth = 100;
 
-	Uint32 framesSinceTouchedGround = 0;
-	bool inAir = true;
 };
 
 #endif /* ENEMY_H_ */

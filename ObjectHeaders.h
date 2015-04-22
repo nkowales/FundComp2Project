@@ -28,6 +28,7 @@
 #include "Goomba.h"
 #include "HammerBro.h"
 
+
 using namespace std;
 
 WorldObject* resolveWorldObject(string type, Uint32 id)
