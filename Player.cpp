@@ -46,11 +46,11 @@ void Player::init(ContentManager* content)
 	spyroSprite.addAnimation("ranged",5 ,2548 , 58,38,0,6);
 	spyroSprite.addAnimation("melee",5 ,1898 , 70, 51, 0, 9);
 
-	linkSprite = content->getAnimatedTexture("sprites/L-Link2.png", 1, 107, 50, 24, 0, 1, 8);
+	linkSprite = content->getAnimatedTexture("sprites/L-Link2.png", 1, 107, 56, 24, 0, 1, 8);
 
 	linkSprite.addAnimation("walk", 1, 215, 56, 24, 0, 6);
-	linkSprite.addAnimation("ranged", 2, 481, 56, 26, 4, 5);
-	linkSprite.addAnimation("melee", 37, 67, 56, 35, 0, 6); // maybe expand to 15 frames
+	linkSprite.addAnimation("ranged", 1, 481, 56, 26, 0, 5);
+	linkSprite.addAnimation("melee", 1, 19, 56, 35, 0, 9); // maybe expand to 15 frames
 	//linkSprite.addAnimation("meleeRight", 263,68,40,35,0,6);
 	linkSprite.addAnimation("jump", 1, 216, 56, 23, 0, 1); 
 	
@@ -252,7 +252,7 @@ bool Player::canCollideWith(const WorldObject* other)
 {
 	Uint32 grp = other->getCollisionGroup();
 	return ((grp == COLGRP_WORLD) || (grp == COLGRP_ONEWAY) ||
-			(grp == COLGRP_PROJECTILE) || (grp == COLGRP_ENEMY));
+			(grp == COLGRP_PROJECTILE) || (grp == COLGRP_ENEMY) || (grp == COLGRP_ENEMPROJECTILE));
 }
 
 void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
@@ -338,7 +338,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		break;
 	case COLGRP_ENEMPROJECTILE:
 		ham = static_cast<Hammer*>(other);
-		cout << "collision with hammer \n";
+
 		hurt(ham->getContactDamage());
 		break;
 	}
