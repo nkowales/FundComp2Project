@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 	WorldMap world("Mario-level.tmx", renderer);
 
 	// Load backgorund image
-	back = IMG_Load("M-backgroung00.png");
+	back = IMG_Load("M-background00.png");
 	if (back == NULL) {
 		cout << "Unable to load background image." << endl;
 	}
