@@ -139,8 +139,11 @@ void Player::draw(SDL_Renderer* renderer)
 		sx = sy = 0.75;
 
 	Vector2d pos = getCamera()->transform(position);
-	
-	sprites[currentCharacter].draw(renderer, pos.x, pos.y, sx, sy);
+	if (currentCharacter != CH_LINK){
+		sprites[currentCharacter].draw(renderer, pos.x, pos.y, sx, sy);
+	} else {
+		sprites[currentCharacter].draw(renderer, pos.x-17, pos.y, sx, sy);
+	}
 }
 
 void Player::handleEvent(const SDL_Event& e)
@@ -387,9 +390,9 @@ void Player::meleeAttack()
 			{
 				sprites[CH_LINK].setAnimation("melee");
 				sprites[CH_LINK].setRate(3);
-				bbox.x = 0;
+				bbox.x = -15;
 				bbox.y = 0;
-				bbox.w = 33;
+				bbox.w = 35;
 				bbox.h = LINK_HEIGHT;
 				setBoundingBox(bbox);
 			}
@@ -397,7 +400,7 @@ void Player::meleeAttack()
 				sprites[CH_LINK].setAnimation("melee");
 				sprites[CH_LINK].setRate(3);
 				sprites[currentCharacter].setFlipH(false);
-				bbox.x = 16;
+				bbox.x = 0;
 				bbox.y = 0;
 				bbox.w = 36;
 				bbox.h = LINK_HEIGHT;
@@ -607,7 +610,7 @@ void Player::switchCharacter(int character)
 		break;
 	case CH_LINK:
 		currentCharacter = CH_LINK;
-		bbox.x = 16;
+		bbox.x = 0;
 		bbox.y = 0;
 		bbox.w = LINK_WIDTH;
 		bbox.h = LINK_HEIGHT;
@@ -660,7 +663,7 @@ void Player::resetBBox(){
 		setBoundingBox(bbox);
 		break;
 	case CH_LINK:
-		bbox.x = 16;
+		bbox.x = 0;
 		bbox.y = 0;
 		bbox.w = LINK_WIDTH;
 		bbox.h = LINK_HEIGHT;

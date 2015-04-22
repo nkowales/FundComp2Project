@@ -134,3 +134,25 @@ bool Boomerang::isReturning()
 {
 	return (currentTarget == -1);
 }
+bool Boomerang::canCollideWith(const WorldObject* other)
+{
+	Uint32 grp = other->getCollisionGroup();
+	return ( (grp == COLGRP_ENEMY) );
+}
+void Boomerang::handleCollision(WorldObject* other, const SDL_Rect& overlap)
+{
+	Uint32 grp = other->getCollisionGroup();
+	Enemy* enemy;
+	switch (grp)
+	{
+	case COLGRP_ENEMY:
+		enemy = static_cast<Enemy*>(other);
+		enemy->hurt(damage);
+		currentTarget == -1;
+		break;
+	default:
+		break;
+	}
+
+	
+}

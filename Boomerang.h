@@ -13,7 +13,7 @@
 #define BOOMERANG_SPEED 400
 #define BOOMERANG_RANGE 500
 #define BOOMERANG_DELAY 20
-
+#include "Enemy.h"
 #include <vector>
 #include <cmath>
 #include "WorldObject.h"
@@ -30,6 +30,8 @@ public:
 	void setPath(const Path&);
 	void setReturnTarget(WorldObject*);
 	bool isReturning();
+	bool canCollideWith(const WorldObject*);
+	void handleCollision(WorldObject* , const SDL_Rect&);
 
 private:
 	Path bezierCurve;
