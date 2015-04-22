@@ -40,7 +40,7 @@ public:
 	void squish();
 	void doMagic();
 private:
-	int state = STANDING;
+	int state = FW_STANDING;
 	bool facingLeft = false;
 	AnimatedTexture sprite;
 	double magicCooldown = MAGIC_COOLDOWN;

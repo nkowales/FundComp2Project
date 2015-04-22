@@ -45,7 +45,7 @@ void Boomerang::update(Uint32 time)
 		target = returnTo->getPosition();
 	}
 
-	if (distanceSquare(target, position) < BOOMERANG_SIZE / 2)
+	if (distanceSquare(target, position) < (BOOMERANG_SIZE * BOOMERANG_SIZE))
 	{
 		if (currentTarget == -1)
 			getParentLayer()->removeObject(getId());

@@ -96,6 +96,6 @@
   <object id="25" type="Goomba" gid="81" x="1753" y="744"/>
   <object id="28" type="HammerBro" gid="110" x="638" y="652"/>
   <object id="29" type="HammerBro" gid="110" x="512" y="656"/>
-  <object id="30" type="HammerBro" gid="110" x="416" y="656"/>
+  <object id="30" type="FireWizard" gid="110" x="416" y="656"/>
  </objectgroup>
 </map>
