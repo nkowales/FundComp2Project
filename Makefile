@@ -1,7 +1,7 @@
 CMP = g++
 MAIN = main
-DOT_OS = AnimatedTexture.o Block.o Boomerang.o Bullet.o Camera.o ContentManager.o Enemy.o Fireball.o Geom.o Goomba.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o WorldMap.o WorldObject.o
-HEADERS = AnimatedTexture.h Animation.h Block.h Boomerang.h Bullet.h Camera.h CollisionGroup.h ContentManager.h Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Player.h PlayerSpawn.h ProgressBar.h TestCollider.h Texture.h TileLayer.h Tileset.h TriggerArea.h WorldDebugger.h WorldIO.h WorldMap.h WorldObject.h
+DOT_OS = AnimatedTexture.o Block.o Boomerang.o Bullet.o Camera.o ContentManager.o Enemy.o Fireball.o Geom.o Goomba.o Hammer.o HammerBro.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o WorldMap.o WorldObject.o
+HEADERS = AnimatedTexture.h Animation.h Block.h Boomerang.h Bullet.h Camera.h CollisionGroup.h ContentManager.h Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h Hammer.h HammerBro.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Player.h PlayerSpawn.h ProgressBar.h TestCollider.h Texture.h TileLayer.h Tileset.h TriggerArea.h WorldDebugger.h WorldIO.h WorldMap.h WorldObject.h
 FUNC1 = AnimatedTexture
 FUNC2 = Block
 FUNC3 = Boomerang
@@ -12,21 +12,23 @@ FUNC7 = Enemy
 FUNC8 = Fireball
 FUNC9 = Geom
 FUNC10 = Goomba
-FUNC11 = LayerController
-FUNC12 = MapLayer
-FUNC13 = ObjectLayer
-FUNC14 = OneWayPlatform
-FUNC15 = Player
-FUNC16 = PlayerSpawn
-FUNC17 = ProgressBar
-FUNC18 = TestCollider
-FUNC19 = Texture
-FUNC20 = TileLayer
-FUNC21 = Tileset
-FUNC22 = TriggerArea
-FUNC23 = WorldDebugger
-FUNC24 = WorldMap
-FUNC25 = WorldObject
+FUNC11 = Hammer
+FUNC12 = HammerBro
+FUNC13 = LayerController
+FUNC14 = MapLayer
+FUNC15 = ObjectLayer
+FUNC16 = OneWayPlatform
+FUNC17 = Player
+FUNC18 = PlayerSpawn
+FUNC19 = ProgressBar
+FUNC20 = TestCollider
+FUNC21 = Texture
+FUNC22 = TileLayer
+FUNC23 = Tileset
+FUNC24 = TriggerArea
+FUNC25 = WorldDebugger
+FUNC26 = WorldMap
+FUNC27 = WorldObject
 EXEC = fc2proj
 FLAGS = -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++
 
@@ -112,6 +114,12 @@ $(FUNC24).o: $(FUNC24).cpp
 
 $(FUNC25).o: $(FUNC25).cpp
 	$(CMP) $(FLAGS) -c $(FUNC25).cpp
+
+$(FUNC26).o: $(FUNC26).cpp
+	$(CMP) $(FLAGS) -c $(FUNC26).cpp
+
+$(FUNC27).o: $(FUNC27).cpp
+	$(CMP) $(FLAGS) -c $(FUNC27).cpp
 
 clean:
 	rm *.o $(EXEC) *~
