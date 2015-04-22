@@ -11,17 +11,16 @@
 #include "WorldObject.h"
 
 
-#define HAMMER_HSPEED 170
-#define HAMMER_VSPEED 170
+#define HAMMER_HSPEED 50
+#define HAMMER_VSPEED -150
 #define HAMMER_SIZE 8
-#define HAMMER_GRAVITY 200
-
+#define HAMMER_GRAVITY 250
 #define HAMMER_FRMW 16
 #define HAMMER_FRMH 16
 #define HAMMER_NFRM 8
 #define HAMMER_SPC  0
 #define HAMMER_ANIMSPD 8
-
+#define HAMMER_DAMAGE 30
 #define HAMMER_SCALE 1.
 
 class Hammer : public WorldObject
@@ -35,8 +34,10 @@ public:
 	void handleCollision(WorldObject*, const SDL_Rect&);
 	void reverseDirection();
 	void kill();
+	int getContactDamage();
 private:
 	AnimatedTexture sprite;
+	int contactDamage = HAMMER_DAMAGE;
 
 };
 
