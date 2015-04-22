@@ -78,6 +78,7 @@ int main(int argc, char** argv)
 	{
 		if (((currentUpdate = SDL_GetTicks()) - lastUpdate) > 10)
 		{
+			SDL_SetRenderDrawColor(renderer, 15, 225, 250, 255);
 			SDL_RenderClear(renderer);
 			//SDL_RenderCopy(renderer, background, NULL, NULL); // me
 			//SDL_BlitSurface(background, NULL, gScreenSurface, NULL); // me
