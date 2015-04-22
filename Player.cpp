@@ -299,7 +299,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	case COLGRP_ONEWAY:
 		framesSinceTouchedGround = 0;
 
-		if ((other != ignorePlatform) && (feetPos < overlap.y) && (velocity.y > 0)) // Landed on it
+		if ((other != ignorePlatform) && (feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.h < 2)) // Landed on it
 		{
 			lastOneWay = static_cast<OneWayPlatform*>(other);
 			ignorePlatform = NULL;
