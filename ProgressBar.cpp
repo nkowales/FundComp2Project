@@ -13,6 +13,11 @@ ProgressBar::ProgressBar(int _max)
 
 }
 
+void ProgressBar::setMax(int _max)
+{
+	max = _max;
+}
+
 void ProgressBar::setForeground(SDL_Color col)
 {
 	fore = col;

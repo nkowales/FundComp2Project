@@ -18,6 +18,7 @@ public:
 	void setForeground(SDL_Color);
 	void setBackground(SDL_Color);
 	void setBorder(SDL_Color);
+	void setMax(int);
 
 	void draw(SDL_Renderer*, SDL_Rect, int);
 

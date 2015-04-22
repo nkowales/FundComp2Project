@@ -118,10 +118,10 @@ void Player::update(Uint32 time)
 void Player::draw(SDL_Renderer* renderer)
 {
 	// comment / uncomment these next four lines to get bounding box to show up
-	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
+	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
 
 	healthBar.draw(renderer, {HEALTHBAR_OFFSET, HEALTHBAR_OFFSET, HEALTHBAR_W, HEALTHBAR_H}, health);
 
@@ -302,7 +302,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	case COLGRP_ONEWAY:
 		framesSinceTouchedGround = 0;
 
-		if ((other != ignorePlatform) && (feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.h < 2)) // Landed on it
+		if ((other != ignorePlatform) && (feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.h < 5)) // Landed on it
 		{
 			lastOneWay = static_cast<OneWayPlatform*>(other);
 			ignorePlatform = NULL;
