@@ -13,6 +13,8 @@
 #include <functional>
 #include <cstdlib>
 #include <sstream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 using namespace std;
 using namespace rapidxml;
@@ -49,9 +51,6 @@ WorldMap::~WorldMap()
 
 void WorldMap::draw(SDL_Renderer* renderer)
 {
-	// Draw the background
-	//SDL_Surface* background;
-	//SDL_Load("filename"); ...
 	// Draw each map layer
 	for (vector<MapLayer*>::iterator iter = layers.begin(); iter != layers.end(); iter++)
 	{
