@@ -85,7 +85,7 @@ void Enemy::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		{
 			if (overlap.x > position.x)
 			{
-				position.x = other->getPosition().x - bbox.x - 1;
+				position.x = other->getPosition().x - bbox.w - 1;
 			}
 			else
 			{
