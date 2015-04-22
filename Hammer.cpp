@@ -12,7 +12,7 @@ Hammer::Hammer(Uint32 id) : WorldObject(id)
 {
 	SDL_Rect bbox = {0, 0, HAMMER_SIZE, HAMMER_SIZE};
 	setBoundingBox(bbox);
-	setCollisionGroup(COLGRP_PROJECTILE);
+	setCollisionGroup(COLGRP_ENEMPROJECTILE);
 	velocity.x = HAMMER_HSPEED;
 	velocity.y = HAMMER_VSPEED;
 }
@@ -32,13 +32,13 @@ void Hammer::update(Uint32 time)
 {
 	double secs = time / 1000.;
 	velocity.y += HAMMER_GRAVITY * secs;
+	
 	WorldObject::update(time);
 }
 
 
 void Hammer::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 {
-	cout << "collision detected in hammer";
 	kill();
 }
 
@@ -55,4 +55,8 @@ void Hammer::kill()
 void Hammer::reverseDirection()
 {
 	velocity.x = -velocity.x;
+}
+int Hammer::getContactDamage()
+{
+	return contactDamage;
 }

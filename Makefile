@@ -30,7 +30,7 @@ FUNC25 = WorldDebugger
 FUNC26 = WorldMap
 FUNC27 = WorldObject
 EXEC = fc2proj
-FLAGS = -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++
+FLAGS = -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++ -g3 -O0
 
 all: $(EXEC)
 

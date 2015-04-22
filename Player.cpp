@@ -11,6 +11,7 @@
 #include "Bullet.h"
 #include "Boomerang.h"
 #include "Enemy.h"
+#include "Hammer.h"
 
 Player::Player() : WorldObject(), healthBar(maxHealth)
 {
@@ -262,6 +263,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	feetPos = position.y + bbox.h - PLAYER_FEET;
 	Boomerang* boom;
 	Enemy* enemy;
+	Hammer* ham;
 
 	switch (grp)
 	{
@@ -333,6 +335,11 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		{
 			hurt(enemy->getContactDamage());
 		}
+		break;
+	case COLGRP_ENEMPROJECTILE:
+		ham = static_cast<Hammer*>(other);
+		cout << "collision with hammer \n";
+		hurt(ham->getContactDamage());
 		break;
 	}
 }
