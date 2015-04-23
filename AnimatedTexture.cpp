@@ -101,5 +101,13 @@ void AnimatedTexture::addAnimation(string nm, int xoffs, int yoffs, int frmw, in
 
 void AnimatedTexture::setRate(int r)
 {
-	animSpeed = r;
+	animSpeed = r;	
+}
+void AnimatedTexture::changeAnimation(string nm, int xoffs, int yoffs, int frmw, int frmh, int spc, int frms)
+{
+	map<string,Animation>::iterator it;
+	it = animations.find(nm);
+	animations.erase(it);
+	addAnimation(nm, xoffs, yoffs, frmw, frmh, spc, frms);
+
 }
