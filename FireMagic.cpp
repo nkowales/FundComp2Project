@@ -13,8 +13,7 @@ FireMagic::FireMagic(Uint32 id) : WorldObject(id)
 	SDL_Rect bbox = {0, 0, FIREMAGIC_FRMW, FIREMAGIC_FRMH};
 	setBoundingBox(bbox);
 	setCollisionGroup(COLGRP_ENEMPROJECTILE);
-	velocity.x = FIREMAGIC_HSPEED;
-	velocity.y = FIREMAGIC_VSPEED;
+
 }
 
 void FireMagic::init(ContentManager* content)

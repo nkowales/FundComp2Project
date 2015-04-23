@@ -8,6 +8,7 @@
 #include "FireWizard.h"
 #include "ObjectLayer.h"
 #include "FireMagic.h"
+#include <cmath>
 FireWizard::FireWizard(Uint32 id) : Enemy(id)
 {
 
@@ -49,7 +50,13 @@ void FireWizard::draw(SDL_Renderer* renderer)
 	
 }
 void FireWizard::doMagic(){
-
+	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition();
+	double relPlayerlocationx = position.x - playerPos.x;
+	double relPlayerlocationy = -1 *(position.y - playerPos.y);
+	double theta = atan2(relPlayerlocationx, relPlayerlocationy);
+	double xvel = FIREMAGIC_SPEED * sin(theta);
+	double yvel = FIREMAGIC_SPEED * cos(theta);
+	Vector2d whereToShoot = {xvel,yvel};
 	FireMagic* mag;
 	Vector2d fpos;
 	if (magicCooldown > 0.){}
@@ -60,6 +67,7 @@ void FireWizard::doMagic(){
 		mag = new FireMagic(WorldObject::getUniqueID());
 		fpos = {(facingLeft) ? position.x : position.x + FIREWIZARD_WIDTH, position.y + (FIREWIZARD_HEIGHT / 3)};
 		mag->setPosition(fpos);
+		mag->setVelocity(whereToShoot);
 		if (facingLeft)
 			mag->reverseDirection();
 		getParentLayer()->addObject(mag);
@@ -72,9 +80,20 @@ void FireWizard::squish(){
 }
 void FireWizard::update(Uint32 time)
 {
+	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition();
+	double relPlayerlocation = position.x - playerPos.x;
 	double secs = time / 1000.;
 	magicCooldown -= secs;
 	animTimer -= secs;
+	if (relPlayerlocation > 0 )
+	{
+		playerIsLeft = true;
+	}
+	else // don't care about if = 0 (player is directly above)
+	{
+		playerIsLeft = false;
+	}
+	
 	if (animTimer >= 1.5)
 	{
 		switch (state)
@@ -105,16 +124,30 @@ void FireWizard::update(Uint32 time)
 
 	}
 	else{
-		int randWalk = rand() % 100;
-		if ( randWalk > 49 )
+		int walk = rand() % 100; // get random value
+		animTimer = ANIMATION_TIMER;
+		// either walk towards player, or stop and face player
+		if ( walk > 49 )
 		{
-			animTimer = ANIMATION_TIMER;
-			walkLeft();
+			if (playerIsLeft)
+				walkLeft(); 
+			else
+				walkRight();
 		} 
-		else if (randWalk <= 49)
+		else if (walk <= 49)
 		{
-			animTimer = ANIMATION_TIMER;
-			walkRight();	
+			if (playerIsLeft)
+			{
+				stop();
+				facingLeft = true;
+				sprite.setFlipH(true);
+			}
+			else 	
+			{
+				stop();
+				facingLeft = false;
+				sprite.setFlipH(false);
+			}
 		}
 	}
 	doMagic();

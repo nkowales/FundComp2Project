@@ -11,8 +11,7 @@
 #include "WorldObject.h"
 
 
-#define FIREMAGIC_HSPEED 130
-#define FIREMAGIC_VSPEED 0
+#define FIREMAGIC_SPEED 130
 #define FIREMAGIC_SIZE 8
 #define FIREMAGIC_GRAVITY 0
 #define FIREMAGIC_FRMW 20
