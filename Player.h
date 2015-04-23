@@ -19,6 +19,7 @@
 using namespace std;
 
 #define PLAYER_WALK_SPEED 150
+#define PLAYER_SHUFFLE_SPEED 50
 #define PLAYER_JUMP_VEL 275
 #define SPYRO_JUMP_VEL 340
 #define PLAYER_JUMP_TOL 5
@@ -37,6 +38,7 @@ using namespace std;
 #define LBLUE_HEIGHT 35
 #define LINK_WIDTH 20
 #define LINK_HEIGHT 24
+
 #define FIREBALL_COOLDOWN 0.5
 #define PLAYER_MAXHEALTH 100
 #define PLAYER_INVULN_TIME 2.0
@@ -80,7 +82,10 @@ public:
 	
 
 private:
+
 	int state = PLYR_STANDING;
+	bool defending = false;
+	bool onOffense = false;
 	bool inAir = false;
 	bool canJump = true;
 	bool standingOnOneWay = false;
@@ -112,6 +117,8 @@ private:
 	void hurt(int);
 	void die();
 	void resetBBox();
+	void switchMode();
+	void defend();
 };
 
 

@@ -46,13 +46,13 @@ void Player::init(ContentManager* content)
 	spyroSprite.addAnimation("ranged",5 ,2548 , 58,38,0,6);
 	spyroSprite.addAnimation("melee",5 ,1898 , 70, 51, 0, 9);
 
-	linkSprite = content->getAnimatedTexture("sprites/L-Link2.png", 1, 107, 56, 24, 0, 1, 8);
-
+	linkSprite = content->getAnimatedTexture("sprites/L-Link2.png", 1, 107, 56, 24, 0, 1, 10);
 	linkSprite.addAnimation("walk", 1, 215, 56, 24, 0, 6);
 	linkSprite.addAnimation("ranged", 1, 481, 56, 26, 0, 5);
 	linkSprite.addAnimation("melee", 1, 19, 56, 35, 0, 9); // maybe expand to 15 frames
 	//linkSprite.addAnimation("meleeRight", 263,68,40,35,0,6);
 	linkSprite.addAnimation("jump", 1, 216, 56, 23, 0, 1); 
+	linkSprite.addAnimation("defend", 1, 144, 56, 24, 0, 1);
 	
 
 	sprites.push_back(marioSprite);
@@ -81,10 +81,19 @@ void Player::update(Uint32 time)
 		velocity.x = 0;
 		break;
 	case PLYR_MVG_RIGHT:
-		velocity.x = PLAYER_WALK_SPEED;
+		if (onOffense){
+			velocity.x = PLAYER_SHUFFLE_SPEED;
+		} else{
+			velocity.x = PLAYER_WALK_SPEED;
+		}
 		break;
 	case PLYR_MVG_LEFT:
-		velocity.x = -PLAYER_WALK_SPEED;
+		if (onOffense){
+			velocity.x = -PLAYER_SHUFFLE_SPEED;
+		} else{
+			velocity.x = -PLAYER_WALK_SPEED;
+		}
+		break;
 	}
 
 	// Apply gravity, etc.
@@ -150,6 +159,7 @@ void Player::handleEvent(const SDL_Event& e)
 {
 	
 	sprites[CH_LINK].setRate(8);
+	defending = false;
 	if (e.type == SDL_KEYDOWN)
 	{
 		switch (e.key.keysym.sym)
@@ -182,6 +192,12 @@ void Player::handleEvent(const SDL_Event& e)
 		case SDLK_3:
 			switchCharacter(CH_SPYRO);
 			break;
+		case SDLK_j:
+			switchMode(); // switch link from offense to defense
+			break;
+		case SDLK_k:
+			defend();
+			break;
 		}
 	}
 	else if (e.type == SDL_KEYUP)
@@ -202,6 +218,9 @@ void Player::handleEvent(const SDL_Event& e)
 			break;
 		case SDLK_v:
 			meleeAttack();
+			break;
+		case SDLK_k:
+			resetAnimation();
 			break;
 		}
 	}
@@ -398,7 +417,7 @@ void Player::meleeAttack()
 			}
 			else {	
 				sprites[CH_LINK].setAnimation("melee");
-				sprites[CH_LINK].setRate(3);
+				sprites[CH_LINK].setRate(1);
 				sprites[currentCharacter].setFlipH(false);
 				bbox.x = 0;
 				bbox.y = 0;
@@ -595,20 +614,15 @@ void Player::switchCharacter(int character)
 	switch (character)
 	{
 	case CH_SPYRO:
+		onOffense = false;
 		currentCharacter = CH_SPYRO;
 		bbox.x = bbox.y = 0;
 		bbox.w = SPYRO_WIDTH;
 		bbox.h = SPYRO_HEIGHT;
 		setBoundingBox(bbox);
 		break;
-	case CH_LBLUE:
-		currentCharacter = CH_LBLUE;
-		bbox.x = bbox.y = 0;
-		bbox.w = LBLUE_WIDTH;
-		bbox.h = LBLUE_HEIGHT;
-		setBoundingBox(bbox);
-		break;
 	case CH_LINK:
+		onOffense = false;
 		currentCharacter = CH_LINK;
 		bbox.x = 0;
 		bbox.y = 0;
@@ -617,6 +631,7 @@ void Player::switchCharacter(int character)
 		setBoundingBox(bbox);
 		break;
 	case CH_MARIO:
+		onOffense = false;
 		currentCharacter = CH_MARIO;
 		bbox.x = bbox.y = 0;
 		bbox.w = MARIO_WIDTH;
@@ -637,8 +652,16 @@ void Player::hurt(int dmg)
 {
 	if (invulnTimer <= 0.)
 	{
-		invulnTimer = PLAYER_INVULN_TIME;
-		health -= dmg;
+		if (defending)
+		{
+			invulnTimer = PLAYER_INVULN_TIME;
+			health -= dmg/2;
+		} 
+		else
+		{
+			invulnTimer = PLAYER_INVULN_TIME;
+			health -= dmg;
+		}
 		if (health <= 0)
 			die();
 	}
@@ -663,6 +686,7 @@ void Player::resetBBox(){
 		setBoundingBox(bbox);
 		break;
 	case CH_LINK:
+		
 		bbox.x = 0;
 		bbox.y = 0;
 		bbox.w = LINK_WIDTH;
@@ -678,4 +702,33 @@ void Player::resetBBox(){
 		break;
 	}	
 
+}
+void Player::switchMode(){
+	if (currentCharacter == CH_LINK){
+		if (onOffense){
+			onOffense = false;
+
+			sprites[currentCharacter].changeAnimation("walk", 1, 215, 56, 24, 0, 6);
+			sprites[currentCharacter].changeAnimation("default", 1, 107, 56, 24, 0, 1);
+			hasBoomerang = false;
+		} else {
+			onOffense = true;
+			sprites[currentCharacter].setRate(25);
+			sprites[currentCharacter].changeAnimation("walk",565,24,56,24,0,7);
+			sprites[currentCharacter].changeAnimation("default",565,24,56,24,0,1);
+			hasBoomerang = true;
+	
+		}
+
+
+	}
+	else {}
+}
+void Player::defend()
+{
+	if (currentCharacter == CH_LINK)
+	{
+		sprites[currentCharacter].setAnimation("defend");
+		defending = true;
+	}
 }
