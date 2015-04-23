@@ -38,7 +38,10 @@ public:
 	void walkLeft();
 	void walkRight();
 	void stop();
+	void jump();
 private:
+
+	bool canJump = true;
 	int state = STANDING;
 	bool facingLeft = false;
 	AnimatedTexture sprite;

@@ -28,7 +28,7 @@
 #include "Goomba.h"
 #include "HammerBro.h"
 #include "FireWizard.h"
-
+#include "EnemyBoundary.h"
 using namespace std;
 
 WorldObject* resolveWorldObject(string type, Uint32 id)
@@ -48,7 +48,7 @@ WorldObject* resolveWorldObject(string type, Uint32 id)
 	REGISTER_OBJ_NAME("Goomba", Goomba)
 	REGISTER_OBJ_NAME("HammerBro", HammerBro)
 	REGISTER_OBJ_NAME("FireWizard", FireWizard)
-
+	REGISTER_OBJ_NAME("EnemyBoundary", EnemyBoundary)
 	return NULL;
 }
 

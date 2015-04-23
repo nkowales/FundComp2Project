@@ -8,6 +8,7 @@
 #include "HammerBro.h"
 #include "ObjectLayer.h"
 #include "Hammer.h"
+#include "Geom.h"
 HammerBro::HammerBro(Uint32 id) : Enemy(id)
 {
 
@@ -29,7 +30,7 @@ void HammerBro::init(ContentManager* content)
 
 void HammerBro::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 {
-	
+	jump();
 }
 
 void HammerBro::draw(SDL_Renderer* renderer)
@@ -66,9 +67,19 @@ void HammerBro::squish(){
 }
 void HammerBro::update(Uint32 time)
 {
+	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition();
+	double relPlayerlocation = position.x - playerPos.x;
 	double secs = time / 1000.;
 	hammerCooldown -= secs;
 	animTimer -= secs;
+	if (relPlayerlocation > 0 )
+	{
+		playerIsLeft = true;
+	}
+	else // don't care about if = 0 (player is directly above)
+	{
+		playerIsLeft = false;
+	}
 	if (animTimer >= 1.5)
 	{
 		switch (state)
@@ -99,17 +110,28 @@ void HammerBro::update(Uint32 time)
 
 	}
 	else{
-		int randWalk = rand() % 100;
-		cout << randWalk << endl;
-		if ( randWalk > 49 )
+		int walk = rand() % 100; // get random value
+		animTimer = ANIMATION_TIMER;
+		// either walk towards player, or stop and face player
+		if ( walk > 49 )
 		{
-			animTimer = ANIMATION_TIMER;
-			walkLeft();
+			if (playerIsLeft)
+				walkLeft(); 
+			else
+				walkRight();
 		} 
-		else if (randWalk <= 49)
+		else if (walk <= 49)
 		{
-			animTimer = ANIMATION_TIMER;
-			walkRight();	
+			if (playerIsLeft)
+			{
+				facingLeft = true;
+				sprite.setFlipH(true);
+			}
+			else 	
+			{
+				facingLeft = false;
+				sprite.setFlipH(false);
+			}
 		}
 	}
 	throwHammer();
@@ -148,3 +170,14 @@ void HammerBro::stop()
 {
 	velocity.x = 0;
 }
+void HammerBro::jump()
+{
+	if (!inAir && canJump)
+	{
+		inAir = true;
+		canJump = false;
+		position.y -= 5;		
+		velocity.y = -300;
+	}
+		
+} 

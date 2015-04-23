@@ -38,6 +38,7 @@ public:
 	virtual void onWalkIntoWall(WorldObject*, const SDL_Rect&);
 
 protected:
+	bool playerIsLeft = true; // assume player starts to left of this enemy
 	void setContactDamage(int);
 	void setMaxHealth(int);
 
