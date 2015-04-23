@@ -44,9 +44,9 @@ public:
 	
 private:
 	//flags
-	bool enraged = false // when low on hp
+	bool enraged = false; // when low on hp
 	bool canJump = true;
-	int state = STANDING;
+	int state = BOW_STANDING;
 	bool facingLeft = true;
 	AnimatedTexture sprite;
 	// attacks

@@ -26,6 +26,7 @@ void Bowser::init(ContentManager* content)
 	sprite.addAnimation("shellSpin", 340,230,50,44,0,4);
 	sprite.addAnimation("enraged",84 ,226 , 50, 44, 0, 3);
 	sprite.addAnimation("bowserJump",50,62,50,44,0,4);
+	sprite.addAnimation("walk",0,5,50,44,0,4);
 	velocity.x = 0;
 }
 
@@ -45,7 +46,8 @@ void Bowser::draw(SDL_Renderer* renderer)
 	Enemy::draw(renderer);
 }
 void Bowser::spitFlames(){
-
+	// TODO
+	/*
 	Hammer* ham;
 	Vector2d fpos;
 	if (hammerCooldown > 0.){}
@@ -60,16 +62,18 @@ void Bowser::spitFlames(){
 			ham->reverseDirection();
 		getParentLayer()->addObject(ham);
 	}
-
+	*/
 
 }
 void Bowser::squish(){
-	die();
+	
 }
 void Bowser::update(Uint32 time)
 {
+	//TODO
+	/*
 	double secs = time / 1000.;
-	hammerCooldown -= secs;
+	
 	animTimer -= secs;
 	if (animTimer >= 1.5)
 	{
@@ -122,15 +126,15 @@ void Bowser::update(Uint32 time)
 		velocity.y += GRAVITY * secs;
 	else
 		velocity.y = 0.;
-
+	*/
 	WorldObject::update(time);
 
 }
 void Bowser::walkLeft()
 {
-	if(state != MVG_LEFT)
+	if(state != BOW_MVG_LEFT)
 	{
-		state = MVG_LEFT;
+		state = BOW_MVG_LEFT;
 		facingLeft = true;
 		sprite.setFlipH(true);
 
@@ -138,9 +142,9 @@ void Bowser::walkLeft()
 }
 void Bowser::walkRight()
 {
-	if(state != MVG_RIGHT)
+	if(state != BOW_MVG_RIGHT)
 	{
-		state = MVG_RIGHT;
+		state = BOW_MVG_RIGHT;
 		facingLeft = false;
 		sprite.setFlipH(false);
 
