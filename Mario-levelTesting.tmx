@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="130" height="60" tilewidth="16" tileheight="16" nextobjectid="38">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="130" height="60" tilewidth="16" tileheight="16" nextobjectid="47">
  <tileset firstgid="1" name="M-tile00" tilewidth="16" tileheight="16" spacing="1">
   <image source="sprites/M-tile00.png" width="500" height="500"/>
  </tileset>
@@ -95,13 +95,15 @@
   <object id="24" type="Goomba" gid="81" x="1947" y="749"/>
   <object id="25" type="Goomba" gid="81" x="1753" y="744"/>
   <object id="28" type="HammerBro" gid="110" x="638" y="652"/>
-  <object id="29" type="HammerBro" gid="110" x="512" y="656"/>
+  <object id="29" type="HammerBro" gid="110" x="468" y="661"/>
   <object id="30" type="FireWizard" gid="110" x="416" y="656"/>
-  <object id="32" type="EnemyBoundary" gid="474" x="362" y="771"/>
-  <object id="33" type="EnemyBoundary" gid="474" x="712" y="767"/>
+  <object id="32" type="EnemyBoundary" gid="474" x="373" y="770"/>
+  <object id="33" type="EnemyBoundary" gid="474" x="706" y="767"/>
   <object id="34" type="EnemyBoundary" gid="474" x="923" y="783"/>
   <object id="35" type="EnemyBoundary" gid="474" x="1078" y="782"/>
   <object id="36" type="Goomba" gid="110" x="989" y="722"/>
   <object id="37" type="Goomba" gid="110" x="1035" y="721"/>
+  <object id="45" type="HammerBro" gid="110" x="553" y="661"/>
+  <object id="46" type="HammerBro" gid="110" x="512" y="663"/>
  </objectgroup>
 </map>
