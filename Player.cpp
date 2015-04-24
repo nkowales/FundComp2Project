@@ -12,7 +12,8 @@
 #include "Boomerang.h"
 #include "Enemy.h"
 #include "Hammer.h"
-
+#include "ObjectLayer.h"
+#include "Geom.h"
 Player::Player() : WorldObject(), healthBar(maxHealth)
 {
 	SDL_Rect bbox;
@@ -63,7 +64,7 @@ void Player::init(ContentManager* content)
 
 void Player::update(Uint32 time)
 {
-	
+
 	double secs = time / 1000.;
 	if (sprites[currentCharacter].getAnimation() == "default"){
 		resetBBox();
@@ -81,6 +82,7 @@ void Player::update(Uint32 time)
 		velocity.x = 0;
 		break;
 	case PLYR_MVG_RIGHT:
+
 		if (onOffense){
 			velocity.x = PLAYER_SHUFFLE_SPEED;
 		} else{
@@ -127,10 +129,10 @@ void Player::update(Uint32 time)
 void Player::draw(SDL_Renderer* renderer)
 {
 	// comment / uncomment these next four lines to get bounding box to show up
-	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
+	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 	healthBar.draw(renderer, {HEALTHBAR_OFFSET, HEALTHBAR_OFFSET, HEALTHBAR_W, HEALTHBAR_H}, health);
 
@@ -159,7 +161,7 @@ void Player::handleEvent(const SDL_Event& e)
 {
 	
 	sprites[CH_LINK].setRate(8);
-	defending = false;
+
 	if (e.type == SDL_KEYDOWN)
 	{
 		switch (e.key.keysym.sym)
@@ -355,19 +357,83 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		else
 		{
-			hurt(enemy->getContactDamage());
+			if (overlap.h > overlap.w) // hit from side
+			{
+				if (overlap.x > bbox.x) // hit walking right
+				{
+					if (defending){
+						hurt(0);
+						position.x = other->getPosition().x - bbox.w - (bbox.x - position.x);
+					}
+					else{
+						hurt(enemy->getContactDamage());					
+						
+					}
+				}
+				else //hit walking left
+				{
+					if (defending){
+						hurt(0);
+						position.x = other->getPosition().x + other->getBoundingBox().w - (bbox.x - position.x);	 				
+					}
+					else{
+						hurt(enemy->getContactDamage());	
+						
+					}				
+				}
+			}
 		}
 		break;
 	case COLGRP_ENEMPROJECTILE:
 		ham = static_cast<Hammer*>(other);
+		if (inAir) // hit in the air
+			hurt(ham->getContactDamage());
+		else if ( (feetPos > overlap.y) ) // hit on head
+		{
+			hurt(ham->getContactDamage());
 
-		hurt(ham->getContactDamage());
+		} 
+		else 
+		{
+			if (facingLeft)
+			{
+				if (ham->getXVel() < 0) // hit on back
+				{
+					hurt(ham->getContactDamage());
+				}
+				else if (defending)
+				{
+					hurt(0);
+				}	
+				else
+				{
+					hurt(ham->getContactDamage());
+				}
+
+			}
+			else 
+			{
+				if (ham->getXVel() > 0) // hit on back
+				{
+					hurt(ham->getContactDamage());
+				}
+				else if (defending) // if defending
+				{
+					hurt(0);
+				}	
+				else		// if not defending
+				{
+					hurt(ham->getContactDamage());
+				}
+			}
 		break;
+		}
 	}
 }
 
 void Player::jump()
 {
+	defending = false;
 	if (!inAir && canJump)
 	{
 
@@ -401,8 +467,10 @@ void Player::glide(){
 }
 void Player::meleeAttack()
 {
+	defending = false;
 	SDL_Rect bbox;
 	velocity.x = 0;
+
 	switch(currentCharacter){
 		case CH_LINK:
 			if (facingLeft)
@@ -438,6 +506,7 @@ void Player::meleeAttack()
 
 void Player::rangedAttack()
 {
+	defending = false;
 	Fireball* fball;
 	Boomerang* boom;
 	Vector2d fpos;
@@ -517,6 +586,7 @@ void Player::rangedAttack()
 
 void Player::moveLeft()
 {
+	defending = false;
 	if (state != PLYR_MVG_LEFT)
 	{
 		state = PLYR_MVG_LEFT;
@@ -533,6 +603,7 @@ void Player::moveLeft()
 
 void Player::moveRight()
 {
+	defending = false;
 	if (state != PLYR_MVG_RIGHT)
 	{
 		facingLeft = false;
@@ -707,7 +778,7 @@ void Player::switchMode(){
 	if (currentCharacter == CH_LINK){
 		if (onOffense){
 			onOffense = false;
-
+			defending = false;
 			sprites[currentCharacter].changeAnimation("walk", 1, 215, 56, 24, 0, 6);
 			sprites[currentCharacter].changeAnimation("default", 1, 107, 56, 24, 0, 1);
 			hasBoomerang = false;
@@ -726,9 +797,26 @@ void Player::switchMode(){
 }
 void Player::defend()
 {
+	SDL_Rect bbox;
 	if (currentCharacter == CH_LINK)
 	{
-		sprites[currentCharacter].setAnimation("defend");
-		defending = true;
+		if (!onOffense){
+			if (facingLeft){
+			bbox.x = -15;
+			bbox.y = 0;
+			bbox.w = 25;
+			bbox.h = LINK_HEIGHT;
+			setBoundingBox(bbox);	
+			}
+			else {
+			bbox.x = 10;
+			bbox.y = 0;
+			bbox.w = 25;
+			bbox.h = LINK_HEIGHT;
+			setBoundingBox(bbox);
+			}
+			sprites[currentCharacter].setAnimation("defend");
+			defending = true;
+		}
 	}
 }
