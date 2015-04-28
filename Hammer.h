@@ -35,6 +35,7 @@ public:
 	void reverseDirection();
 	void kill();
 	int getContactDamage();
+	int getXVel();
 private:
 	AnimatedTexture sprite;
 	int contactDamage = HAMMER_DAMAGE;

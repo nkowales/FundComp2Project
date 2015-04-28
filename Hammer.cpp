@@ -68,3 +68,7 @@ int Hammer::getContactDamage()
 {
 	return contactDamage;
 }
+int Hammer::getXVel()
+{
+	return velocity.x;
+}
