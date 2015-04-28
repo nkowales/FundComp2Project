@@ -112,7 +112,7 @@ TTF_Font* ContentManager::loadFont(string keyname, string fontname, int size)
 	return font;
 }
 
-Texture ContentManager::getTextureFromText(string rname, string text, string fontnm, SDL_Color col)
+Texture ContentManager::getTextureFromText(string rname, string text, string fontnm, SDL_Color col, Uint32 wrap)
 {
 	SDL_Texture* tex = NULL;
 
@@ -120,7 +120,12 @@ Texture ContentManager::getTextureFromText(string rname, string text, string fon
 		return tex;
 
 	TTF_Font* font = getFont(fontnm);
-	SDL_Surface* surf = TTF_RenderText_Blended(font, text.c_str(), col);
+	SDL_Surface* surf = NULL;
+
+	if (wrap)
+		surf = TTF_RenderText_Blended_Wrapped(font, text.c_str(), col, wrap);
+	else
+		surf = TTF_RenderText_Blended(font, text.c_str(), col);
 
 	if (surf == NULL)
 		return Texture();

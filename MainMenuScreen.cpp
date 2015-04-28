@@ -8,6 +8,7 @@
 #include "MainMenuScreen.h"
 #include "WorldMap.h"
 #include "ScreenManager.h"
+#include "MessageBoxScreen.h"
 
 MainMenuScreen::MainMenuScreen() : MenuScreen()
 {
@@ -26,12 +27,34 @@ void MainMenuScreen::init(ContentManager* content)
 
 void MainMenuScreen::onSelect(int select)
 {
+	WorldMap* world;
+	MessageBoxScreen* mbox;
 	switch(select)
 	{
 	case 0:
-		WorldMap* world = new WorldMap("Mario-level.tmx", getManager()->getRenderer());
+		world = new WorldMap("Mario-level.tmx", getManager()->getRenderer());
 		getManager()->addScreen(world);
 		getManager()->removeScreen(this);
+		break;
+	case 1:
+		mbox = new MessageBoxScreen("Controls",
+				"A, D - Move Left, Right\nW - Jump (hold to glide with Spyro)\n"
+				"S - Fall through floating platforms\n"
+				"1, 2, 3 - Switch between Mario, Link and Spyro\n"
+				"F - Ranged attack (Mario, Link only)\n"
+				"V - Melee attack (Link, Spyro only)");
+		getManager()->addScreen(mbox);
+		break;
+	case 2:
+		mbox = new MessageBoxScreen("About the Game",
+				"This game was created for our semester project for Prof. Scott Emrich's Fundamentals of Computing II Class"
+				" at the University of Notre Dame (Spring 2015)\n\n"
+				"Developers: Nick Aiello, Mitchell Troy, Nathan Kowaleski, Greg Nemecek");
+		getManager()->addScreen(mbox);
+		//getManager()->removeScreen(this);
+		break;
+	case 3:
+		getManager()->quit();
 		break;
 	}
 }

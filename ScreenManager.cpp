@@ -61,24 +61,28 @@ void ScreenManager::update(Uint32 time)
 
 void ScreenManager::draw()
 {
-	for (ScreenList::iterator iter = screens.begin(); iter != screens.end(); iter++)
+	for (ScreenList::reverse_iterator iter = screens.rbegin(); iter != screens.rend(); iter++)
 	{
-		(*iter)->draw(renderer);
+		ScreenList::reverse_iterator iter2 = iter;
+		iter2++;
 
-		if ((*iter)->isOpaque())
-			break;
+		if ((iter2 != screens.rend()) && (*iter2)->isOpaque())
+			continue;
+
+		(*iter)->draw(renderer);
 	}
 }
 
 void ScreenManager::handleEvent(const SDL_Event& e)
 {
-	for (ScreenList::iterator iter = screens.begin(); iter != screens.end(); iter++)
+	/*for (ScreenList::iterator iter = screens.begin(); iter != screens.end(); iter++)
 	{
 		(*iter)->handleEvent(e);
 
 		if ((*iter)->isOpaque())
 			break;
-	}
+	}*/
+	screens.front()->handleEvent(e);
 }
 
 void ScreenManager::addScreen(Screen* scr)
@@ -94,4 +98,14 @@ void ScreenManager::removeScreen(Screen* scr)
 SDL_Renderer* ScreenManager::getRenderer() const
 {
 	return renderer;
+}
+
+void ScreenManager::quit()
+{
+	quitting = true;
+}
+
+bool ScreenManager::isQuitting() const
+{
+	return quitting;
 }
