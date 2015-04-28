@@ -201,7 +201,7 @@ void Player::draw(SDL_Renderer* renderer)
 	Vector2d pos = getCamera()->transform(position);
 	if (currentCharacter != CH_LINK && currentCharacter!= CH_SPYRO){
 		sprites[currentCharacter].draw(renderer, pos.x, pos.y, sx, sy);
-	} if (currentCharacter == CH_SPYRO){
+	} else if (currentCharacter == CH_SPYRO){
 		sprites[currentCharacter].draw(renderer, pos.x-15, pos.y -15, sx,sy);
 	}else {
 		sprites[currentCharacter].draw(renderer, pos.x-17, pos.y, sx, sy);
@@ -224,13 +224,16 @@ void Player::handleEvent(const SDL_Event& e)
 			moveLeft();
 			break;
 		case SDLK_w:
-			if (inAir)
-				state = 
+			if (flying && currentCharacter == CH_SPYRO)
+				state = PLYR_FLYING_UP;	
 			else
 				jump();
 			break;
 		case SDLK_s:
-			duck();
+			if (flying && currentCharacter == CH_SPYRO)
+				state = PLYR_FLYING_DOWN;
+			else
+				duck();
 			break;
 		case SDLK_f:
 			//rangedAttack();
@@ -263,7 +266,10 @@ void Player::handleEvent(const SDL_Event& e)
 			stopMoveLeft();
 			break;
 		case SDLK_w:
-			canJump = true;
+			if (flying)
+				state = PLYR_HOVERING;
+			else
+				canJump = true;
 			break;
 		case SDLK_f:
 			rangedAttack();
@@ -274,6 +280,9 @@ void Player::handleEvent(const SDL_Event& e)
 		case SDLK_k:
 			resetAnimation();
 			break;
+		case SDLK_s:
+			if (flying)	
+				state = PLYR_HOVERING;
 		}
 	}
 	else if (e.type == SDL_JOYAXISMOTION ){
@@ -345,9 +354,11 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		//cout << "[ " << position.x << ", " << position.y << " ]" << endl;
 		if (feetPos < other->getPosition().y)
 			framesSinceTouchedGround = 0;
+			flying = false;
 		ignorePlatform = NULL;
 		if ((feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.w > 2)) // Landed on it
 		{
+			flying = false;
 			standingOnOneWay = false;
 			inAir = false;
 			position.y = other->getPosition().y - bbox.h;
@@ -377,6 +388,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 
 		if ((other != ignorePlatform) && (feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.h < 5)) // Landed on it
 		{
+			flying = false;
 			lastOneWay = static_cast<OneWayPlatform*>(other);
 			ignorePlatform = NULL;
 			standingOnOneWay = true;
