@@ -316,12 +316,19 @@ void Player::handleEvent(const SDL_Event& e)
 				// down press
 				if( e.jaxis.value > 8000 )
 				{
-					duck();
+					if (flying && currentCharacter == CH_SPYRO)
+						state = PLYR_FLYING_DOWN;
+					else
+						duck();
 				}
 				//up press
 				else if( e.jaxis.value < -8000 )
 				{
-					jump();
+					if (flying && currentCharacter == CH_SPYRO)
+						state = PLYR_FLYING_UP;	
+					else
+						jump();
+					
 					canJump = true;
 				}
 			}
@@ -330,7 +337,52 @@ void Player::handleEvent(const SDL_Event& e)
 	}
 	else if (e.type == SDL_JOYBUTTONDOWN)
 	{
-		cout << (int)e.jbutton.button << endl;
+		int buttonPress =(int)e.jbutton.button;
+		switch (buttonPress)
+		{
+		case 4:
+			switchCharacter(CH_MARIO);
+			break;
+		case 5:
+			switchCharacter(CH_LINK);
+			break;
+		case 6:
+			switchCharacter(CH_SPYRO);
+			break;
+		case 7:
+			switchMode(); // switch link from offense to defense
+			break;
+		case 0:
+			defend();
+			break;
+
+
+		}
+	}
+	else if (e.type == SDL_JOYBUTTONUP)
+	{
+		int buttonPress =(int)e.jbutton.button;
+		switch (buttonPress)
+		{
+		//case SDLK_w:
+		//	if (flying)
+		//		state = PLYR_HOVERING;
+		//	else
+		//		canJump = true;
+		//	break;
+		case 1:
+			rangedAttack();
+			break;
+		case 2:
+			meleeAttack();
+			break;
+		case 0:
+			resetAnimation();
+			break;
+		case SDLK_s:
+			if (flying)	
+				state = PLYR_HOVERING;
+		}
 	}
 }
 
@@ -803,6 +855,7 @@ void Player::switchCharacter(int character)
 	switch (character)
 	{
 	case CH_SPYRO:
+		flying = false;
 		onOffense = false;
 		currentCharacter = CH_SPYRO;
 		bbox.x = bbox.y = 0;
@@ -811,6 +864,7 @@ void Player::switchCharacter(int character)
 		setBoundingBox(bbox);
 		break;
 	case CH_LINK:
+		flying = false;
 		onOffense = false;
 		currentCharacter = CH_LINK;
 		bbox.x = 0;
@@ -820,6 +874,7 @@ void Player::switchCharacter(int character)
 		setBoundingBox(bbox);
 		break;
 	case CH_MARIO:
+		flying = false;
 		onOffense = false;
 		currentCharacter = CH_MARIO;
 		bbox.x = bbox.y = 0;
