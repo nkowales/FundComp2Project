@@ -56,7 +56,12 @@ enum PlayerState
 {
 	PLYR_STANDING,
 	PLYR_MVG_RIGHT,
-	PLYR_MVG_LEFT
+	PLYR_MVG_LEFT,
+	PLYR_HOVERING,
+	PLYR_FLYING_LEFT,
+	PLYR_FLYING_RIGHT,
+	PLYR_FLYING_UP,
+	PLYR_FLYING_DOWN
 };
 
 enum Character
@@ -88,6 +93,7 @@ private:
 	bool onOffense = false;
 	bool inAir = false;
 	bool canJump = true;
+	bool flying = false;
 	bool standingOnOneWay = false;
 	OneWayPlatform* lastOneWay = NULL;
 	OneWayPlatform* ignorePlatform = NULL;
