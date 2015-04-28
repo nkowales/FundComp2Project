@@ -1,7 +1,7 @@
 CMP = g++
 MAIN = main
-DOT_OS = AnimatedTexture.o Block.o Boomerang.o Bullet.o Camera.o ContentManager.o Enemy.o Fireball.o Geom.o Goomba.o Hammer.o HammerBro.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o Projectile.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o WorldMap.o WorldObject.o
-HEADERS = AnimatedTexture.h Animation.h Block.h Boomerang.h Bullet.h Camera.h CollisionGroup.h ContentManager.h Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h Hammer.h HammerBro.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Player.h PlayerSpawn.h ProgressBar.h Projectile.h TestCollider.h Texture.h TileLayer.h Tileset.h TriggerArea.h WorldDebugger.h WorldIO.h WorldMap.h WorldObject.h
+DOT_OS = AnimatedTexture.o Block.o Boomerang.o Bullet.o Camera.o ContentManager.o Enemy.o Fireball.o Geom.o Goomba.o Hammer.o HammerBro.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o Projectile.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o WorldMap.o WorldObject.o FireMagic.o FireWizard.o EnemyBoundary.o
+HEADERS = AnimatedTexture.h Animation.h Block.h Boomerang.h Bullet.h Camera.h CollisionGroup.h ContentManager.h Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h Hammer.h HammerBro.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Player.h PlayerSpawn.h ProgressBar.h Projectile.h TestCollider.h Texture.h TileLayer.h Tileset.h TriggerArea.h WorldDebugger.h WorldIO.h WorldMap.h WorldObject.h FireMagic.h FireWizard.h EnemyBoundary.h
 FUNC1 = AnimatedTexture
 FUNC2 = Block
 FUNC3 = Boomerang
@@ -30,6 +30,9 @@ FUNC25 = TriggerArea
 FUNC26 = WorldDebugger
 FUNC27 = WorldMap
 FUNC28 = WorldObject
+FUNC29 = FireWizard
+FUNC30 = FireMagic
+FUNC31 = EnemyBoundary
 EXEC = fc2proj
 FLAGS = -O0 -g3 -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++
 
@@ -41,6 +44,8 @@ $(EXEC): $(MAIN).o $(DOT_OS)
 $(MAIN).o: $(MAIN).cpp $(HEADERS)
 	$(CMP) $(FLAGS) -c $(MAIN).cpp
 
+$(FUNC27).o: $(FUNC27).cpp
+	$(CMP) $(FLAGS) -c $(FUNC27).cpp
 $(FUNC1).o: $(FUNC1).cpp
 	$(CMP) $(FLAGS) -c $(FUNC1).cpp
 
@@ -76,6 +81,12 @@ $(FUNC11).o: $(FUNC11).cpp
 
 $(FUNC12).o: $(FUNC12).cpp
 	$(CMP) $(FLAGS) -c $(FUNC12).cpp
+
+$(FUNC29).o: $(FUNC29).cpp
+	$(CMP) $(FLAGS) -c $(FUNC29).cpp
+
+$(FUNC30).o: $(FUNC30).cpp
+	$(CMP) $(FLAGS) -c $(FUNC30).cpp
 
 $(FUNC13).o: $(FUNC13).cpp
 	$(CMP) $(FLAGS) -c $(FUNC13).cpp
@@ -119,11 +130,12 @@ $(FUNC25).o: $(FUNC25).cpp
 $(FUNC26).o: $(FUNC26).cpp
 	$(CMP) $(FLAGS) -c $(FUNC26).cpp
 
-$(FUNC27).o: $(FUNC27).cpp
-	$(CMP) $(FLAGS) -c $(FUNC27).cpp
 
 $(FUNC28).o: $(FUNC28).cpp
 	$(CMP) $(FLAGS) -c $(FUNC28).cpp
+
+$(FUNC31).o: $(FUNC31).cpp
+	$(CMP) $(FLAGS) -c $(FUNC31).cpp
 
 clean:
 	rm *.o $(EXEC) *~

@@ -11,7 +11,7 @@
 #include "Enemy.h"
 
 #define GOOMBA_WALKSPEED 50
-#define GOOMBA_HEALTH 10
+#define GOOMBA_HEALTH 5
 #define GOOMBA_SIZE 16
 
 class Goomba : public Enemy

@@ -80,7 +80,7 @@ void HammerBro::update(Uint32 time)
 	{
 		playerIsLeft = false;
 	}
-	if (animTimer >= 1.5)
+	if (animTimer >= ANIMATION_TIMER * .66)
 	{
 		switch (state)
 		{
@@ -94,7 +94,7 @@ void HammerBro::update(Uint32 time)
 			velocity.x = -HAMMERBRO_WALKSPD;
 		}
 	}
-	else if (animTimer < 1.5 && animTimer >= 0 )
+	else if (animTimer < (ANIMATION_TIMER * .66) && animTimer >= 0 )
 	{
 		switch (state)
 		{
@@ -124,11 +124,13 @@ void HammerBro::update(Uint32 time)
 		{
 			if (playerIsLeft)
 			{
+				stop();
 				facingLeft = true;
 				sprite.setFlipH(true);
 			}
 			else 	
 			{
+				stop();
 				facingLeft = false;
 				sprite.setFlipH(false);
 			}

@@ -66,7 +66,7 @@ bool Enemy::isAlive()
 bool Enemy::canCollideWith(const WorldObject* other)
 {
 	int colgrp = other->getCollisionGroup();
-	return ((colgrp == COLGRP_WORLD) || (colgrp == COLGRP_ONEWAY));
+	return ((colgrp == COLGRP_WORLD) || (colgrp == COLGRP_ONEWAY) || (colgrp == COLGRP_ENEMBOUND));
 }
 
 void Enemy::handleCollision(WorldObject* other, const SDL_Rect& overlap)
@@ -110,6 +110,10 @@ void Enemy::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			position.y = other->getPosition().y - bbox.h;
 		}
 		break;
+	case COLGRP_ENEMBOUND:
+		velocity.x = -velocity.x;
+		break;
+
 	}
 }
 
