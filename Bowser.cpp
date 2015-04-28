@@ -4,7 +4,7 @@
  *  Created on: Apr 19, 2015
  *      Author: naiello
  */
-
+/*
 #include "Bowser.h"
 #include "ObjectLayer.h"
 #include "FireMagic.h"
@@ -41,7 +41,7 @@ void Bowser::draw(SDL_Renderer* renderer)
 	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*//*
 	Vector2d tpos = getCamera()->transform(position);
 	sprite.draw(renderer, tpos.x - 12, tpos.y);
 	Enemy::draw(renderer);
@@ -256,4 +256,4 @@ void Bowser::shellSpin()
 	}
 
 
-}
+}*/

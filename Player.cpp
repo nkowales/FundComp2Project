@@ -14,6 +14,8 @@
 #include "Hammer.h"
 #include "ObjectLayer.h"
 #include "Geom.h"
+#include "ScreenManager.h"
+#include "DeathScreen.h"
 
 Player::Player() : WorldObject(), healthBar(maxHealth)
 {
@@ -859,7 +861,9 @@ void Player::hurt(int dmg)
 void Player::die()
 {
 	// TODO
-	health = PLAYER_MAXHEALTH;
+	//health = PLAYER_MAXHEALTH;
+	DeathScreen* ds = new DeathScreen(getParentLayer()->getParent());
+	getParentLayer()->getParent()->getManager()->addScreen(ds);
 }
 void Player::resetBBox(){
 	SDL_Rect bbox;

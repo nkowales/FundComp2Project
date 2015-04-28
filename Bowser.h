@@ -5,9 +5,9 @@
  *      Author: mtroy2
  */
 
-
-#ifndef BOWSER_H_
-#define BOWSER_H_
+/*
+#ifndef BOWSER_H_TXT_
+#define BOWSER_H_TXT_
 
 #include "Enemy.h"
 #include <cstdlib>
@@ -62,4 +62,4 @@ private:
 	double shellSpinCoolDown = 0;
 
 };
-#endif
+#endif*/

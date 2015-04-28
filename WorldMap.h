@@ -44,6 +44,7 @@ public:
 	MapLayer* findLayer(string);
 	Camera* getCamera();
 	ContentManager* getContentManager() const;
+	string getMapName() const;
 
 private:
 	vector<MapLayer*> layers;
@@ -53,6 +54,7 @@ private:
 	Uint32 tileSize = 0;			// Size of each tile (in px), assumed square
 	Camera* camera = NULL;
 	ContentManager* content = NULL;
+	string mapname;
 };
 
 #endif /* WORLDMAP_H_ */

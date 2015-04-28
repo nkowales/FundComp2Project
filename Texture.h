@@ -27,12 +27,14 @@ public:
 	void setFlipH(bool);
 	void setFlipV(bool);
 	Uint32 getFlags();
+	void setAlpha(Uint8);
 
 private:
 	SDL_Texture* image;
 	int width;
 	int height;
 	Uint32 flags = 0;
+	Uint8 alpha = 255;
 };
 
 

@@ -78,7 +78,7 @@ enum Level
 	LVL_MARIO,
 	LVL_LINK,
 	LVL_SPYRO,
-	LVL_BOSWER
+	LVL_BOWSER
 };
 
 class Player : public WorldObject

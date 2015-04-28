@@ -19,11 +19,13 @@
 using namespace std;
 using namespace rapidxml;
 
-WorldMap::WorldMap()
+WorldMap::WorldMap() : Screen(), mapname("")
 {
 }
 
 WorldMap::WorldMap(string fname, SDL_Renderer* renderer)
+	: Screen(),
+	  mapname(fname)
 {
 	load(fname, renderer);
 }
@@ -386,4 +388,9 @@ ContentManager* WorldMap::getContentManager() const
 Camera* WorldMap::getCamera()
 {
 	return camera;
+}
+
+string WorldMap::getMapName() const
+{
+	return mapname;
 }

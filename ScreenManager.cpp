@@ -53,10 +53,11 @@ void ScreenManager::update(Uint32 time)
 
 	screensToRemove.clear();
 	screensToAdd.clear();
-	for (ScreenList::iterator iter = screens.begin(); iter != screens.end(); iter++)
+	/*for (ScreenList::iterator iter = screens.begin(); iter != screens.end(); iter++)
 	{
 		(*iter)->update(time);
-	}
+	}*/
+	screens.front()->update(time);
 }
 
 void ScreenManager::draw()

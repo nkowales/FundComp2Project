@@ -25,7 +25,19 @@ void Texture::draw(SDL_Renderer* renderer, int x, int y, float xs, float ys)
 	dst.w = width * xs;
 	dst.h = height * ys;
 
+	if (alpha < 255)
+	{
+		SDL_SetTextureAlphaMod(image, alpha);
+		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	}
+
 	SDL_RenderCopyEx(renderer, image, NULL, &dst, 0, NULL, (SDL_RendererFlip)flags);
+
+	if (alpha < 255)
+	{
+		SDL_SetTextureAlphaMod(image, 255);
+		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+	}
 }
 
 void Texture::draw(SDL_Renderer* renderer, SDL_Rect* src, SDL_Rect* dst)
@@ -65,4 +77,9 @@ void Texture::setFlipV(bool flip)
 Uint32 Texture::getFlags()
 {
 	return flags;
+}
+
+void Texture::setAlpha(Uint8 a)
+{
+	alpha = a;
 }
