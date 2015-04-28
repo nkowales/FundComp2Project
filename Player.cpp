@@ -541,7 +541,7 @@ void Player::rangedAttack()
 		case CH_LINK:
 			// Make sure we haven't already thrown
 			if (!hasBoomerang) break;
-
+			if (!onOffense) break;
 			hasBoomerang = false;
 
 			// Handle the animation
@@ -802,18 +802,18 @@ void Player::defend()
 	{
 		if (!onOffense){
 			if (facingLeft){
-			bbox.x = -15;
-			bbox.y = 0;
-			bbox.w = 25;
-			bbox.h = LINK_HEIGHT;
-			setBoundingBox(bbox);	
+				bbox.x = -15;
+				bbox.y = 0;
+				bbox.w = 25;
+				bbox.h = LINK_HEIGHT;
+				setBoundingBox(bbox);	
 			}
 			else {
-			bbox.x = 10;
-			bbox.y = 0;
-			bbox.w = 25;
-			bbox.h = LINK_HEIGHT;
-			setBoundingBox(bbox);
+				bbox.x = 10;
+				bbox.y = 0;
+				bbox.w = 25;
+				bbox.h = LINK_HEIGHT;
+				setBoundingBox(bbox);
 			}
 			sprites[currentCharacter].setAnimation("defend");
 			defending = true;

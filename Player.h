@@ -95,7 +95,7 @@ private:
 	vector<AnimatedTexture> sprites;
 	bool facingLeft = false;
 	int currentCharacter = CH_MARIO;
-	bool hasBoomerang = true;
+	bool hasBoomerang = false;
 	double fireballCooldown = 0.;
 	int health = PLAYER_MAXHEALTH;
 	int maxHealth = PLAYER_MAXHEALTH;
