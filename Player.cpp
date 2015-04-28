@@ -36,16 +36,15 @@ void Player::init(ContentManager* content)
 
 	AnimatedTexture marioSprite, spyroSprite, lBlueSprite, linkSprite;
 	// ("name", xpos, ypos, width, height,  pixels in betwen, frames, [framerate])
-	marioSprite = content->getAnimatedTexture("sprites/M-Mario.png", 90, 0, 16, 27, 0, 1, 5);
+	marioSprite = content->getAnimatedTexture("sprites/M-Mario.png", 90, 0, 16, 27, 0, 1, 8);
 	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); 
 	marioSprite.addAnimation("jump", 142, 0, 16, 28, 0, 1);
 
-	spyroSprite = content->getAnimatedTexture("sprites/S-Spyro2.png", 3,48,48,40,16,1,2); // 50 41
-	spyroSprite.addAnimation("walk", 10, 401, 65, 40, 0, 8); // 396, 46
-	spyroSprite.addAnimation("jump", 10, 985, 63, 50, 0, 5);
-	spyroSprite.addAnimation("glide", 325, 990, 63, 50, 0, 4);
-	spyroSprite.addAnimation("ranged",5 ,2548 , 58,38,0,6);
-	spyroSprite.addAnimation("melee",5 ,1898 , 70, 51, 0, 9);
+	spyroSprite = content->getAnimatedTexture("sprites/S-Spyro2.png", 0,28,100,60,16,1,7); // 50 41
+	spyroSprite.addAnimation("walk", 0, 381, 100, 60, 0, 8); // 396, 46
+	spyroSprite.addAnimation("jump", 0, 975, 100, 60, 0, 9);
+	spyroSprite.addAnimation("glide", 0, 1305, 100, 60, 0, 8);
+	spyroSprite.addAnimation("melee",5 ,1898 , 100, 51, 0, 9);
 
 	linkSprite = content->getAnimatedTexture("sprites/L-Link2.png", 1, 107, 56, 24, 0, 1, 10);
 	linkSprite.addAnimation("walk", 1, 215, 56, 24, 0, 6);
@@ -103,7 +102,10 @@ void Player::update(Uint32 time)
 	{
 		//velocity.y += ((currentCharacter == CH_SPYRO) ? SPYRO_GRAVITY : GRAVITY) * secs;
 		if ( velocity.y > 0 && currentCharacter == CH_SPYRO){
-			sprites[CH_SPYRO].setAnimation("glide");
+			if (sprites[CH_SPYRO].getAnimation() != "glide"){
+				sprites[CH_SPYRO].setAnimation("glide");
+				sprites[CH_SPYRO].setRate(7);
+			}
 			velocity.y += SPYRO_GRAVITY*secs;
 		}else{
 			velocity.y += (GRAVITY) * secs;
@@ -150,9 +152,11 @@ void Player::draw(SDL_Renderer* renderer)
 		sx = sy = 0.75;
 
 	Vector2d pos = getCamera()->transform(position);
-	if (currentCharacter != CH_LINK){
+	if (currentCharacter != CH_LINK && currentCharacter!= CH_SPYRO){
 		sprites[currentCharacter].draw(renderer, pos.x, pos.y, sx, sy);
-	} else {
+	} if (currentCharacter == CH_SPYRO){
+		sprites[currentCharacter].draw(renderer, pos.x-15, pos.y -15, sx,sy);
+	}else {
 		sprites[currentCharacter].draw(renderer, pos.x-17, pos.y, sx, sy);
 	}
 }
@@ -293,7 +297,8 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	{
 	case COLGRP_WORLD: // Ordinary platform
 		//cout << "[ " << position.x << ", " << position.y << " ]" << endl;
-		framesSinceTouchedGround = 0;
+		if (feetPos < other->getPosition().y)
+			framesSinceTouchedGround = 0;
 		ignorePlatform = NULL;
 		if ((feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.w > 2)) // Landed on it
 		{
@@ -321,7 +326,8 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		break;
 	case COLGRP_ONEWAY:
-		framesSinceTouchedGround = 0;
+		if (feetPos < other->getPosition().y)
+			framesSinceTouchedGround = 0;
 
 		if ((other != ignorePlatform) && (feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.h < 5)) // Landed on it
 		{
@@ -442,7 +448,7 @@ void Player::jump()
 			iter->setAnimation("jump");
 		}
 
-		sprites[CH_SPYRO].setRate(25);
+		sprites[CH_SPYRO].setRate(8);
 		inAir = true;
 		canJump = false;
 
@@ -460,8 +466,10 @@ void Player::jump()
 }
 void Player::glide(){
 	if (currentCharacter == CH_SPYRO){
-		velocity.y = 0;
-		sprites[CH_SPYRO].setAnimation("glide");
+		
+		//velocity.y = 0;
+		//sprites[CH_SPYRO].setAnimation("glide");
+		//sprites[CH_SPYRO].setRate(9);
 
 	} else {}
 }

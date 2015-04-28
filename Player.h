@@ -50,7 +50,7 @@ using namespace std;
 #define SWORD_DAMAGE 10
 
 #define GRAVITY 600
-#define SPYRO_GRAVITY 100
+#define SPYRO_GRAVITY 20
 
 enum PlayerState
 {
