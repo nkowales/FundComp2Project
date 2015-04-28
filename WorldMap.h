@@ -21,11 +21,12 @@
 #include "MapLayer.h"
 #include "GameConstants.h"
 #include "Camera.h"
+#include "Screen.h"
 
 using namespace std;
 
 // TODO: Copy constructor and operator=
-class WorldMap
+class WorldMap : public Screen
 {
 public:
 	WorldMap();

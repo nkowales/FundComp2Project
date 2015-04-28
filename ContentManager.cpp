@@ -98,7 +98,11 @@ TTF_Font* ContentManager::getFont(string nm)
 
 TTF_Font* ContentManager::loadFont(string keyname, string fontname, int size)
 {
-	TTF_Font* font = TTF_OpenFont(fontname.c_str(), size);
+	TTF_Font* font;
+	if (font = getFont(keyname))
+		return font;
+
+	font = TTF_OpenFont(fontname.c_str(), size);
 	if (font)
 	{
 		pair<string, TTF_Font*> pr(keyname, font);
@@ -108,19 +112,37 @@ TTF_Font* ContentManager::loadFont(string keyname, string fontname, int size)
 	return font;
 }
 
-TextTexture ContentManager::getTextureFromText(string text, string fontnm, SDL_Color col)
+Texture ContentManager::getTextureFromText(string rname, string text, string fontnm, SDL_Color col)
 {
+	SDL_Texture* tex = NULL;
+
+	if (tex = findTexture(rname))
+		return tex;
+
 	TTF_Font* font = getFont(fontnm);
-	SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), col);
+	SDL_Surface* surf = TTF_RenderText_Blended(font, text.c_str(), col);
 
 	if (surf == NULL)
-		return TextTexture();
+		return Texture();
 
-	SDL_Texture* tex = SDL_CreateTextureFromSurface(renderer, surf);
+	tex = SDL_CreateTextureFromSurface(renderer, surf);
 
 	if (tex == NULL)
-		return TextTexture();
+		return Texture();
+
+	pair<string, SDL_Texture*> pr(rname, tex);
+	textures.insert(pr);
 
 	SDL_FreeSurface(surf);
-	return TextTexture(tex);
+
+	return Texture(tex);
+}
+
+SDL_Texture* ContentManager::findTexture(string rname)
+{
+	TextureList::iterator iter = textures.find(rname);
+	if (iter != textures.end())
+		return iter->second;
+	else
+		return NULL;
 }

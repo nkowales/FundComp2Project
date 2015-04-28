@@ -19,7 +19,6 @@
 #include <SDL2/SDL_ttf.h>
 #include "Texture.h"
 #include "AnimatedTexture.h"
-#include "TextTexture.h"
 
 using namespace std;
 
@@ -36,7 +35,8 @@ public:
 	AnimatedTexture getAnimatedTexture(string, int, int, int, int, int, int, int);
 	TTF_Font* loadFont(string, string, int);
 	TTF_Font* getFont(string);
-	TextTexture getTextureFromText(string, string, SDL_Color);
+	Texture getTextureFromText(string, string, string, SDL_Color);
+	SDL_Texture* findTexture(string);
 
 private:
 	SDL_Renderer* renderer;
