@@ -15,7 +15,7 @@ MenuScreen::MenuScreen() : Screen()
 
 void MenuScreen::init(ContentManager* content)
 {
-	content->loadFont(MENU_FONT_NAME, "/usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf", MENU_FONT_SIZE);
+	content->loadFont(MENU_FONT_NAME, MENU_FONT_FILE, MENU_FONT_SIZE);
 }
 
 void MenuScreen::draw(SDL_Renderer* renderer)

@@ -14,7 +14,8 @@
 #define MENU_ITEM_SEP 48
 #define MENU_FIRST_ITEM_VPOS 300
 #define MENU_FONT_NAME "MenuFont"
-#define MENU_FONT_SIZE 32
+#define MENU_FONT_FILE "orange juice 2.0.ttf"
+#define MENU_FONT_SIZE 48
 #define MENU_ITEM_COLOR { 255, 255, 255, 255 }
 #define MENU_SEL_COLOR { 0, 128, 255, 255 }
 
