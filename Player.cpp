@@ -502,11 +502,12 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			WorldMap* map = new WorldMap("Link-level.tmx", manager->getRenderer());
 			manager->addScreen(map);
 			manager->removeScreen(getParentLayer()->getParent());
-
-			//position.x = 
-			//position.y = 
 			currentLevel++;
 		} else if (currentLevel == LVL_LINK) {
+			ScreenManager* manager = getParentLayer()->getParent()->getManager();
+			WorldMap* map = new WorldMap("Spyro-level.tmx", manager->getRenderer());
+			manager->addScreen(map)
+			manager->removeScreen(getParentLayer()->getParent());
 			currentLevel++;
 		} else if (currentLevel == LVL_SPYRO) {
 			currentLevel++;
