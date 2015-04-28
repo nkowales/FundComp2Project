@@ -51,11 +51,12 @@ void FireWizard::draw(SDL_Renderer* renderer)
 }
 void FireWizard::doMagic(){
 	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition();
-	double relPlayerlocationx = position.x - playerPos.x;
-	double relPlayerlocationy = -1 *(position.y - playerPos.y);
-	double theta = atan2(relPlayerlocationx, relPlayerlocationy);
-	double xvel = FIREMAGIC_SPEED * sin(theta);
-	double yvel = FIREMAGIC_SPEED * cos(theta);
+	double rx = position.x - playerPos.x;
+	double ry = -1 *(position.y - playerPos.y);
+	//double theta = atan2(relPlayerlocationx, relPlayerlocationy);
+	double dist = sqrt(rx * rx + ry * ry);
+	double xvel = FIREMAGIC_SPEED * (rx / dist);
+	double yvel = FIREMAGIC_SPEED *  (ry / dist);
 	Vector2d whereToShoot = {xvel,yvel};
 	FireMagic* mag;
 	Vector2d fpos;
