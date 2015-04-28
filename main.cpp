@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	window = SDL_CreateWindow("Tilemap Loader", SDL_WINDOWPOS_UNDEFINED,
+	window = SDL_CreateWindow("Super Legend of Spyro", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED, SCREENW, SCREENH, SDL_WINDOW_SHOWN);
 
 	if (!window)
@@ -83,6 +83,7 @@ int main(int argc, char** argv)
 					//world.handleEvent(e);
 			}
 
+			quit |= screens->isQuitting();
 			lastUpdate = currentUpdate;
 		}
 	}

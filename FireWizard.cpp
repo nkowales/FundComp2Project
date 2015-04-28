@@ -50,28 +50,29 @@ void FireWizard::draw(SDL_Renderer* renderer)
 	
 }
 void FireWizard::doMagic(){
+	if (magicCooldown > 0.)
+		return;
+
 	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition();
-	double relPlayerlocationx = position.x - playerPos.x;
-	double relPlayerlocationy = -1 *(position.y - playerPos.y);
-	double theta = atan2(relPlayerlocationx, relPlayerlocationy);
-	double xvel = FIREMAGIC_SPEED * sin(theta);
-	double yvel = FIREMAGIC_SPEED * cos(theta);
+	double rx = playerPos.x - position.x;
+	double ry = playerPos.y - position.y;
+	//double theta = atan2(relPlayerlocationx, relPlayerlocationy);
+	double dist = sqrt(rx * rx + ry * ry);
+	double xvel = FIREMAGIC_SPEED * (rx / dist);
+	double yvel = FIREMAGIC_SPEED * (ry / dist);
 	Vector2d whereToShoot = {xvel,yvel};
 	FireMagic* mag;
 	Vector2d fpos;
-	if (magicCooldown > 0.){}
-	else
-	{
-		sprite.setAnimation("ranged");
-		magicCooldown = MAGIC_COOLDOWN;
-		mag = new FireMagic(WorldObject::getUniqueID());
-		fpos = {(facingLeft) ? position.x : position.x + FIREWIZARD_WIDTH, position.y + (FIREWIZARD_HEIGHT / 3)};
-		mag->setPosition(fpos);
-		mag->setVelocity(whereToShoot);
-		if (facingLeft)
-			mag->reverseDirection();
-		getParentLayer()->addObject(mag);
-	}
+
+	sprite.setAnimation("ranged");
+	magicCooldown = MAGIC_COOLDOWN;
+	mag = new FireMagic(WorldObject::getUniqueID());
+	fpos = {(facingLeft) ? position.x : position.x + FIREWIZARD_WIDTH, position.y + (FIREWIZARD_HEIGHT / 3)};
+	mag->setPosition(fpos);
+	mag->setVelocity(whereToShoot);
+	//if (facingLeft)
+		//mag->reverseDirection();
+	getParentLayer()->addObject(mag);
 
 
 }

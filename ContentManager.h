@@ -35,7 +35,7 @@ public:
 	AnimatedTexture getAnimatedTexture(string, int, int, int, int, int, int, int);
 	TTF_Font* loadFont(string, string, int);
 	TTF_Font* getFont(string);
-	Texture getTextureFromText(string, string, string, SDL_Color);
+	Texture getTextureFromText(string, string, string, SDL_Color, Uint32 = 0);
 	SDL_Texture* findTexture(string);
 
 private:

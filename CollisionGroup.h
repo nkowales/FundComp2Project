@@ -19,7 +19,8 @@ enum CollisionGroup
 	COLGRP_ONEWAY,			// One-way platforms
 	COLGRP_PROJECTILE,		// Bullets, fireballs, etc.
 	COLGRP_ENEMPROJECTILE,		// Hammers, etc.
-	COLGRP_ENEMBOUND		// EnemyBoundary
+	COLGRP_ENEMBOUND,		// EnemyBoundary
+	COLGRP_ADVANCE			// AdvanceLevel
 };
 
 #endif /* COLLISIONGROUP_H_ */

@@ -29,6 +29,7 @@
 #include "HammerBro.h"
 #include "FireWizard.h"
 #include "EnemyBoundary.h"
+#include "AdvanceLevel.h"
 using namespace std;
 
 WorldObject* resolveWorldObject(string type, Uint32 id)
@@ -49,6 +50,7 @@ WorldObject* resolveWorldObject(string type, Uint32 id)
 	REGISTER_OBJ_NAME("HammerBro", HammerBro)
 	REGISTER_OBJ_NAME("FireWizard", FireWizard)
 	REGISTER_OBJ_NAME("EnemyBoundary", EnemyBoundary)
+	REGISTER_OBJ_NAME("Advance", AdvanceLevel)
 	return NULL;
 }
 

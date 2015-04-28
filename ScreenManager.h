@@ -27,6 +27,9 @@ public:
 	void addScreen(Screen*);
 	void removeScreen(Screen*);
 
+	bool isQuitting() const;
+	void quit();
+
 	SDL_Renderer* getRenderer() const;
 
 private:
@@ -35,6 +38,8 @@ private:
 	ScreenList screensToRemove;
 	ContentManager* content = NULL;
 	SDL_Renderer* renderer = NULL;
+
+	bool quitting = false;
 };
 
 #endif /* SCREENMANAGER_H_ */
