@@ -16,12 +16,15 @@
 #include <algorithm>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "Texture.h"
 #include "AnimatedTexture.h"
+#include "TextTexture.h"
 
 using namespace std;
 
 typedef map<string, SDL_Texture*> TextureList;
+typedef map<string, TTF_Font*> FontList;
 
 class ContentManager
 {
@@ -31,10 +34,14 @@ public:
 
 	Texture getTexture(string);
 	AnimatedTexture getAnimatedTexture(string, int, int, int, int, int, int, int);
+	TTF_Font* loadFont(string, string, int);
+	TTF_Font* getFont(string);
+	TextTexture getTextureFromText(string, string, SDL_Color);
 
 private:
 	SDL_Renderer* renderer;
 	TextureList textures;
+	FontList fonts;
 };
 
 

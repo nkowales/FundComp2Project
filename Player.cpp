@@ -293,10 +293,12 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	{
 	case COLGRP_WORLD: // Ordinary platform
 		//cout << "[ " << position.x << ", " << position.y << " ]" << endl;
-		framesSinceTouchedGround = 0;
+		if (feetPos < other->getPosition().y)
+			framesSinceTouchedGround = 0;
 		ignorePlatform = NULL;
 		if ((feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.w > 2)) // Landed on it
 		{
+
 			standingOnOneWay = false;
 			inAir = false;
 			position.y = other->getPosition().y - bbox.h;
@@ -315,16 +317,18 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 				position.x = other->getPosition().x + other->getBoundingBox().w - (bbox.x - position.x);
 			}
 		}
-		else if ((velocity.y < 0) && (other->getPosition().y < position.y) && (overlap.w > 2))// hit our heads
+		else if (/*(velocity.y < 0) &&*/ (other->getPosition().y < position.y) && (overlap.w > 2))// hit our heads
 		{
 			velocity.y = velocity.y * -PLAYER_HEAD_ELASTICITY;
 		}
 		break;
 	case COLGRP_ONEWAY:
-		framesSinceTouchedGround = 0;
 
+		if (feetPos < other->getPosition().y)
+			framesSinceTouchedGround = 0;
 		if ((other != ignorePlatform) && (feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.h < 5)) // Landed on it
 		{
+
 			lastOneWay = static_cast<OneWayPlatform*>(other);
 			ignorePlatform = NULL;
 			standingOnOneWay = true;

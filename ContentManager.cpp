@@ -20,6 +20,12 @@ ContentManager::~ContentManager()
 		SDL_DestroyTexture(iter->second);
 	}
 
+	// Free memory associated with all fonts
+	for (FontList::iterator iter = fonts.begin(); iter != fonts.end(); iter++)
+	{
+		TTF_CloseFont(iter->second);
+	}
+
 	textures.clear();
 }
 
@@ -79,4 +85,42 @@ AnimatedTexture ContentManager::getAnimatedTexture(string name, int xoffs, int y
 
 	AnimatedTexture t(tex, xoffs, yoffs, fw, fh, spc, frms, rate);
 	return t;
+}
+
+TTF_Font* ContentManager::getFont(string nm)
+{
+	FontList::iterator iter = fonts.find(nm);
+	if (iter == fonts.end())
+		return NULL;
+	else
+		return iter->second;
+}
+
+TTF_Font* ContentManager::loadFont(string keyname, string fontname, int size)
+{
+	TTF_Font* font = TTF_OpenFont(fontname.c_str(), size);
+	if (font)
+	{
+		pair<string, TTF_Font*> pr(keyname, font);
+		fonts.insert(pr);
+	}
+
+	return font;
+}
+
+TextTexture ContentManager::getTextureFromText(string text, string fontnm, SDL_Color col)
+{
+	TTF_Font* font = getFont(fontnm);
+	SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), col);
+
+	if (surf == NULL)
+		return TextTexture();
+
+	SDL_Texture* tex = SDL_CreateTextureFromSurface(renderer, surf);
+
+	if (tex == NULL)
+		return TextTexture();
+
+	SDL_FreeSurface(surf);
+	return TextTexture(tex);
 }
