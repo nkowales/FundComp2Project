@@ -7,6 +7,8 @@
 
 #include "Texture.h"
 
+using namespace std;
+
 Texture::Texture(SDL_Texture* img)
 {
 	image = img;

@@ -8,6 +8,8 @@ created by Nathan Kowaleski
 #include "WorldIO.h"
 #include "ContentManager.h"
 #include "WorldMap.h"
+#include "ScreenManager.h"
+#include "MainMenuScreen.h"
 
 using namespace std;
 
@@ -46,11 +48,15 @@ int main(int argc, char** argv)
 	}
 
 	IMG_Init(IMG_INIT_PNG);
+	TTF_Init();
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	//ContentManager content(renderer);
-	WorldMap world("Mario-level.tmx", renderer);
+	//WorldMap world("Mario-level.tmx", renderer);
+	ScreenManager* screens = new ScreenManager(renderer);
+	MainMenuScreen* mmenu = new MainMenuScreen();
+	screens->addScreen(mmenu);
 
 	// Wait for user to press X button on window
 	bool quit = false;
@@ -63,24 +69,29 @@ int main(int argc, char** argv)
 		{
 			SDL_SetRenderDrawColor(renderer, 23,111, 179, 255);
 			SDL_RenderClear(renderer);
-			world.update(currentUpdate - lastUpdate);
-			world.draw(renderer);
+			//world.update(currentUpdate - lastUpdate);
+			//world.draw(renderer);
+			screens->update(currentUpdate - lastUpdate);
+			screens->draw();
 			SDL_RenderPresent(renderer);
 			while (SDL_PollEvent(&e) != 0)
 			{
 				if (e.type == SDL_QUIT)
 					quit = true;
 				else
-					world.handleEvent(e);
+					screens->handleEvent(e);
+					//world.handleEvent(e);
 			}
 
 			lastUpdate = currentUpdate;
 		}
 	}
 
+	delete screens;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 	SDL_JoystickClose( gGameController );
 	gGameController = NULL;
