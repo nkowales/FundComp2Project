@@ -495,7 +495,14 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		break;
 		}
 	case COLGRP_ADVANCE:
-		// advance
+		if (currentLevel == LVL_MARIO) {
+			currentLevel++;
+		} else if (currentLevel == LVL_LINK) {
+			currentLevel++;
+		} else if (currentLevel == LVL_SPYRO) {
+			currentLevel++;
+		} else if (currentLevel == LVL_BOWSER) {
+		}
 		break;
 	}
 }

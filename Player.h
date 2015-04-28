@@ -73,6 +73,14 @@ enum Character
 	CH_LBLUE
 };
 
+enum Level
+{
+	LVL_MARIO,
+	LVL_LINK,
+	LVL_SPYRO,
+	LVL_BOSWER
+};
+
 class Player : public WorldObject
 {
 public:
@@ -106,6 +114,7 @@ private:
 	int health = PLAYER_MAXHEALTH;
 	int maxHealth = PLAYER_MAXHEALTH;
 	double invulnTimer = 0.;
+	int currentLevel = LVL_MARIO; // level 1
 
 	ProgressBar healthBar;
 
