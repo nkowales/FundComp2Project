@@ -14,6 +14,7 @@
 #include "Hammer.h"
 #include "ObjectLayer.h"
 #include "Geom.h"
+
 Player::Player() : WorldObject(), healthBar(maxHealth)
 {
 	SDL_Rect bbox;
@@ -335,7 +336,8 @@ bool Player::canCollideWith(const WorldObject* other)
 {
 	Uint32 grp = other->getCollisionGroup();
 	return ((grp == COLGRP_WORLD) || (grp == COLGRP_ONEWAY) ||
-			(grp == COLGRP_PROJECTILE) || (grp == COLGRP_ENEMY) || (grp == COLGRP_ENEMPROJECTILE));
+			(grp == COLGRP_PROJECTILE) || (grp == COLGRP_ENEMY) || (grp == COLGRP_ENEMPROJECTILE) || 
+			(grp == COLGRP_ADVANCE));
 }
 
 void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
@@ -492,6 +494,9 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			}
 		break;
 		}
+	case COLGRP_ADVANCE:
+		// advance
+		break;
 	}
 }
 
