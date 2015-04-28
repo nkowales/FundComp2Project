@@ -7,7 +7,9 @@
 
 #include "Bowser.h"
 #include "ObjectLayer.h"
+#include "FireMagic.h"
 #include "Hammer.h"
+#include <cmath>
 Bowser::Bowser(Uint32 id) : Enemy(id)
 {
 
@@ -32,7 +34,6 @@ void Bowser::init(ContentManager* content)
 
 void Bowser::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 {
-	jump();
 }
 
 void Bowser::draw(SDL_Renderer* renderer)
@@ -47,78 +48,145 @@ void Bowser::draw(SDL_Renderer* renderer)
 }
 void Bowser::spitFlames(){
 	// TODO
-	/*
-	Hammer* ham;
+	
+	FireMagic* fire1, fire2, fire3;
 	Vector2d fpos;
-	if (hammerCooldown > 0.){}
+
+	if (fireBallCoolDown > 0.){ return false;}
 	else
 	{
-		sprite.setAnimation("ranged");
-		hammerCooldown = HAMMER_COOLDOWN;
-		ham = new Hammer(WorldObject::getUniqueID());
+		//double relPlayerlocationx = position.x - playerPos.x;
+		//double relPlayerlocationy = -1 *(position.y - playerPos.y);
+		//double theta = atan2(relPlayerlocationx, relPlayerlocationy);
+		double xvel = FIREMAGIC_SPEED * sin(0);
+		double yvel = FIREMAGIC_SPEED * cos(theta);
+		Vector2d whereToShoot1 = {FIREMAGIC_SPEED,0};
+		Vector2d whereToShoot2 = {FIREMAGIC_SPEED * sin(PI/3), FIREMAGIC_SPEED * cos (PI/3)};
+		Vector2d whereToShoot3 = {FIREMAGIC_SPEED * sin(-PI/3), FIREMAGIC_SPEED * cos (-PI/3)}
+		fireMagicCoolDown = FIREBALL_COOLDOWN;
+		fire1 = new FireMagic(WorldObject::getUniqueID());
+		fire2 = new FireMagic(WorldObject::getUniqueID());
+		fire3 = new FireMagic(WorldObject::getUniqueID());
+		fire1.setVelocity(whereToShoot1);
+		fire2.setVelocity(whereToShoot2);
+		fire3.setVelocity(whereToShoot3);
 		fpos = {(facingLeft) ? position.x : position.x + BOWSER_WIDTH, position.y - BOWSER_HEIGHT};
-		ham->setPosition(fpos);
+		fire1->setPosition(fpos);
+		fire2->setPosition(fpos);
+		fire3->setPosition(fpos);
+	
 		if (facingLeft)
-			ham->reverseDirection();
-		getParentLayer()->addObject(ham);
+		{
+			fire1->reverseDirection();
+			fire2->reverseDirection();
+			fire3->reverseDirection();
+		}
+		getParentLayer()->addObject(fire1);
+		getParentLayer()->addObject(fire2);
+		getParentLayer()->addObject(fire3);
+		return true;
 	}
-	*/
+	
 
 }
 void Bowser::squish(){
-	
+	hurt(5);
 }
 void Bowser::update(Uint32 time)
 {
 	//TODO
-	/*
+	if (getHealth() < (BOWSER_HEALTH / 4)){
+		enraged = true;
+		setContactDamage(100);
+		
+	}
+	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition();
+	double relPlayerlocation = position.x - playerPos.x;
 	double secs = time / 1000.;
-	
+	fireMagicCoolDown -= secs;
+	jumpCoolDown -= secs;
+	shellSpinCoolDown -= secs;
 	animTimer -= secs;
+	if (relPlayerlocation > 0 )
+	{
+		playerIsLeft = true;
+	}
+	else if (relPlayerlocation < 0) // don't care about if = 0 (player is directly above)
+	{
+		playerIsLeft = false;
+	}
+	else // if player is trying to jump on, do a shell spin
+	{
+		shellSpinCoolDown = 0;
+		shellSpin()
+	}
+	
 	if (animTimer >= 1.5)
 	{
 		switch (state)
 		{
-		case STANDING:
+		case FW_STANDING:
 			velocity.x = 0;
 			break;
-		case MVG_RIGHT:
-			velocity.x = BOWSER_WALKSPD;
+		case FW_MVG_RIGHT:
+			if (!enraged)
+				velocity.x = BOWSER_WALKSPD;
+			else
+				velocity.x = ENRAGED_BOW_WALKSPD;
 			break;
-		case MVG_LEFT:
-			velocity.x = -BOWSER_WALKSPD;
+		case FW_MVG_LEFT:
+			if (!enraged)
+				velocity.x = -BOWSER_WALKSPD;
+			else
+				velocity.x = -ENRAGED_BOW_WALKSPD;
 		}
 	}
 	else if (animTimer < 1.5 && animTimer >= 0 )
 	{
 		switch (state)
 		{
-		case STANDING:
+		case FW_STANDING:
 			break;
-		case MVG_RIGHT:
+		case FW_MVG_RIGHT:
 			stop();
 			break;
-		case MVG_LEFT:
+		case FW_MVG_LEFT:
 			stop();
 			break;
 		}
 
 	}
 	else{
-		int randWalk = rand() % 100;
-		
-		if ( randWalk > 49 )
+		int walk = rand() % 100; // get random value
+		animTimer = ANIMATION_TIMER;
+		// either walk towards player, or stop and face player
+		if ( walk > 49 )
 		{
-			animTimer = ANIMATION_TIMER;
-			walkLeft();
+			if (playerIsLeft)
+				walkLeft(); 
+			else
+				walkRight();
 		} 
-		else if (randWalk <= 49)
+		else if (walk <= 49)
 		{
-			animTimer = ANIMATION_TIMER;
-			walkRight();	
+			if (playerIsLeft)
+			{
+				stop();
+				facingLeft = true;
+				sprite.setFlipH(true);
+			}
+			else 	
+			{
+				stop();
+				facingLeft = false;
+				sprite.setFlipH(false);
+			}
 		}
 	}
-	throwHammer();
+	if (spitFlames()){}
+	else if (shellSpin()){}
+	else if (jump()){}
+	else {}
 	if (framesSinceTouchedGround++ > 2)
 		inAir = true;
 
@@ -126,7 +194,7 @@ void Bowser::update(Uint32 time)
 		velocity.y += GRAVITY * secs;
 	else
 		velocity.y = 0.;
-	*/
+
 	WorldObject::update(time);
 
 }
@@ -156,12 +224,36 @@ void Bowser::stop()
 }
 void Bowser::jump()
 {
-	if (!inAir && canJump)
-	{
-		inAir = true;
-		canJump = false;
-		position.y -= 5;		
-		velocity.y = -300;
-	}
-		
+	if (jumpCoolDown > 0.){return false;}
+	else {
+		if (!inAir && canJump)
+		{
+			inAir = true;
+			canJump = false;
+			position.y -= 5;
+			sprite.setAnimation("bowJump");
+			if (facingLeft)
+				velocity.x = -BOW_JUMPSPD;
+			else
+				velocity.x = BOW_JUMPSPD;		
+			velocity.y = -300;
+		}
+		return true;
+	}	
 } 
+void Bowser::shellSpin()
+{
+	if (shellSpinCoolDown > 0.){return false;}
+	else
+	{
+		if (facingLeft)
+			velocity.x = -SHELLSPIN_SPEED;
+		else 
+			velocity.x = SHELLSPIN_SPEED;
+		sprite.setAnimation("shellSpin");
+		setInvuln(true);
+
+	}
+
+
+}

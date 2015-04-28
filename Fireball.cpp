@@ -77,8 +77,11 @@ void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		break;
 	case COLGRP_ENEMY:
 		enemy = static_cast<Enemy*>(other);
-		enemy->hurt(damage);
-		kill();
+		if (enemy->getInvuln() == true){
+		} else {
+			enemy->hurt(damage);
+			kill();
+		}
 		break;
 	}
 

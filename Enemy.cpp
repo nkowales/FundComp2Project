@@ -157,3 +157,9 @@ void Enemy::squish()
 {
 
 }
+bool Enemy::getInvuln() const{
+	return invuln;
+}
+void Enemy::setInvuln(bool status) {
+	invuln = status;
+}

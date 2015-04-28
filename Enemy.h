@@ -27,21 +27,22 @@ public:
 	int getContactDamage() const;
 	int getHealth() const;
 	int getMaxHealth() const;
-
+	bool getInvuln() const;
+	void setInvuln(bool);
 	virtual void hurt(int);
 	virtual void kill();
 	virtual void setHealth(int);
 	virtual bool isAlive();
 	virtual void die();
 	virtual void squish();
-
+	
 	virtual void onWalkIntoWall(WorldObject*, const SDL_Rect&);
 
 protected:
 	bool playerIsLeft = true; // assume player starts to left of this enemy
 	void setContactDamage(int);
 	void setMaxHealth(int);
-
+	
 	Uint32 framesSinceTouchedGround = 0;
 	bool inAir = true;
 private:
@@ -49,6 +50,7 @@ private:
 	int health = 100;
 	int maxHealth = 100;
 	ProgressBar healthBar;
+	bool invuln = false;
 };
 
 #endif /* ENEMY_H_ */

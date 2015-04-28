@@ -16,12 +16,14 @@
 #define BOWSER_HEALTH 300
 #define BOWSER_WIDTH 35
 #define BOWSER_HEIGHT 41
-#define FIREBALL_COOLDOWN 5.0
+#define FIREMAGIC_COOLDOWN 5.0
 #define JUMP_COOLDOWN 3.0
 #define ANIMATION_TIMER 3.00
 #define BOWSER_WALKSPD 20
 #define BOWSER_JUMPSPD 100
 #define SHELLSPIN_COOLDOWN 10
+#define ENRAGED_BOW_WALKSPD 80
+#define SHELLSPIN_SPEED 120
 enum BowserState
 {
 	BOW_STANDING,
@@ -50,11 +52,11 @@ private:
 	bool facingLeft = true;
 	AnimatedTexture sprite;
 	// attacks
-	void spitFlames();
-	void shellSpin();
-	void jump();	
+	bool spitFlames();
+	bool shellSpin();
+	bool jump();	
 	// cool downs
-	double fireBallCoolDown = 0;
+	double fireMagicCoolDown = 0;
 	double jumpCoolDown = 0;
 	double animTimer = ANIMATION_TIMER;
 	double shellSpinCoolDown = 0;

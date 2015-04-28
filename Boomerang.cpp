@@ -147,8 +147,11 @@ void Boomerang::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	{
 	case COLGRP_ENEMY:
 		enemy = static_cast<Enemy*>(other);
-		enemy->hurt(damage);
-		currentTarget == -1;
+		if (enemy->getInvuln() == true){
+		} else{
+			enemy->hurt(damage);
+			currentTarget == -1;
+		}
 		break;
 	default:
 		break;
