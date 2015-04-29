@@ -98,7 +98,6 @@ private:
 
 	int state = PLYR_STANDING;
 	bool defending = false;
-	bool onOffense = false;
 	bool inAir = false;
 	bool canJump = true;
 	bool flying = false;

@@ -54,7 +54,6 @@ void Player::init(ContentManager* content)
 	linkSprite.addAnimation("walk", 1, 215, 56, 24, 0, 6);
 	linkSprite.addAnimation("ranged", 1, 481, 56, 26, 0, 5);
 	linkSprite.addAnimation("melee", 1, 19, 56, 35, 0, 9); // maybe expand to 15 frames
-	//linkSprite.addAnimation("meleeRight", 263,68,40,35,0,6);
 	linkSprite.addAnimation("jump", 1, 216, 56, 23, 0, 1); 
 	linkSprite.addAnimation("defend", 1, 144, 56, 24, 0, 1);
 	
@@ -85,19 +84,10 @@ void Player::update(Uint32 time)
 		velocity.x = 0;
 		break;
 	case PLYR_MVG_RIGHT:
-
-		if (onOffense){
-			velocity.x = PLAYER_SHUFFLE_SPEED;
-		} else{
-			velocity.x = PLAYER_WALK_SPEED;
-		}
+		velocity.x = PLAYER_WALK_SPEED;
 		break;
 	case PLYR_MVG_LEFT:
-		if (onOffense){
-			velocity.x = -PLAYER_SHUFFLE_SPEED;
-		} else{
-			velocity.x = -PLAYER_WALK_SPEED;
-		}
+		velocity.x = -PLAYER_WALK_SPEED;
 		break;
 	case PLYR_HOVERING:
 		velocity.x = 0;
@@ -607,28 +597,27 @@ void Player::meleeAttack()
 
 	switch(currentCharacter){
 		case CH_LINK:
-			if (onOffense){
-				if (facingLeft)
-				{
-					sprites[CH_LINK].setAnimation("melee");
-					sprites[CH_LINK].setRate(3);
-					bbox.x = -15;
-					bbox.y = 0;
-					bbox.w = 35;
-					bbox.h = LINK_HEIGHT;
-					setBoundingBox(bbox);
-				}
-				else {	
-					sprites[CH_LINK].setAnimation("melee");
-					sprites[CH_LINK].setRate(1);
-					sprites[currentCharacter].setFlipH(false);
-					bbox.x = 0;
-					bbox.y = 0;
-					bbox.w = 36;
-					bbox.h = LINK_HEIGHT;
-					setBoundingBox(bbox);
-				} 
+			if (facingLeft)
+			{
+				sprites[CH_LINK].setAnimation("melee");
+				sprites[CH_LINK].setRate(3);
+				bbox.x = -15;
+				bbox.y = 0;
+				bbox.w = 35;
+				bbox.h = LINK_HEIGHT;
+				setBoundingBox(bbox);
 			}
+			else {	
+				sprites[CH_LINK].setAnimation("melee");
+				sprites[CH_LINK].setRate(1);
+				sprites[currentCharacter].setFlipH(false);
+				bbox.x = 0;
+				bbox.y = 0;
+				bbox.w = 36;
+				bbox.h = LINK_HEIGHT;
+				setBoundingBox(bbox);
+			} 
+			
 		break;
 		case CH_SPYRO:
 			sprites[CH_SPYRO].setAnimation("melee");
@@ -677,7 +666,6 @@ void Player::rangedAttack()
 		case CH_LINK:
 			// Make sure we haven't already thrown
 			if (!hasBoomerang) break;
-			if (!onOffense) break;
 			hasBoomerang = false;
 
 			// Handle the animation
@@ -868,7 +856,6 @@ void Player::switchCharacter(int character)
 	{
 	case CH_SPYRO:
 		flying = false;
-		onOffense = false;
 		currentCharacter = CH_SPYRO;
 		bbox.x = bbox.y = 0;
 		bbox.w = SPYRO_WIDTH;
@@ -880,7 +867,6 @@ void Player::switchCharacter(int character)
 			flying = false;
 			inAir = true;	
 		}
-		onOffense = false;
 		currentCharacter = CH_LINK;
 		bbox.x = 0;
 		bbox.y = 0;
@@ -893,7 +879,6 @@ void Player::switchCharacter(int character)
 			flying = false;
 			inAir = true;
 		}
-		onOffense = false;
 		currentCharacter = CH_MARIO;
 		bbox.x = bbox.y = 0;
 		bbox.w = MARIO_WIDTH;
@@ -968,25 +953,8 @@ void Player::resetBBox(){
 
 }
 void Player::switchMode(){
-	if (currentCharacter == CH_LINK){
-		if (onOffense){
-			onOffense = false;
-			defending = false;
-			sprites[currentCharacter].changeAnimation("walk", 1, 215, 56, 24, 0, 6);
-			sprites[currentCharacter].changeAnimation("default", 1, 107, 56, 24, 0, 1);
-			hasBoomerang = false;
-		} else {
-			onOffense = true;
-			sprites[currentCharacter].setRate(25);
-			sprites[currentCharacter].changeAnimation("walk",565,24,56,24,0,7);
-			sprites[currentCharacter].changeAnimation("default",565,24,56,24,0,1);
-			hasBoomerang = true;
 	
-		}
-
-
-	}
-	else if (currentCharacter == CH_SPYRO)
+	if (currentCharacter == CH_SPYRO)
 	{
 		if (!flying)
 		{
@@ -1042,24 +1010,24 @@ void Player::defend()
 	SDL_Rect bbox;
 	if (currentCharacter == CH_LINK)
 	{
-		if (!onOffense){
-			if (facingLeft){
-				bbox.x = -15;
-				bbox.y = 0;
-				bbox.w = 25;
-				bbox.h = LINK_HEIGHT;
-				setBoundingBox(bbox);	
-			}
-			else {
-				bbox.x = 10;
-				bbox.y = 0;
-				bbox.w = 25;
-				bbox.h = LINK_HEIGHT;
-				setBoundingBox(bbox);
-			}
-			sprites[currentCharacter].setAnimation("defend");
-			defending = true;
+		
+		if (facingLeft){
+			bbox.x = -15;
+			bbox.y = 0;
+			bbox.w = 25;
+			bbox.h = LINK_HEIGHT;
+			setBoundingBox(bbox);	
 		}
+		else {
+			bbox.x = 10;
+			bbox.y = 0;
+			bbox.w = 25;
+			bbox.h = LINK_HEIGHT;
+			setBoundingBox(bbox);
+		}
+		sprites[currentCharacter].setAnimation("defend");
+		defending = true;
+		
 	}
 }
 

@@ -29,7 +29,6 @@ ContentManager::~ContentManager()
 	{
 		Mix_FreeMusic(iter->second);
 	}
-	cout << "destroy" << endl;
 	soundtrack.clear();
 	fonts.clear();
 	textures.clear();

@@ -3,9 +3,9 @@
  *
  *  Created on: Apr 19, 2015
  *      Author: naiello
- */
-
-/*#include "Bowser.h"
+ *
+*/
+#include "Bowser.h"
 #include "ObjectLayer.h"
 #include "FireMagic.h"
 #include "Hammer.h"
@@ -42,35 +42,35 @@ void Bowser::draw(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	*//*
+	*/
 	Vector2d tpos = getCamera()->transform(position);
 	sprite.draw(renderer, tpos.x - 12, tpos.y);
 	Enemy::draw(renderer);
 }
-void Bowser::spitFlames(){
+bool Bowser::spitFlames(){
 	// TODO
 	
-	FireMagic* fire1, fire2, fire3;
+	FireMagic* fire1;
+	FireMagic* fire2;
+	FireMagic* fire3;
 	Vector2d fpos;
 
-	if (fireBallCoolDown > 0.){ return false;}
+	if (fireMagicCoolDown > 0.){ return false;}
 	else
 	{
 		//double relPlayerlocationx = position.x - playerPos.x;
 		//double relPlayerlocationy = -1 *(position.y - playerPos.y);
-		//double theta = atan2(relPlayerlocationx, relPlayerlocationy);
-		double xvel = FIREMAGIC_SPEED * sin(0);
-		double yvel = FIREMAGIC_SPEED * cos(theta);
+		//double theta = atan2(relPlayerlocationx, relPlayerlocationy)
 		Vector2d whereToShoot1 = {FIREMAGIC_SPEED,0};
-		Vector2d whereToShoot2 = {FIREMAGIC_SPEED * sin(PI/3), FIREMAGIC_SPEED * cos (PI/3)};
-		Vector2d whereToShoot3 = {FIREMAGIC_SPEED * sin(-PI/3), FIREMAGIC_SPEED * cos (-PI/3)}
-		fireMagicCoolDown = FIREBALL_COOLDOWN;
+		Vector2d whereToShoot2 = {FIREMAGIC_SPEED * sin(M_PI/3), FIREMAGIC_SPEED * cos (M_PI/3)};
+		Vector2d whereToShoot3 = {FIREMAGIC_SPEED * sin(-M_PI/3), FIREMAGIC_SPEED * cos (-M_PI/3)};
+		fireMagicCoolDown = FIREMAGIC_COOLDOWN;
 		fire1 = new FireMagic(WorldObject::getUniqueID());
 		fire2 = new FireMagic(WorldObject::getUniqueID());
 		fire3 = new FireMagic(WorldObject::getUniqueID());
-		fire1.setVelocity(whereToShoot1);
-		fire2.setVelocity(whereToShoot2);
-		fire3.setVelocity(whereToShoot3);
+		fire1->setVelocity(whereToShoot1);
+		fire2->setVelocity(whereToShoot2);
+		fire3->setVelocity(whereToShoot3);
 		fpos = {(facingLeft) ? position.x : position.x + BOWSER_WIDTH, position.y - BOWSER_HEIGHT};
 		fire1->setPosition(fpos);
 		fire2->setPosition(fpos);
@@ -120,7 +120,7 @@ void Bowser::update(Uint32 time)
 	else // if player is trying to jump on, do a shell spin
 	{
 		shellSpinCoolDown = 0;
-		shellSpin()
+		shellSpin();
 	}
 	if (stunTimer < 0.)
 	{
@@ -128,16 +128,16 @@ void Bowser::update(Uint32 time)
 		{
 			switch (state)
 			{
-			case FW_STANDING:
+			case BOW_STANDING:
 				velocity.x = 0;
 				break;
-			case FW_MVG_RIGHT:
+			case BOW_MVG_RIGHT:
 				if (!enraged)
 					velocity.x = BOWSER_WALKSPD;
 				else
 					velocity.x = ENRAGED_BOW_WALKSPD;
 				break;
-			case FW_MVG_LEFT:
+			case BOW_MVG_LEFT:
 				if (!enraged)
 					velocity.x = -BOWSER_WALKSPD;
 				else
@@ -148,12 +148,12 @@ void Bowser::update(Uint32 time)
 		{
 			switch (state)
 			{
-			case FW_STANDING:
+			case BOW_STANDING:
 				break;
-			case FW_MVG_RIGHT:
+			case BOW_MVG_RIGHT:
 				stop();
 				break;
-			case FW_MVG_LEFT:
+			case BOW_MVG_LEFT:
 				stop();
 				break;
 			}	
@@ -225,26 +225,25 @@ void Bowser::stop()
 {
 	velocity.x = 0;
 }
-void Bowser::jump()
+bool Bowser::jump()
 {
 	if (jumpCoolDown > 0.){return false;}
 	else {
-		if (!inAir && canJump)
+		if (!inAir)
 		{
 			inAir = true;
-			canJump = false;
 			position.y -= 5;
 			sprite.setAnimation("bowJump");
 			if (facingLeft)
-				velocity.x = -BOW_JUMPSPD;
+				velocity.x = -BOW_JMPSPD;
 			else
-				velocity.x = BOW_JUMPSPD;		
+				velocity.x = BOW_JMPSPD;		
 			velocity.y = -300;
 		}
 		return true;
 	}	
 } 
-void Bowser::shellSpin()
+bool Bowser::shellSpin()
 {
 	if (shellSpinCoolDown > 0.){return false;}
 	else
@@ -265,4 +264,4 @@ void Bowser::stun()
 	stunTimer = BOW_STUN_TIMER;
 }
 
-*/
+
