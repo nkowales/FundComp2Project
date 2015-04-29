@@ -19,6 +19,7 @@
 #define ANIMATION_TIMER 3.00
 #define FIREWIZARD_WALKSPD 20
 #define MAGIC_COOLDOWN 3.5
+#define FIREWIZARD_STUNTIME 1
 enum FireWizardState
 {
 	FW_STANDING,
@@ -39,12 +40,14 @@ public:
 	void stop();
 	void squish();
 	void doMagic();
+	void stun();
 private:
 	int state = FW_STANDING;
 	bool facingLeft = false;
 	AnimatedTexture sprite;
 	double magicCooldown = MAGIC_COOLDOWN;
-	double animTimer = ANIMATION_TIMER;
+	double animTimer = ANIMATION_TIMER;	
+	double stunTimer = 0;
 
 };
 #endif
