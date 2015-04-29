@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 21, 2015
  *      Author: naiello
+ *
+ *      Abstract base class for all screens in the game.  Screens are layers  (menus, message boxes, and the game itself)
  */
 
 #ifndef SCREEN_H_

@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 28, 2015
  *      Author: naiello
+ *
+ *      Message box with customizable text.  Used to display various information in a compact format.
  */
 
 #ifndef MESSAGEBOXSCREEN_H_

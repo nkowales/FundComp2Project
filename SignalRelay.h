@@ -3,6 +3,9 @@
  *
  *  Created on: Apr 28, 2015
  *      Author: naiello
+ *
+ *      Relays a group of map outputs.  Most objects can only fire one output per event, so
+ *      this allows a group of signals to be sent out.
  */
 
 #ifndef SIGNALRELAY_H_

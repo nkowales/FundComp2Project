@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 19, 2015
  *      Author: naiello
+ *
+ *      Abstract base class for all enemies.
  */
 
 #ifndef ENEMY_H_

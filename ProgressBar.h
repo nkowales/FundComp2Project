@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 20, 2015
  *      Author: naiello
+ *
+ *      Generic progress bar.  Mostly used for health bars.
  */
 
 #ifndef PROGRESSBAR_H_

@@ -4,8 +4,7 @@
  *  Created on: April 22, 2015
  *      Author: mytoy
  *
- *      Invisible block that enemies can collide with
-	(keeps them from walking off ledges)
+ *      Invisible block that enemies can collide with(keeps them from walking off ledges)
  */
 
 #ifndef ENEMYBOUNDARY_H_

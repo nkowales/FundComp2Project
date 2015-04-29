@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 28, 2015
  *      Author: gnemecek
+ *
+ *      Like the death screen but for winning.
  */
 
 #ifndef WINSCREEN_H_
