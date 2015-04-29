@@ -19,7 +19,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "Texture.h"
 #include "AnimatedTexture.h"
-
+#include <SDL2/SDL_mixer.h>
 using namespace std;
 typedef map<string, Mix_Music*> MusicList;
 typedef map<string, SDL_Texture*> TextureList;

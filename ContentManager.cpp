@@ -164,7 +164,7 @@ Mix_Music* ContentManager::loadMusic(string name, string location)
 	{
 		cout<< "SDL_mixer could not initialize! SDL_mixer Error: "<< Mix_GetError()  << endl;
 	}
-	gameMusic = Mix_LoadMUS( location );
+	gameMusic = Mix_LoadMUS( location.c_str() );
 	if (!gameMusic){
 		cout << "Errorr loading music file!\n";
 	}
