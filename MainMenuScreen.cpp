@@ -38,14 +38,24 @@ void MainMenuScreen::onSelect(int select)
 		break;
 	case 1:
 		mbox = new MessageBoxScreen("Controls",
-				"A, D - Move Left, Right\nW - Jump (hold to glide with Spyro)\n"
+				"********************* With Keyboard *************************\n"
+				"A, D - Move Left, Right\nW - Jump \n"
 				"S - Fall through floating platforms\n"
 				"1, 2, 3 - Switch between Mario, Link and Spyro\n"
 				"F - Ranged attack (Mario, Link only)\n"
 				"V - Melee attack (Link, Spyro only)\n"
 				"J - Toggle Gliding/Flying (Spyro only)\n"
 				"ESC - Pause Game\n\n"
-				"TIP: Link's boomerang does minimal damage but will temporarily stun enemies!");
+				"TIP: Link's boomerang does minimal damage but will temporarily stun enemies!"
+				"********************* With Controller ************************\n"
+				"D-pad Left, Right - Move Left, Right\n3 - Jump\n"
+				"D-pad Down - Fall through floating platforms\n"
+				"5, 6, 7 - Switch between Mario, Link and Spyro\n"
+				"3 - Melee attack (Link, Spyro only)\n"
+				"2 - Ranged attack (Mario, Link only)\n"
+				"8 - Toggle Gliding/Flying (Spyro only)\n"
+				"9 - Pause Game\n\n"
+				);
 
 		getManager()->addScreen(mbox);
 		break;

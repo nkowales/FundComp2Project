@@ -438,6 +438,10 @@ void Player::handleEvent(const SDL_Event& e)
 			jump();
 			canJump=true;
 			break;
+		case 8:
+			pscreen = new PauseScreen(getParentLayer()->getParent());
+			getParentLayer()->getParent()->getManager()->addScreen(pscreen);
+			break;
 		}
 	}
 	else if (e.type == SDL_JOYBUTTONUP)
