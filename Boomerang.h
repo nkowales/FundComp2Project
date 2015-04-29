@@ -3,7 +3,7 @@
  *
  *  Created on: Apr 17, 2015
  *      Author: naiello
-<<<<<<< HEAD
+
  * This is our most complex projectile.
  * Link throws it and, if it hits an enemy, if collides and stuns them
  * It is also used to flip triggers in game
