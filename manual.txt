@@ -11,6 +11,14 @@ go all the way around the map to reach the finish without accumulating too
 much damage from the enemies.  The user can play as Mario, Link, and Spyro,
 which each have unique abilities.
 
+Game Goal:
+The goal is to move around the map to reach the end of the level.  There are
+four levels that need to be completed.  The player should avoid being hit by
+the enemies and their attacks.  To counter, the player can jump on the enemy
+or use the ranged and melee attacks.  Most platforms are solid, but some are
+one-way platforms which allow the player to go up and down through it.  The
+end of the level is reached when the player arrives at the treasure chest.
+
 Code Repository:
 https://github.com/nkowales/FundComp2Project
 
@@ -31,27 +39,34 @@ Compiler Instructions:
 We used the managed make system of Eclipse to compile our code.
 We did not test this project extensively on the student machines, but it does
 work on group member laptops.  Some of the libraries, like SDL2_mixer, are not
-available on the student machines.
+available on the student machines, and were only available on group member
+laptops.
 To compile from scratch, use:
 g++ *.cpp -O0 -g3 -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++ -lSDL2_ttf -lSDL2_mixer -o fc2proj
 The executable can then be run as: 
 ./fc2proj
 
 Controls:
+With Keyboard:
 A, D - Move Left, Right
 W - Jump (hold to glide with Spyro)
 S - Fall through floating platforms
 1, 2, 3 - Switch between Mario, Link and Spyro
 F - Ranged attack (Mario, Link only)
 V - Melee attack (Link, Spyro only)
-Esc - Pause
+J - Toggle Gliding/Flying (Spyro only)
+Esc - Pause Game
 X-Button - Close/ Quit
-The goal is to move around the map to reach the end of the level.  There are
-four levels that need to be completed.  The player should avoid being hit by
-the enemies and their attacks.  To counter, the player can jump on the enemy
-or use the ranged and melee attacks.  Most platforms are solid, but some are
-one-way platforms which allow the player to go up and down through it.  The
-end of the level is reached when the player arrives at the treasure chest.
+
+With Controller:
+D-pad Left, Right - Move Left, Right
+D-pad Up - Jump
+D-pad Down - Fall through floating platforms
+5, 6, 7 - Switch between Mario, Link and Spyro
+3 - Melee attack (Link, Spyro only)
+2 - Ranged attack (Mario, Link only)
+8 - Toggle Gliding/Flying (Spyro only)
+9 - Pause Game
 
 Known Bugs:
 Spyro's flying ability is a little bit glitchy and can sometimes accidentally
@@ -63,11 +78,5 @@ the number of enemies on the map.
 Additional Information:
 There is a game controller that we have that works with the game as well. It
 is interchangable with the keyboard controls. It plugs into the computer via 
-a USB port.  Its controls are:
-Left, Right (on D-pad) - Move Left, Right
-Up (on D-pad) - Jump 
-Down (on D-pad) - Fall through floating platforms
-5, 6, 7 - Switch between Mario, Link and Spyro
-2 - Ranged attack (Mario, Link only)
-3 - Melee attack (Link, Spyro only)
+a USB port.
 
