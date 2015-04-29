@@ -1,7 +1,8 @@
 CMP = g++
 MAIN = main
-DOT_OS = AnimatedTexture.o Block.o Boomerang.o Bullet.o Camera.o ContentManager.o Enemy.o Fireball.o Geom.o Goomba.o Hammer.o HammerBro.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o Projectile.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o WorldMap.o WorldObject.o FireMagic.o FireWizard.o EnemyBoundary.o ScreenManager.o MenuScreen.o MainMenuScreen.o Screen.o AdvanceLevel.o
-HEADERS = AnimatedTexture.h Animation.h Block.h Boomerang.h Bullet.h Camera.h CollisionGroup.h ContentManager.h Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h Hammer.h HammerBro.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Player.h PlayerSpawn.h ProgressBar.h Projectile.h TestCollider.h Texture.h TileLayer.h Tileset.h TriggerArea.h WorldDebugger.h WorldIO.h WorldMap.h WorldObject.h FireMagic.h FireWizard.h EnemyBoundary.h ScreenManager.h MenuScreen.h MainMenuScreen.h Screen.h AdvanceLevel.h
+DOT_OS = AnimatedTexture.o ContentManager.o Screen.o ScreenManager.o MessageBoxScreen.o MenuScreen.o MainMenuScreen.o AdvanceLevel.o DeathScreen.o WinScreen.o Block.o Boomerang.o Bullet.o Camera.o  Enemy.o Fireball.o Geom.o Goomba.o Hammer.o HammerBro.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o Projectile.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o WorldMap.o WorldObject.o FireMagic.o FireWizard.o EnemyBoundary.o 
+
+HEADERS = AnimatedTexture.h ContentManager.h Animation.h Block.h Boomerang.h Bullet.h Camera.h Screen.h ScreenManager.h MenuScreen.h MainMenuScreen.h  MessageBoxScreen.h DeathScreen.h WinScreen.h AdvanceLevel.h CollisionGroup.h  Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h Hammer.h HammerBro.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Player.h PlayerSpawn.h ProgressBar.h Projectile.h TestCollider.h Texture.h TileLayer.h Tileset.h TriggerArea.h WorldDebugger.h WorldIO.h WorldMap.h WorldObject.h FireMagic.h FireWizard.h EnemyBoundary.h 
 FUNC1 = AnimatedTexture
 FUNC2 = Block
 FUNC3 = Boomerang
@@ -38,6 +39,9 @@ FUNC33 = MenuScreen
 FUNC34 = MainMenuScreen
 FUNC35 = Screen
 FUNC36 = AdvanceLevel
+FUNC37 = MessageBoxScreen
+FUNC38 = DeathScreen
+FUNC39 = WinScreen
 EXEC = fc2proj
 FLAGS = -O0 -g3 -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++ -lSDL2_ttf
 
@@ -52,6 +56,23 @@ $(MAIN).o: $(MAIN).cpp $(HEADERS)
 $(FUNC27).o: $(FUNC27).cpp
 	$(CMP) $(FLAGS) -c $(FUNC27).cpp
 
+$(FUNC32).o: $(FUNC32).cpp
+	$(CMP) $(FLAGS) -c $(FUNC32).cpp
+
+$(FUNC33).o: $(FUNC33).cpp
+	$(CMP) $(FLAGS) -c $(FUNC33).cpp
+
+$(FUNC34).o: $(FUNC34).cpp
+	$(CMP) $(FLAGS) -c $(FUNC34).cpp
+
+$(FUNC35).o: $(FUNC35).cpp
+	$(CMP) $(FLAGS) -c $(FUNC35).cpp
+$(FUNC37).o: $(FUNC37).cpp
+	$(CMP) $(FLAGS) -c $(FUNC37).cpp
+$(FUNC38).o: $(FUNC38).cpp
+	$(CMP) $(FLAGS) -c $(FUNC38).cpp
+$(FUNC39).o: $(FUNC39).cpp
+	$(CMP) $(FLAGS) -c $(FUNC39).cpp
 $(FUNC1).o: $(FUNC1).cpp
 	$(CMP) $(FLAGS) -c $(FUNC1).cpp
 
@@ -145,17 +166,6 @@ $(FUNC28).o: $(FUNC28).cpp
 $(FUNC31).o: $(FUNC31).cpp
 	$(CMP) $(FLAGS) -c $(FUNC31).cpp
 
-$(FUNC32).o: $(FUNC32).cpp
-	$(CMP) $(FLAGS) -c $(FUNC32).cpp
-
-$(FUNC33).o: $(FUNC33).cpp
-	$(CMP) $(FLAGS) -c $(FUNC33).cpp
-
-$(FUNC34).o: $(FUNC34).cpp
-	$(CMP) $(FLAGS) -c $(FUNC34).cpp
-
-$(FUNC35).o: $(FUNC35).cpp
-	$(CMP) $(FLAGS) -c $(FUNC35).cpp
 
 clean:
 	rm *.o $(EXEC) *~
