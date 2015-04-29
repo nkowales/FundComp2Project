@@ -5,7 +5,7 @@
  *      Author: naiello
  */
 
-#include "Bowser.h"
+/*#include "Bowser.h"
 #include "ObjectLayer.h"
 #include "FireMagic.h"
 #include "Hammer.h"
@@ -42,7 +42,7 @@ void Bowser::draw(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	*/
+	*//*
 	Vector2d tpos = getCamera()->transform(position);
 	sprite.draw(renderer, tpos.x - 12, tpos.y);
 	Enemy::draw(renderer);
@@ -265,4 +265,4 @@ void Bowser::stun()
 	stunTimer = BOW_STUN_TIMER;
 }
 
-
+*/
