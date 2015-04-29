@@ -12,7 +12,7 @@
 #include <cmath>
 Bowser::Bowser(Uint32 id) : Enemy(id)
 {
-
+cout << "made a bowser\n";
 }
 
 void Bowser::init(ContentManager* content)
@@ -24,7 +24,7 @@ void Bowser::init(ContentManager* content)
 	setHealth(BOWSER_HEALTH);
 	setContactDamage(50);		// Damage taken by player for walking into the Bowser
 
-	sprite = content->getAnimatedTexture("sprites/M-Bowser2.png", 0, 5, 50, 44, 0, 1, 7);
+	sprite = content->getAnimatedTexture("sprites/M-bowser2.png", 0, 5, 50, 44, 0, 1, 7);
 	sprite.addAnimation("shellSpin", 340,230,50,44,0,4);
 	sprite.addAnimation("enraged",84 ,226 , 50, 44, 0, 3);
 	sprite.addAnimation("bowserJump",50,62,50,44,0,4);
@@ -146,6 +146,7 @@ void Bowser::update(Uint32 time)
 		}
 		else if (animTimer < 1.5 && animTimer >= 0 )
 		{
+			
 			switch (state)
 			{
 			case BOW_STANDING:
@@ -224,6 +225,7 @@ void Bowser::walkRight()
 void Bowser::stop()
 {
 	velocity.x = 0;
+	sprite.setAnimation("default");
 }
 bool Bowser::jump()
 {
