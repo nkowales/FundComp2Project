@@ -14,6 +14,7 @@ Flame::Flame(Uint32 id) : Enemy(id)
 
 void Flame::init(ContentManager* content)
 {
-	setContactDamage(15);		// Damage taken by player for walking into the flame
+	setContactDamage(50);		// Damage taken by player for walking into the flame
 }
 
+void Flame::draw(SDL_Renderer* renderer) { }

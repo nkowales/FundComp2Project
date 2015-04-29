@@ -13,11 +13,11 @@ Fireball::Fireball(Uint32 id) : Projectile(id)
 {
 	
 	setCollisionGroup(COLGRP_PROJECTILE);
-	velocity.x = 250;
+	velocity.x = 225;
 	velocity.y = 200;
 	maxBounces = 3;
-	hSpeed = 250;
-	vSpeed = 150;
+	//hSpeed = 200;
+	//vSpeed = 75;
 	size = 8;
 	gravity = 800;
 	damage = 5;

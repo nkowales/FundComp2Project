@@ -19,6 +19,7 @@ public:
 	Flame(Uint32);
 
 	void init(ContentManager*);
+	void draw(SDL_Renderer*);
 
 };
 
