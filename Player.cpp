@@ -496,6 +496,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		else if ((velocity.y < 0) && (other->getPosition().y < position.y) && (overlap.w > 2))// hit our heads
 		{
+			position.y = other->getPosition().y + other->getBoundingBox().h + 1;
 			velocity.y = velocity.y * -PLAYER_HEAD_ELASTICITY;
 		}
 		break;
