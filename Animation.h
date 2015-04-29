@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 15, 2015
  *      Author: naiello
+ *
+ *      Helper struct for AnimatedTexture.  AnimatedTextures are made up of a list of these animations.
  */
 
 #ifndef ANIMATION_H_

@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 28, 2015
  *      Author: naiello
+ *
+ *      Main menu of the game. Provides a play, about, and quit option.
  */
 
 #ifndef MAINMENUSCREEN_H_

@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 28, 2015
  *      Author: naiello
+ *
+ *      You will see this screen a lot.  This screen shows up when the player dies, and essentially reloads the map.
  */
 
 #ifndef DEATHSCREEN_H_

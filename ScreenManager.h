@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 21, 2015
  *      Author: naiello
+ *
+ *      Manages all the screens in the game.  Provides access to ContentManager and SDL_Renderer.
  */
 
 #ifndef SCREENMANAGER_H_

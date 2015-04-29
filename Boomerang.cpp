@@ -22,7 +22,7 @@ Boomerang::Boomerang(Uint32 id) : Projectile(id)
 
 void Boomerang::init(ContentManager* content)
 {
-	// set sprite and beginning of curve
+
 	sprite = content->getAnimatedTexture("sprites/L-Link.png", 36, 543, 10, 10, 2, 4, 5);
 	position = bezierCurve[0];
 }
@@ -85,6 +85,7 @@ Vector2d Boomerang::calculateBezierPoint(double t, Vector2d p1, Vector2d p2, Vec
 // Adapted from http://devmag.org.za/2011/04/05/bzier-curves-a-tutorial/
 void Boomerang::setPath(const Path& ctrlPts)
 {
+	// Generate a smooth path from the control points given
 	for (Uint32 i = 0; i < ctrlPts.size() - 3; i += 3)
 	{
 		Vector2d p1 = ctrlPts[i];
@@ -95,6 +96,7 @@ void Boomerang::setPath(const Path& ctrlPts)
 		if (i == 0)
 			bezierCurve.push_back(calculateBezierPoint(0, p1, p2, p3, p4));
 
+		// Interpolate between control points at set intervals
 		for (int j = 0; j <= SEGMENTS_PER_CURVE; j++)
 		{
 			double t = j / (double)SEGMENTS_PER_CURVE;

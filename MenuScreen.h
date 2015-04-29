@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 27, 2015
  *      Author: naiello
+ *
+ *      Base class for anything with a selectable menu (main menu, pause menu, etc.)
  */
 
 #ifndef MENUSCREEN_H_

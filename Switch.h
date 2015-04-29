@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 28, 2015
  *      Author: naiello
+ *
+ *      Question mark blocks that fire outputs when hit by the boomerang or the player's head
  */
 
 #ifndef SWITCH_H_
