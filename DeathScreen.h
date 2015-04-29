@@ -14,7 +14,7 @@
 #define DS_SHADE_COLOR { 0, 0, 0, 0 }
 #define DS_FADEIN_TIME 1.2
 #define DS_WAIT_TIME 2.0
-#define DS_FADEOUT_TIME 8.0
+#define DS_FADEOUT_TIME 5.0
 #define DS_WAITALPHA 0.6
 
 enum DeathScreenState
