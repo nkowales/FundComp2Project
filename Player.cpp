@@ -268,10 +268,10 @@ void Player::handleEvent(const SDL_Event& e)
 		case SDLK_3:
 			switchCharacter(CH_SPYRO);
 			break;
-		case SDLK_j:
+		case SDLK_r:
 			switchMode(); // switch link from offense to defense
 			break;
-		case SDLK_k:
+		case SDLK_c:
 			defend();
 			break;
 		case SDLK_ESCAPE:
@@ -305,10 +305,10 @@ void Player::handleEvent(const SDL_Event& e)
 		case SDLK_f:
 			rangedAttack();
 			break;
-		case SDLK_v:
+		case SDLK_e:
 			meleeAttack();
 			break;
-		case SDLK_k:
+		case SDLK_c:
 			if (currentCharacter == CH_LINK)
 				resetAnimation();
 			break;
@@ -1152,9 +1152,9 @@ void Player::stopFlyLeft()
 {
 	velocity.x = 0;
 	if (state == PLYR_FLYING_LEFT){
-		if (velocity.y >10)
+		if (velocity.y >20)
 			flyDown();
-		else if (velocity.y < -10)
+		else if (velocity.y < -20)
 			flyUp();
 		else{
 			state = PLYR_HOVERING;
@@ -1167,9 +1167,9 @@ void Player::stopFlyRight()
 {
 	velocity.x = 0;
 	if (state == PLYR_FLYING_RIGHT){
-		if (velocity.y >10)
+		if (velocity.y >20)
 			flyDown();
-		else if (velocity.y < -10)
+		else if (velocity.y < -20)
 			flyUp();
 		else{
 			state = PLYR_HOVERING;
