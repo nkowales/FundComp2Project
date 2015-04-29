@@ -32,7 +32,7 @@ void MainMenuScreen::onSelect(int select)
 	switch(select)
 	{
 	case 0:
-		world = new WorldMap("Mario-level.tmx", getManager()->getRenderer(), getManager()->getContent());
+		world = new WorldMap("Spyro-level.tmx", getManager()->getRenderer(), getManager()->getContent());
 		getManager()->addScreen(world);
 		getManager()->removeScreen(this);
 		break;
@@ -43,6 +43,7 @@ void MainMenuScreen::onSelect(int select)
 				"1, 2, 3 - Switch between Mario, Link and Spyro\n"
 				"F - Ranged attack (Mario, Link only)\n"
 				"V - Melee attack (Link, Spyro only)\n"
+				"J - Toggle Gliding/Flying (Spyro only)\n"
 				"ESC - Pause Game\n\n"
 				"TIP: Link's boomerang does minimal damage but will temporarily stun enemies!");
 

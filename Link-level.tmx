@@ -758,7 +758,7 @@
   <object id="449" type="EnemyBoundary" x="1216" y="848" width="16" height="16"/>
   <object id="450" type="EnemyBoundary" x="1024" y="848" width="16" height="16"/>
   <object id="451" type="EnemyBoundary" x="960" y="848" width="16" height="16"/>
-  <object id="452" type="EnemyBoundary" x="912" y="784" width="16" height="16"/>
+  <object id="452" type="EnemyBoundary" x="928" y="784" width="16" height="16"/>
   <object id="453" type="EnemyBoundary" x="976" y="784" width="16" height="16"/>
   <object id="454" type="EnemyBoundary" x="848" y="752" width="16" height="16"/>
   <object id="455" type="EnemyBoundary" x="912" y="752" width="16" height="16"/>
