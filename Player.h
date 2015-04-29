@@ -47,7 +47,7 @@ using namespace std;
 #define HEALTHBAR_H 16
 #define HEALTHBAR_OFFSET 10
 
-#define SWORD_DAMAGE 10
+#define SWORD_DAMAGE 1
 
 #define GRAVITY 600
 #define SPYRO_GRAVITY 20
@@ -108,7 +108,7 @@ private:
 	vector<AnimatedTexture> sprites;
 	bool facingLeft = false;
 	int currentCharacter = CH_MARIO;
-	bool hasBoomerang = false;
+	bool hasBoomerang = true;
 	double fireballCooldown = 0.;
 	int health = PLAYER_MAXHEALTH;
 	int maxHealth = PLAYER_MAXHEALTH;
