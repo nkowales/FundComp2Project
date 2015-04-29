@@ -931,7 +931,7 @@ void Player::switchMode(){
 	
 	if (currentCharacter == CH_SPYRO) // switch between gliding and flying
 	{
-		if (inAir){
+		if (inAir){ // Spyro must be in air to switch modes
 			if (!flying)
 			{
 				if (sprites[CH_SPYRO].getAnimation()!= "flying")
@@ -971,7 +971,7 @@ void Player::defend()
 	if (currentCharacter == CH_LINK)
 	{
 		
-		if (facingLeft){
+		if (facingLeft){ // set bounding box
 			bbox.x = -15;
 			bbox.y = 0;
 			bbox.w = 25;
@@ -986,7 +986,7 @@ void Player::defend()
 			setBoundingBox(bbox);
 		}
 		sprites[currentCharacter].setAnimation("defend");
-		defending = true;
+		defending = true; // set flag
 		
 	}
 }
