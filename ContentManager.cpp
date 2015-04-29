@@ -171,7 +171,11 @@ Mix_Music* ContentManager::loadMusic(string name, string location)
 	pair<string, Mix_Music*> pr(name,gameMusic);
 	soundtrack.insert(pr);
 }
-Mix_Music* ContentManager::getMusic(string)
+Mix_Music* ContentManager::getMusic(string songName)
 {
-
+	MusicList::iterator iter = soundtrack.find(songName);
+	if (iter != soundtrack.end())
+		return iter->second;
+	else
+		return NULL;
 }
