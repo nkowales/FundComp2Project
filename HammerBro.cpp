@@ -30,7 +30,13 @@ void HammerBro::init(ContentManager* content)
 
 void HammerBro::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 {
-	jump();
+	if (sentry)
+		if (state == MVG_RIGHT)
+			walkLeft();
+		else
+			walkRight();
+	else
+		jump();
 }
 
 void HammerBro::draw(SDL_Renderer* renderer)
@@ -158,7 +164,7 @@ void HammerBro::update(Uint32 time)
 }
 void HammerBro::walkLeft()
 {
-	if(state != MVG_LEFT)
+	if (state != MVG_LEFT)
 	{
 		state = MVG_LEFT;
 		facingLeft = true;
@@ -168,7 +174,7 @@ void HammerBro::walkLeft()
 }
 void HammerBro::walkRight()
 {
-	if(state != MVG_RIGHT)
+	if (state != MVG_RIGHT)
 	{
 		state = MVG_RIGHT;
 		facingLeft = false;
@@ -193,4 +199,10 @@ void HammerBro::jump()
 void HammerBro::stun()
 {
 	stunTime = HAMMERBRO_STUNTIMER;
+}
+
+void HammerBro::setProperty(string key, string val)
+{
+	if (key == "sentry")
+		sentry = true;
 }
