@@ -32,6 +32,7 @@
 #include "AdvanceLevel.h"
 #include "Switch.h"
 #include "SignalRelay.h"
+#include "Bowser.h"
 using namespace std;
 
 WorldObject* resolveWorldObject(string type, Uint32 id)
@@ -55,6 +56,7 @@ WorldObject* resolveWorldObject(string type, Uint32 id)
 	REGISTER_OBJ_NAME("Advance", AdvanceLevel)
 	REGISTER_OBJ_NAME("Switch", Switch)
 	REGISTER_OBJ_NAME("SignalRelay", SignalRelay)
+	REGISTER_OBJ_NAME("Bowser", Bowser)
 
 	return NULL;
 }
