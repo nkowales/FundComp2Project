@@ -143,7 +143,7 @@ void Player::update(Uint32 time)
 		}
 
 		// Handle Spyro's flying/gliding animations
-		if ( velocity.y > 0 && currentCharacter == CH_SPYRO){
+		if ( velocity.y > 10 && currentCharacter == CH_SPYRO){
 			if (!flying)
 			{
 				if (sprites[CH_SPYRO].getAnimation() != "glide"){
@@ -155,11 +155,11 @@ void Player::update(Uint32 time)
 			}
 			else
 			{
-				if (sprites[CH_SPYRO].getAnimation()!= "flying")
-				{
-					sprites[CH_SPYRO].setAnimation("flying");
-					sprites[CH_SPYRO].setRate(7);	
-				}
+				//if (sprites[CH_SPYRO].getAnimation()!= "flying")
+				//{
+				//	sprites[CH_SPYRO].setAnimation("flying");
+				//	sprites[CH_SPYRO].setRate(7);	
+				//}
 				
 			}
 			
@@ -497,18 +497,18 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	{
 	case COLGRP_WORLD: // Ordinary platform
 		//cout << "[ " << position.x << ", " << position.y << " ]" << endl;
-		if (feetPos < other->getPosition().y)
+		if (feetPos < other->getPosition().y){
 			framesSinceTouchedGround = 0;
-			flying = false;
+		}
 		ignorePlatform = NULL;
 		if ((feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.w > 2)) // Landed on it
 		{
 			land();
-			flying = false;
 			standingOnOneWay = false;
 			inAir = false;
 			position.y = other->getPosition().y - bbox.h;
-			resetAnimation();
+			if (!flying)
+				resetAnimation();
 		}
 		else if (overlap.h > overlap.w) // hit from side
 		{
@@ -548,8 +548,8 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			standingOnOneWay = true;
 			inAir = false;
 			position.y = other->getPosition().y - bbox.h;
-			
-			resetAnimation();
+			if (currentCharacter != CH_SPYRO)	
+				resetAnimation();
 		}
 		break;
 	case COLGRP_PROJECTILE:		// Got the boomerang back
@@ -1071,25 +1071,52 @@ void Player::land()
 	if (flying){
 		flying = false;
 		inAir = false;
-		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		if (velocity.x >5)
 		{
-			iter->setAnimation("default");
+		 	defending = false;
+			if (state != PLYR_MVG_RIGHT)
+			{
+				state = PLYR_MVG_RIGHT;
+				for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+				{
+					iter->setAnimation("walk");
+				}
+			}
 		}
-		state = PLYR_STANDING;
-
+		else if(velocity.x < -5)
+		{
+			defending = false;
+			if (state != PLYR_MVG_LEFT)
+			{
+				facingLeft = false;
+				state = PLYR_MVG_LEFT;
+				for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+				{
+					iter->setAnimation("walk");
+				}
+			
+			}
+		}
+		else
+		{
+			velocity.x = 0;
+			for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+			{
+				iter->setAnimation("default");
+			}
+			state = PLYR_STANDING;
+		}
 	}
 }
 void Player::flyUp()
 {
 	if(state != PLYR_FLYING_UP){
-		cout << "flyUp called\n";
 		state = PLYR_FLYING_UP;
 	}
 	
 }
 void Player::flyDown()
 {
-	cout << "flydown called\n";
 	if (state != PLYR_FLYING_DOWN){
 		state = PLYR_FLYING_DOWN;
 	}
@@ -1099,7 +1126,6 @@ void Player::flyLeft()
 
 	if (state != PLYR_FLYING_LEFT)
 	{
-		cout << "flyLeft called\n";
 		facingLeft = true;
 		state = PLYR_FLYING_LEFT; // set state
 		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
