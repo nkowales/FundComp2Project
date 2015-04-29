@@ -19,9 +19,14 @@ void TileLayer::draw(SDL_Renderer* renderer)
 	Uint32 index;
 	const Tileset* tset = NULL;
 	SDL_Rect viewport = getParent()->getCamera()->getViewport();
-	for (Uint32 y = 0; y < height; y++)
+	Uint32 x1, x2, y1, y2;
+	x1 = viewport.x / tileSize;
+	y1 = viewport.y / tileSize;
+	x2 = x1 + (viewport.w / tileSize) + 1;
+	y2 = x2 + (viewport.h / tileSize) + 1;
+	for (Uint32 y = y1; y < y2; y++)
 	{
-		for (Uint32 x = 0; x < width; x++)
+		for (Uint32 x = x1; x < x2; x++)
 		{
 			// Convert x, y coordinate to an index in the 1 dimensional tile vector.
 			index = y * width + x;
