@@ -1,8 +1,10 @@
 /*
- * Firewizard.h
+ * FireWizard.h
  *
  *  Created on: Apr 22, 2015
  *      Author: mtroy2
+ *
+ *      This class is an enemy called FireWizard.  It attacks with fireballs.
  */
 
 

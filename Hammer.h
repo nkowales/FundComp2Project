@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 21, 2015
  *      Author: mtroy2
+ *
+ *      This class controls the Hammers thrown by the HammerBro enemy/
  */
 
 #ifndef HAMMER_H_
