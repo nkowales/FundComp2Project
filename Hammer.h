@@ -22,7 +22,7 @@
 #define HAMMER_NFRM 8
 #define HAMMER_SPC  0
 #define HAMMER_ANIMSPD 5
-#define HAMMER_DAMAGE 30
+#define HAMMER_DAMAGE 20
 #define HAMMER_SCALE 1.
 
 class Hammer : public WorldObject
