@@ -83,7 +83,7 @@ void ObjectLayer::draw(SDL_Renderer* renderer)
 	for (ObjectMap::iterator iter = objects.begin(); iter != objects.end(); iter++)
 	{
 		bbox = iter->second->getBoundingBox();
-		if (getIntersect(vport, bbox, NULL))
+		//if (getIntersect(vport, bbox, NULL))
 			iter->second->draw(renderer);
 	}
 }

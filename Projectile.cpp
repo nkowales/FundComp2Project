@@ -25,7 +25,7 @@ bool Projectile::canCollideWith(const WorldObject* other)
 
 void Projectile::update(Uint32 time)
 {
-	
+
 }
 
 void Projectile::reverseDirection()

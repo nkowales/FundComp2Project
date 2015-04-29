@@ -8,7 +8,7 @@
 #ifndef ENEMY_H_
 #define ENEMY_H_
 
-#define ENEMY_FEETPOS 5
+#define ENEMY_FEETPOS 16
 
 #include "WorldObject.h"
 #include "GameConstants.h"
@@ -44,7 +44,7 @@ protected:
 	void setMaxHealth(int);
 	
 	Uint32 framesSinceTouchedGround = 0;
-	bool inAir = true;
+	bool inAir = false;
 private:
 	int contactDamage = 0;
 	int health = 100;

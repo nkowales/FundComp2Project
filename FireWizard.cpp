@@ -40,10 +40,11 @@ void FireWizard::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 void FireWizard::draw(SDL_Renderer* renderer)
 {
 	
-	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
+	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	*/
 	Vector2d tpos = getCamera()->transform(position);
 	if (sprite.getAnimation() == "ranged"){
 		sprite.draw(renderer, tpos.x - 13, tpos.y - 6);

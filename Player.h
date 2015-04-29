@@ -47,7 +47,7 @@ using namespace std;
 #define HEALTHBAR_H 16
 #define HEALTHBAR_OFFSET 10
 
-#define SWORD_DAMAGE 10
+#define SWORD_DAMAGE 1
 
 #define GRAVITY 600
 #define SPYRO_GRAVITY 20
