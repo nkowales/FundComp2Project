@@ -228,7 +228,7 @@ void Player::handleEvent(const SDL_Event& e)
 
 	if (e.type == SDL_KEYDOWN)
 	{
-		cout << state << endl;
+		//cout << state << endl;
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_d:
@@ -316,7 +316,7 @@ void Player::handleEvent(const SDL_Event& e)
 			if (flying)	
 				stopFlyDown();
 		}
-		cout << state  << endl;
+		//cout << state  << endl;
 	}
 	else if (e.type == SDL_JOYAXISMOTION ){
 		if (e.jaxis.which == 0 )

@@ -24,6 +24,8 @@ public:
 
 private:
 	void kill(WorldObject* = NULL, string = "");
+	void enable(WorldObject* = NULL, string = "");
+	void disable(WorldObject* = NULL, string = "");
 };
 
 
