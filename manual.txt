@@ -51,12 +51,13 @@ Known Bugs:
 Spyro's flying ability is a little bit glitchy and can sometimes accidentally
 leave the screen.
 Our game is unreasonably hard.  This is not really a bug, but something we
-would look to improve in the future by decreasing the number of enemies on the
-map.
+would look to improve in the future by decreasing the difficulty and the
+number of enemies on the map.
 
 Additional Information:
-There is a game controller that we have that works with the game as well. It 
-plugs into the computer via a USB port.  Its controls are:
+There is a game controller that we have that works with the game as well. It
+is interchangable with the keyboard controls. It plugs into the computer via 
+a USB port.  Its controls are:
 Left, Right (on D-pad) - Move Left, Right
 Up (on D-pad) - Jump (hold to glide with Spyro)
 Down (on D-pad) - Fall through floating platforms
