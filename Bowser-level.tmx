@@ -354,21 +354,14 @@
   <object id="211" type="Goomba" gid="81" x="688" y="1872"/>
   <object id="212" type="Goomba" gid="81" x="736" y="1936"/>
   <object id="213" type="Goomba" gid="81" x="944" y="1872"/>
-  <object id="214" type="Goomba" gid="81" x="896" y="1792"/>
   <object id="215" type="Goomba" gid="81" x="848" y="1712"/>
-  <object id="216" type="Goomba" gid="81" x="800" y="1648"/>
   <object id="217" type="Goomba" gid="81" x="752" y="1584"/>
-  <object id="218" type="Goomba" gid="81" x="688" y="1520"/>
   <object id="219" type="Goomba" gid="81" x="640" y="1472"/>
-  <object id="220" type="Goomba" gid="81" x="512" y="1424"/>
-  <object id="221" type="Goomba" gid="81" x="560" y="1424"/>
-  <object id="222" type="Goomba" gid="81" x="432" y="1360"/>
-  <object id="223" type="Goomba" gid="81" x="352" y="1296"/>
   <object id="224" type="Goomba" gid="81" x="1008" y="1968"/>
   <object id="225" type="Goomba" gid="81" x="1104" y="1968"/>
   <object id="226" type="Goomba" gid="81" x="1056" y="1968"/>
   <object id="227" type="HammerBro" gid="110" x="1056" y="1920"/>
-  <object id="228" type="HammerBro" gid="110" x="544" y="1264">
+  <object id="228" type="HammerBro" gid="110" x="976" y="1200">
    <properties>
     <property name="sentry" value="1"/>
    </properties>
@@ -410,23 +403,17 @@
   </object>
   <object id="256" type="Goomba" gid="81" x="2624" y="608"/>
   <object id="257" type="Goomba" gid="81" x="2592" y="608"/>
-  <object id="258" type="Goomba" gid="81" x="2544" y="608"/>
   <object id="259" type="Goomba" gid="81" x="2512" y="608"/>
   <object id="260" type="Goomba" gid="81" x="2480" y="608"/>
   <object id="261" type="Goomba" gid="81" x="2432" y="608"/>
-  <object id="262" type="Goomba" gid="81" x="2400" y="592"/>
   <object id="263" type="Goomba" gid="81" x="2368" y="608"/>
   <object id="264" type="Goomba" gid="81" x="2336" y="608"/>
   <object id="265" type="Goomba" gid="81" x="2288" y="608"/>
   <object id="266" type="Goomba" gid="81" x="2240" y="608"/>
   <object id="267" type="Goomba" gid="81" x="2192" y="608"/>
-  <object id="268" type="Goomba" gid="81" x="2144" y="608"/>
-  <object id="269" type="Goomba" gid="81" x="2112" y="608"/>
   <object id="270" type="Goomba" gid="81" x="2064" y="608"/>
   <object id="271" type="Goomba" gid="81" x="2016" y="608"/>
-  <object id="272" type="Goomba" gid="81" x="1984" y="608"/>
   <object id="273" type="Goomba" gid="81" x="1936" y="608"/>
-  <object id="274" type="Goomba" gid="81" x="1904" y="608"/>
   <object id="275" type="Goomba" gid="81" x="2832" y="608"/>
   <object id="276" type="Goomba" gid="81" x="2736" y="688"/>
   <object id="277" type="Goomba" gid="81" x="2768" y="688"/>
@@ -441,7 +428,6 @@
    </properties>
   </object>
   <object id="286" type="FireWizard" gid="316" x="1808" y="1312"/>
-  <object id="287" type="Goomba" gid="81" x="1600" y="1328"/>
   <object id="288" type="Goomba" gid="81" x="1712" y="1280"/>
   <object id="289" type="Goomba" gid="81" x="1776" y="1248"/>
   <object id="290" type="Goomba" gid="81" x="1840" y="1232"/>
@@ -449,7 +435,6 @@
   <object id="292" type="Goomba" gid="81" x="1696" y="1536"/>
   <object id="293" type="Goomba" gid="81" x="1824" y="1536"/>
   <object id="294" type="Goomba" gid="81" x="1360" y="1792"/>
-  <object id="295" type="Goomba" gid="81" x="1392" y="1792"/>
   <object id="299" type="Goomba" gid="81" x="1472" y="1792"/>
   <object id="300" type="Goomba" gid="81" x="1424" y="1792"/>
   <object id="302" type="Goomba" gid="81" x="1280" y="1440"/>
@@ -460,15 +445,9 @@
   <object id="307" type="Goomba" gid="81" x="1296" y="1120"/>
   <object id="308" type="Goomba" gid="81" x="1360" y="1104"/>
   <object id="309" type="Goomba" gid="81" x="1424" y="1088"/>
-  <object id="310" type="Goomba" gid="81" x="1488" y="1104"/>
-  <object id="311" type="Goomba" gid="81" x="1632" y="992"/>
   <object id="312" type="Goomba" gid="81" x="1632" y="944"/>
-  <object id="313" type="Goomba" gid="81" x="1584" y="928"/>
-  <object id="314" type="Goomba" gid="81" x="1536" y="896"/>
   <object id="315" type="Goomba" gid="81" x="1504" y="848"/>
-  <object id="316" type="Goomba" gid="81" x="1392" y="784"/>
   <object id="317" type="Goomba" gid="81" x="1344" y="752"/>
-  <object id="318" type="Goomba" gid="81" x="1312" y="720"/>
   <object id="319" type="Goomba" gid="81" x="1216" y="688"/>
   <object id="320" type="Goomba" gid="81" x="1168" y="688"/>
   <object id="322" type="Goomba" gid="81" x="752" y="848"/>
@@ -480,29 +459,20 @@
   <object id="333" type="Goomba" gid="81" x="368" y="816"/>
   <object id="335" type="Goomba" gid="81" x="976" y="992"/>
   <object id="336" type="Goomba" gid="81" x="896" y="496"/>
-  <object id="337" type="Goomba" gid="81" x="944" y="416"/>
-  <object id="338" type="Goomba" gid="81" x="992" y="384"/>
-  <object id="339" type="Goomba" gid="81" x="1120" y="400"/>
   <object id="340" type="Goomba" gid="81" x="1088" y="384"/>
   <object id="341" type="Goomba" gid="81" x="1168" y="400"/>
   <object id="342" type="Goomba" gid="81" x="1296" y="400"/>
   <object id="343" type="Goomba" gid="81" x="1664" y="416"/>
-  <object id="344" type="Goomba" gid="81" x="1056" y="560"/>
-  <object id="345" type="Goomba" gid="81" x="1008" y="560"/>
   <object id="346" type="Goomba" gid="81" x="1840" y="368"/>
-  <object id="347" type="Goomba" gid="81" x="1552" y="1104"/>
   <object id="348" type="Goomba" gid="81" x="1888" y="864"/>
-  <object id="349" type="Goomba" gid="81" x="1936" y="848"/>
   <object id="350" type="Goomba" gid="81" x="2000" y="864"/>
   <object id="351" type="Goomba" gid="81" x="2048" y="864"/>
   <object id="354" type="Goomba" gid="81" x="2256" y="848"/>
   <object id="355" type="Goomba" gid="81" x="2304" y="848"/>
   <object id="358" type="Goomba" gid="81" x="2480" y="848"/>
   <object id="359" type="Goomba" gid="81" x="2480" y="848"/>
-  <object id="360" type="Goomba" gid="81" x="2528" y="848"/>
   <object id="361" type="Goomba" gid="81" x="2592" y="864"/>
   <object id="362" type="Goomba" gid="81" x="2624" y="848"/>
-  <object id="363" type="Goomba" gid="81" x="2656" y="848"/>
   <object id="364" type="Goomba" gid="81" x="2720" y="864"/>
   <object id="365" type="Goomba" gid="81" x="2784" y="848"/>
   <object id="367" type="FireWizard" gid="316" x="2736" y="768"/>
@@ -522,36 +492,25 @@
   <object id="382" type="FireWizard" gid="316" x="2576" y="688"/>
   <object id="383" type="FireWizard" gid="316" x="2656" y="688"/>
   <object id="384" type="FireWizard" gid="316" x="2720" y="976"/>
-  <object id="385" type="HammerBro" gid="110" x="2160" y="768">
-   <properties>
-    <property name="sentry" value="1"/>
-   </properties>
-  </object>
   <object id="386" type="Goomba" gid="81" x="1872" y="944"/>
   <object id="387" type="Goomba" gid="81" x="1712" y="944"/>
   <object id="388" type="Goomba" gid="81" x="1920" y="944"/>
   <object id="394" type="FireWizard" gid="316" x="1584" y="1952"/>
   <object id="395" type="HammerBro" gid="110" x="1392" y="1952"/>
   <object id="398" type="Goomba" gid="81" x="1440" y="1952"/>
-  <object id="399" type="Goomba" gid="81" x="1536" y="1952"/>
   <object id="400" type="Goomba" gid="81" x="1328" y="1952"/>
   <object id="401" type="Goomba" gid="81" x="1696" y="1792"/>
   <object id="402" type="Goomba" gid="81" x="1648" y="1792"/>
-  <object id="403" type="FireWizard" gid="316" x="1920" y="1920"/>
   <object id="404" type="FireWizard" gid="316" x="2352" y="1920"/>
   <object id="405" type="FireWizard" gid="316" x="2720" y="1920"/>
   <object id="406" type="FireWizard" gid="316" x="2784" y="1920"/>
-  <object id="407" type="FireWizard" gid="316" x="2688" y="1904"/>
   <object id="408" type="FireWizard" gid="316" x="2384" y="1920"/>
   <object id="409" type="FireWizard" gid="316" x="2176" y="1904"/>
-  <object id="410" type="FireWizard" gid="316" x="2064" y="1888"/>
   <object id="411" type="FireWizard" gid="316" x="1904" y="1936"/>
   <object id="412" type="FireWizard" gid="316" x="1936" y="1936"/>
   <object id="413" type="FireWizard" gid="316" x="2336" y="1936"/>
   <object id="414" type="FireWizard" gid="316" x="2368" y="1936"/>
-  <object id="415" type="FireWizard" gid="316" x="2704" y="1968"/>
   <object id="416" type="FireWizard" gid="316" x="2672" y="1936"/>
-  <object id="417" type="FireWizard" gid="316" x="2784" y="1952"/>
   <object id="418" type="FireWizard" gid="316" x="2592" y="1920"/>
   <object id="419" type="FireWizard" gid="316" x="2576" y="1936"/>
   <object id="420" type="FireWizard" gid="316" x="2480" y="1904"/>
@@ -560,8 +519,6 @@
   <object id="423" type="FireWizard" gid="316" x="2128" y="1904"/>
   <object id="424" type="FireWizard" gid="316" x="2016" y="1888"/>
   <object id="425" type="FireWizard" gid="316" x="1824" y="1936"/>
-  <object id="426" type="Goomba" gid="81" x="896" y="1168"/>
-  <object id="427" type="Goomba" gid="81" x="1072" y="1152"/>
   <object id="428" type="Health" gid="2" x="1952" y="1792"/>
   <object id="429" type="Health" gid="2" x="2640" y="464"/>
   <object id="430" type="Health" gid="2" x="1936" y="1792"/>

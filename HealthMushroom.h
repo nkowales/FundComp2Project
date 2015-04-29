@@ -3,6 +3,9 @@
  *
  *  Created on: Apr 29, 2015
  *      Author: naiello
+ *
+ *      Provides additional health to the user upon collision.
+ *      Helps the player to heal from the previous attacks by enemies.
  */
 
 #ifndef HEALTHMUSHROOM_H_

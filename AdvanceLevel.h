@@ -5,7 +5,7 @@
  *      Author: gnemecek
  *
  *      Invisible block that the player can collide with, upon which the user advances to the next level
- *      (will be around the treasure chest_
+ *      (will be around the treasure chest)
  */
 
 #ifndef ADVANCELEVEL_H_
