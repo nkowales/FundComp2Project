@@ -542,7 +542,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		break;
 
 	case COLGRP_POWERUP:
-		hurt(-20);
+		health += 40;
 		if (health > maxHealth)
 			health = maxHealth;
 
