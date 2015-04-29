@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="130" height="60" tilewidth="16" tileheight="16" nextobjectid="34">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="130" height="60" tilewidth="16" tileheight="16" nextobjectid="35">
  <tileset firstgid="1" name="M-tile00" tilewidth="16" tileheight="16" spacing="1">
   <image source="sprites/M-tile00.png" width="500" height="500"/>
  </tileset>
@@ -99,6 +99,11 @@
   <object id="30" type="FireWizard" gid="110" x="432" y="656"/>
   <object id="31" x="64" y="800" width="48" height="48"/>
   <object id="32" x="16" y="0" width="2048" height="16"/>
-  <object id="33" type="Advance" x="2032" y="544" width="32" height="32"/>
+  <object id="33" type="TriggerArea" x="2032" y="544" width="32" height="32">
+   <properties>
+    <property name="onEnter" value="advance,load,Link-level.tmx"/>
+   </properties>
+  </object>
+  <object id="34" name="advance" type="Advance" gid="139" x="1984" y="512"/>
  </objectgroup>
 </map>

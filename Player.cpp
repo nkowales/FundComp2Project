@@ -496,7 +496,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			}
 		break;
 		}
-	case COLGRP_ADVANCE:
+	/*case COLGRP_ADVANCE:
 		if (currentLevel == LVL_MARIO) {
 			ScreenManager* manager = getParentLayer()->getParent()->getManager();
 			WorldMap* map = new WorldMap("Link-level.tmx", manager->getRenderer());
@@ -512,7 +512,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			currentLevel++;
 		} else if (currentLevel == LVL_BOWSER) {
 		}
-		break;
+		break;*/
 	}
 }
 
