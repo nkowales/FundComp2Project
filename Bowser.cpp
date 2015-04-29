@@ -25,7 +25,8 @@ void Bowser::init(ContentManager* content)
 
 	sprite = content->getAnimatedTexture("sprites/M-bowser2.png", 0, 5, 50, 44, 0, 1, 13);
 	sprite.addAnimation("shellSpin", 340,230,50,44,0,4);
-	sprite.addAnimation("jump", 300,117,50,44,0,1);
+	
+sprite.addAnimation("jump", 300,117,50,44,0,1);
 	sprite.addAnimation("bowJump",100,117,50,44,0,4);
 	sprite.addAnimation("walk",0,5,50,44,0,4);
 	sprite.addAnimation("tailSmash", 140, 172,50,44,0,1);
@@ -38,17 +39,18 @@ void Bowser::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 
 void Bowser::draw(SDL_Renderer* renderer)
 {
-	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
+	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	
+	*/
 	Vector2d tpos = getCamera()->transform(position);
 	sprite.draw(renderer, tpos.x - 12, tpos.y);
 	Enemy::draw(renderer);
 }
 bool Bowser::spitFlames(){
-	// TODO
+	// Bowser spits three fireballs when this function is called
+	// after it is called, it must cool down for five seconds
 	
 	FireMagic* fire1;
 	FireMagic* fire2;
@@ -58,10 +60,7 @@ bool Bowser::spitFlames(){
 	if (fireMagicCoolDown > 0.){ return false;}
 	else
 	{
-		cout << "Now flaming!\n";
-		//double relPlayerlocationx = position.x - playerPos.x;
-		//double relPlayerlocationy = -1 *(position.y - playerPos.y);
-		//double theta = atan2(relPlayerlocationx, relPlayerlocationy)
+		// set x,y components of velocity
 		Vector2d whereToShoot1 = {100,0};
 		Vector2d whereToShoot2 = {90.63,42.26 };
 		Vector2d whereToShoot3 = {90.63, -42.26};
@@ -72,12 +71,12 @@ bool Bowser::spitFlames(){
 		fire1->setVelocity(whereToShoot1);
 		fire2->setVelocity(whereToShoot2);
 		fire3->setVelocity(whereToShoot3);
-		
+		// set spawn location
 		fpos = {(facingLeft) ? position.x - 10 : position.x + BOWSER_WIDTH, position.y + (BOWSER_HEIGHT/4)};
 		fire1->setPosition(fpos);
 		fire2->setPosition(fpos);
 		fire3->setPosition(fpos);
-	
+		// flip direction if facing left
 		if (facingLeft)
 		{
 			fire1->reverseDirection();
@@ -97,30 +96,29 @@ void Bowser::squish(){
 }
 void Bowser::update(Uint32 time)
 {
-	//TODO
-	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition();
+	//This function contains all the AI for Bowser
+	
+	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition(); // relative position of player
 	double relPlayerlocation = position.x - playerPos.x;
 	double secs = time / 1000.;
+	// decrement counters
 	fireMagicCoolDown -= secs;
 	jumpCoolDown -= secs;
 	shellSpinCoolDown -= secs;
 	animTimer -= secs;
 	stunTimer -= secs;
-	//cout << "fireMagicCool: " << fireMagicCoolDown << endl;
-	//cout << "jumpCoolDown: " << jumpCoolDown << endl;
-	//cout << "shellspin: "<< shellSpinCoolDown << endl;
-	if (getHealth() < (BOWSER_HEALTH / 4)){
+	if (getHealth() < (BOWSER_HEALTH / 4)){ // control rage state (he powers up at low health)
 		enraged = true;
 		setContactDamage(100);
 		sprite.changeAnimation("walk",84 ,226 , 50, 44, 0, 3);
 		
 	}
-	if (inAir && sprite.getAnimation() != "bowJump" && velocity.y < 0)
+	if (inAir && sprite.getAnimation() != "bowJump" && velocity.y < 0) // change animation to jump while in air
 		sprite.setAnimation("jump");
-	else if (inAir && velocity.y > 0){
+	else if (inAir && velocity.y > 0){ // When he starts to fall, go into tail smash move
 		sprite.setAnimation("tailSmash");
 	} else if (!inAir){
-		if (sprite.getAnimation() == "shellSpin")
+		if (sprite.getAnimation() == "shellSpin") // if he is tail spinning, set velocity high
 			if (facingLeft)
 				velocity.x = 200;
 			else
@@ -129,18 +127,17 @@ void Bowser::update(Uint32 time)
 		{
 			playerIsLeft = true;
 		}
-		else if (relPlayerlocation < 0) // don't care about if = 0 (player is directly above)
+		else if (relPlayerlocation < 0)
 		{
 			playerIsLeft = false;
 		}
-		else // if player is trying to jump on, do a shell spin
+		else // if player is over, jump
 		{
-			shellSpinCoolDown = 0;
-			shellSpin();
+			jump();
 		}
-		if (stunTimer < 0.)
+		if (stunTimer < 0.) // if not stunned
 		{
-			if (animTimer >= 1.5)
+			if (animTimer >= 1.5) // do nothing for 1.5 seconds
 			{
 				if (!inAir){
 					switch (state)
@@ -180,7 +177,7 @@ void Bowser::update(Uint32 time)
 					}
 				}
 			}
-			if (fireMagicCoolDown < 0){
+			if (fireMagicCoolDown < 0){ // attack with first available
 				spitFlames();
 			}else if (shellSpinCoolDown < 0){
 				shellSpin();
@@ -200,7 +197,7 @@ void Bowser::update(Uint32 time)
 	if (framesSinceTouchedGround++ > 2)
 		inAir = true;
 		
-	if (inAir)
+	if (inAir) // set y velocity
 		if (sprite.getAnimation() != "tailSmash"){
 			velocity.y += GRAVITY * secs;
 		}else {
@@ -257,7 +254,7 @@ bool Bowser::jump()
 			jumpCoolDown = JUMP_COOLDOWN;
 			inAir = true;
 			position.y -= 10;
-			sprite.setAnimation("bowJump");
+			sprite.setAnimation("bowJump"); // set jump prep animation
 			if (facingLeft)
 				velocity.x = -BOW_JMPSPD;
 			else

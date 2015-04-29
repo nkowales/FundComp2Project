@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 22, 2015
  *      Author: mtroy2
+ * This is the class that controls Bowser, the final boss. It contains some
+ * Of his specific moves, such as shell spin
  */
 
 
@@ -14,7 +16,7 @@
 #include <cstdlib>
 #include <ctime>
 #define BOWSER_WALKSPEED 15
-#define BOWSER_HEALTH 300
+#define BOWSER_HEALTH 150
 #define BOWSER_WIDTH 35
 #define BOWSER_HEIGHT 41
 #define BOW_JMPSPD 100

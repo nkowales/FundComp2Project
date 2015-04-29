@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 19, 2015
  *      Author: naiello
+ * This is a virtual base class that all game enemies derive from
+ * It contains usefull functions and members, such as contact damage, that all enemies inherit
  */
 
 #ifndef ENEMY_H_
