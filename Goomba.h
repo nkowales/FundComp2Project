@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 19, 2015
  *      Author: naiello
+ *
+ *      Basic enemy called Goomba.  It can walk around, but possesses no attacks.
  */
 
 #ifndef GOOMBA_H_

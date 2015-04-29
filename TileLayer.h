@@ -3,6 +3,8 @@
  *
  *  Created on: Mar 14, 2015
  *      Author: naiello
+ *
+ *      Class used to draw tile maps
  */
 
 #ifndef TILELAYER_H_

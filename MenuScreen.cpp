@@ -8,7 +8,7 @@
 #include "MenuScreen.h"
 #include "GameConstants.h"
 
-MenuScreen::MenuScreen() : Screen()
+MenuScreen::MenuScreen(string _title) : Screen(), title(_title)
 {
 
 }
@@ -16,12 +16,20 @@ MenuScreen::MenuScreen() : Screen()
 void MenuScreen::init(ContentManager* content)
 {
 	content->loadFont(MENU_FONT_NAME, MENU_FONT_FILE, MENU_FONT_SIZE);
+	titleTex = content->getTextureFromText("MENU-TITLE-" + title, title, MENU_FONT_NAME, MENU_TITLE_COLOR);
 }
 
 void MenuScreen::draw(SDL_Renderer* renderer)
 {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, bgColor.r, bgColor.g, bgColor.b, bgColor.a);
+
+	if (bgColor.a < 255)
+		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
+	SDL_RenderFillRect(renderer, NULL);
+
+	if (bgColor.a < 255)
+		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 
 	int y = MENU_FIRST_ITEM_VPOS;
 	int x;
@@ -37,6 +45,8 @@ void MenuScreen::draw(SDL_Renderer* renderer)
 
 		y += MENU_ITEM_SEP;
 	}
+
+	titleTex.draw(renderer, MENU_TITLE_X, MENU_TITLE_Y);
 }
 
 void MenuScreen::handleEvent(const SDL_Event& e)
@@ -65,4 +75,10 @@ void MenuScreen::addMenuItem(ContentManager* content, string text)
 	mitem.selectedImage = content->getTextureFromText(string("MSELTEXT-" + text), text, MENU_FONT_NAME, MENU_SEL_COLOR);
 	menuItems.push_back(mitem);
 
+}
+
+void MenuScreen::setBackColor(SDL_Color col)
+{
+	bgColor = col;
+	setOpaque(col.a == 255);
 }

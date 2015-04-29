@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 12, 2015
  *      Author: naiello
+ *
+ *      This class is used to read in the sprites of the characters
  */
 
 #ifndef ANIMATEDTEXTURE_H_

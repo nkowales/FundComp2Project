@@ -3,7 +3,12 @@
  *
  *  Created on: Apr 12, 2015
  *      Author: naiello
+<<<<<<< HEAD
  * Mario's fireball
+=======
+ *
+ *      This class controls the fireballs of Mario and the FireWizard
+>>>>>>> 0bac8ae11b5347a63d082ac9c9a7176ae6a823e6
  */
 
 #ifndef FIREBALL_H_

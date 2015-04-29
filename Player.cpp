@@ -16,6 +16,7 @@
 #include "Geom.h"
 #include "ScreenManager.h"
 #include "DeathScreen.h"
+#include "PauseScreen.h"
 
 Player::Player() : WorldObject(), healthBar(maxHealth)
 {
@@ -211,7 +212,7 @@ void Player::draw(SDL_Renderer* renderer)
 
 void Player::handleEvent(const SDL_Event& e)
 {
-	
+	PauseScreen* pscreen;
 	sprites[CH_LINK].setRate(8);
 
 	// Most of these actions are stored as subroutines so they can be called from the
@@ -256,6 +257,10 @@ void Player::handleEvent(const SDL_Event& e)
 			break;
 		case SDLK_k:
 			defend();
+			break;
+		case SDLK_ESCAPE:
+			pscreen = new PauseScreen(getParentLayer()->getParent());
+			getParentLayer()->getParent()->getManager()->addScreen(pscreen);
 			break;
 		}
 	}
