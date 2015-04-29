@@ -23,6 +23,7 @@ public:
 	virtual bool canCollideWith(const WorldObject*);
 	virtual void handleCollision(WorldObject*, const SDL_Rect& overlap);
 	virtual void update(Uint32);
+	virtual void setProperty(string, string);
 
 private:
 	bool playerInside = false;
@@ -30,6 +31,7 @@ private:
 	WorldOutput onTrigger = NULL;
 	WorldOutput onEnter = NULL;
 	WorldOutput onLeave = NULL;
+	bool once = false;
 };
 
 #endif /* TRIGGERAREA_H_ */
