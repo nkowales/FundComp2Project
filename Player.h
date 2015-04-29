@@ -62,6 +62,7 @@ enum PlayerState
 	PLYR_FLYING_RIGHT,
 	PLYR_FLYING_UP,
 	PLYR_FLYING_DOWN
+
 };
 
 enum Character
@@ -123,6 +124,7 @@ private:
 	int health = PLAYER_MAXHEALTH;
 	int maxHealth = PLAYER_MAXHEALTH;
 	double invulnTimer = 0.;
+	double sfxTimer = 0.;
 	int currentLevel = LVL_MARIO; // level 1
 
 	ProgressBar healthBar;

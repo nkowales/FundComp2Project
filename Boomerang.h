@@ -7,10 +7,7 @@
  * This is our most complex projectile.
  * Link throws it and, if it hits an enemy, if collides and stuns them
  * It is also used to flip triggers in game
-=======
- *
- *      This class is used to control Link's boomerang
->>>>>>> 0bac8ae11b5347a63d082ac9c9a7176ae6a823e6
+*
  */
 
 #ifndef BOOMERANG_H_

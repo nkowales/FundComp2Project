@@ -84,6 +84,7 @@ void Player::update(Uint32 time)
 {
 
 	double secs = time / 1000.;
+	sfxTimer -= secs;
 	if (health < PLAYER_MAXHEALTH /4){
 		Mix_PlayChannel(-1, sfx[SFX_LOWHLTH], 0);
 	}
@@ -414,9 +415,11 @@ void Player::handleEvent(const SDL_Event& e)
 bool Player::canCollideWith(const WorldObject* other)
 {
 	Uint32 grp = other->getCollisionGroup();
+	
 	return ((grp == COLGRP_WORLD) || (grp == COLGRP_ONEWAY) ||
 			(grp == COLGRP_PROJECTILE) || (grp == COLGRP_ENEMY) || (grp == COLGRP_ENEMPROJECTILE) || 
 			(grp == COLGRP_ADVANCE) || (grp == COLGRP_POWERUP));
+	
 }
 
 void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
@@ -449,7 +452,13 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		else if (overlap.h > overlap.w) // hit from side
 		{
 			if (state == PLYR_MVG_LEFT || state == PLYR_MVG_RIGHT)
-				Mix_PlayChannel(-1, sfx[SFX_WALLCOL], 0);
+			
+				if (sfxTimer <0.){
+					Mix_PlayChannel(-1, sfx[SFX_WALLCOL], 0);
+					sfxTimer = 0.4;
+				}
+				else
+					sfxTimer -= .005;
 			if (overlap.x > bbox.x) // hit walking right
 			{
 				position.x = other->getPosition().x - bbox.w - (bbox.x - position.x);
@@ -500,6 +509,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		else if ((feetPos < overlap.y) && (velocity.y > 0)) // landed on it
 		{
+			Mix_PlayChannel(-1, sfx[SFX_JMP], 0);
 			enemy->squish();
 			velocity.y= velocity.y * -1;
 		}
@@ -933,6 +943,7 @@ void Player::die()
 	// TODO
 	//health = PLAYER_MAXHEALTH;
 		// play death screen
+
 	DeathScreen* ds = new DeathScreen(getParentLayer()->getParent());
 	getParentLayer()->getParent()->getManager()->addScreen(ds);
 }
