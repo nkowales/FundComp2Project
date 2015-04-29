@@ -41,7 +41,7 @@ using namespace std;
 
 #define FIREBALL_COOLDOWN 0.5
 #define PLAYER_MAXHEALTH 100
-#define PLAYER_INVULN_TIME 2.0
+#define PLAYER_INVULN_TIME 1.0
 
 #define HEALTHBAR_W 100
 #define HEALTHBAR_H 16
