@@ -76,9 +76,15 @@ void ObjectLayer::update(Uint32 time)
 
 void ObjectLayer::draw(SDL_Renderer* renderer)
 {
+	Camera* cam = getParent()->getCamera();
+	SDL_Rect vport = cam->getViewport();
+	SDL_Rect bbox;
+	//cout << vport.x << " " << vport.y << " " << vport.w << " " << vport.h << endl;
 	for (ObjectMap::iterator iter = objects.begin(); iter != objects.end(); iter++)
 	{
-		iter->second->draw(renderer);
+		bbox = iter->second->getBoundingBox();
+		if (getIntersect(vport, bbox, NULL))
+			iter->second->draw(renderer);
 	}
 }
 

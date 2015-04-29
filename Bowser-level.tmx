@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="150" tilewidth="16" tileheight="16" nextobjectid="130">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="150" tilewidth="16" tileheight="16" nextobjectid="426">
  <tileset firstgid="1" name="M-tile00" tilewidth="16" tileheight="16" spacing="1">
   <image source="sprites/M-tile00.png" width="500" height="500"/>
  </tileset>
@@ -158,9 +158,9 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="1" type="Bowser" gid="88" x="2528" y="1680"/>
+  <object id="1" type="Bowser" gid="88" x="2528" y="1648"/>
   <object id="2" x="368" y="2016" width="48" height="48"/>
-  <object id="3" x="336" y="2064" width="2528" height="400"/>
+  <object id="3" x="336" y="2064" width="2528" height="336"/>
   <object id="5" x="336" y="0" width="2528" height="336"/>
   <object id="7" x="2864" y="-32" width="336" height="2432"/>
   <object id="9" x="0" y="0" width="336" height="2400"/>
@@ -270,16 +270,388 @@
   <object id="115" x="624" y="1872" width="48" height="192"/>
   <object id="116" x="672" y="1936" width="48" height="128"/>
   <object id="117" x="720" y="2000" width="48" height="64"/>
-  <object id="118" x="1792" y="1984" width="64" height="16"/>
-  <object id="119" x="1984" y="1984" width="48" height="16"/>
-  <object id="120" x="2096" y="1984" width="48" height="16"/>
-  <object id="121" x="2224" y="1984" width="64" height="16"/>
-  <object id="123" x="2448" y="1984" width="80" height="16"/>
-  <object id="124" x="2560" y="1984" width="64" height="16"/>
-  <object id="125" x="1696" y="2048" width="832" height="16"/>
-  <object id="126" x="2560" y="2048" width="304" height="16"/>
-  <object id="127" x="2688" y="1056" width="64" height="16"/>
-  <object id="128" x="1776" y="720" width="928" height="16"/>
-  <object id="129" x="1952" y="560" width="576" height="16"/>
+  <object id="118" type="Flame" x="1792" y="1984" width="64" height="16"/>
+  <object id="119" type="Flame" x="1984" y="1984" width="48" height="16"/>
+  <object id="120" type="Flame" x="2096" y="1984" width="48" height="16"/>
+  <object id="121" type="Flame" x="2224" y="1984" width="64" height="16"/>
+  <object id="123" type="Flame" x="2448" y="1984" width="80" height="16"/>
+  <object id="124" type="Flame" x="2560" y="1984" width="64" height="16"/>
+  <object id="125" type="Flame" x="1696" y="2048" width="832" height="16"/>
+  <object id="126" type="Flame" x="2560" y="2048" width="304" height="16"/>
+  <object id="127" type="Flame" x="2688" y="1056" width="64" height="16"/>
+  <object id="128" type="Flame" x="1776" y="720" width="928" height="16"/>
+  <object id="129" type="Flame" x="1952" y="560" width="576" height="16"/>
+  <object id="135" type="EnemyBoundary" x="2736" y="1552" width="16" height="240"/>
+  <object id="137" type="EnemyBoundary" x="2064" y="1552" width="16" height="240"/>
+  <object id="142" type="EnemyBoundary" x="592" y="1472" width="16" height="16"/>
+  <object id="144" type="EnemyBoundary" x="656" y="1536" width="16" height="16"/>
+  <object id="145" type="EnemyBoundary" x="720" y="1600" width="16" height="16"/>
+  <object id="146" type="EnemyBoundary" x="768" y="1664" width="16" height="16"/>
+  <object id="147" type="EnemyBoundary" x="816" y="1728" width="16" height="16"/>
+  <object id="148" type="EnemyBoundary" x="864" y="1792" width="16" height="16"/>
+  <object id="149" type="EnemyBoundary" x="912" y="1856" width="16" height="16"/>
+  <object id="150" type="EnemyBoundary" x="960" y="1920" width="16" height="16"/>
+  <object id="151" type="EnemyBoundary" x="672" y="1856" width="16" height="16"/>
+  <object id="152" type="EnemyBoundary" x="608" y="1856" width="16" height="16"/>
+  <object id="153" type="EnemyBoundary" x="464" y="1408" width="16" height="16"/>
+  <object id="154" type="EnemyBoundary" x="400" y="1344" width="16" height="16"/>
+  <object id="155" type="EnemyBoundary" x="384" y="1280" width="16" height="16"/>
+  <object id="156" type="EnemyBoundary" x="736" y="1232" width="16" height="16"/>
+  <object id="157" type="EnemyBoundary" x="1200" y="1200" width="16" height="16"/>
+  <object id="158" type="EnemyBoundary" x="1472" y="1344" width="16" height="16"/>
+  <object id="159" type="EnemyBoundary" x="1552" y="1504" width="16" height="16"/>
+  <object id="160" type="EnemyBoundary" x="1456" y="1648" width="16" height="16"/>
+  <object id="161" type="EnemyBoundary" x="1280" y="1840" width="16" height="16"/>
+  <object id="162" type="EnemyBoundary" x="1744" y="1136" width="16" height="16"/>
+  <object id="163" type="EnemyBoundary" x="1776" y="976" width="16" height="16"/>
+  <object id="164" type="EnemyBoundary" x="2000" y="992" width="16" height="16"/>
+  <object id="165" type="EnemyBoundary" x="2432" y="1008" width="16" height="16"/>
+  <object id="166" type="EnemyBoundary" x="2624" y="1024" width="16" height="16"/>
+  <object id="167" type="EnemyBoundary" x="2784" y="800" width="16" height="16"/>
+  <object id="168" type="EnemyBoundary" x="2784" y="720" width="16" height="16"/>
+  <object id="169" type="EnemyBoundary" x="1744" y="880" width="16" height="16"/>
+  <object id="170" type="EnemyBoundary" x="1744" y="640" width="16" height="16"/>
+  <object id="171" type="EnemyBoundary" x="2800" y="448" width="16" height="16"/>
+  <object id="172" type="EnemyBoundary" x="2512" y="448" width="16" height="16"/>
+  <object id="173" type="EnemyBoundary" x="1952" y="448" width="16" height="16"/>
+  <object id="174" type="EnemyBoundary" x="1200" y="448" width="16" height="16"/>
+  <object id="175" type="EnemyBoundary" x="1008" y="464" width="16" height="16"/>
+  <object id="176" type="EnemyBoundary" x="960" y="496" width="16" height="16"/>
+  <object id="177" type="EnemyBoundary" x="912" y="528" width="16" height="16"/>
+  <object id="178" type="EnemyBoundary" x="864" y="560" width="16" height="16"/>
+  <object id="179" type="EnemyBoundary" x="816" y="624" width="16" height="16"/>
+  <object id="180" type="EnemyBoundary" x="976" y="624" width="16" height="16"/>
+  <object id="181" type="EnemyBoundary" x="944" y="912" width="16" height="16"/>
+  <object id="182" type="EnemyBoundary" x="848" y="1056" width="16" height="16"/>
+  <object id="183" type="EnemyBoundary" x="1088" y="1056" width="16" height="16"/>
+  <object id="184" type="EnemyBoundary" x="1584" y="1104" width="16" height="16"/>
+  <object id="185" type="EnemyBoundary" x="1600" y="1040" width="16" height="16"/>
+  <object id="186" type="EnemyBoundary" x="1552" y="1008" width="16" height="16"/>
+  <object id="187" type="EnemyBoundary" x="1504" y="976" width="16" height="16"/>
+  <object id="188" type="EnemyBoundary" x="1456" y="944" width="16" height="16"/>
+  <object id="189" type="EnemyBoundary" x="1408" y="912" width="16" height="16"/>
+  <object id="190" type="EnemyBoundary" x="1360" y="880" width="16" height="16"/>
+  <object id="191" type="EnemyBoundary" x="1312" y="848" width="16" height="16"/>
+  <object id="192" type="EnemyBoundary" x="1264" y="816" width="16" height="16"/>
+  <object id="193" type="EnemyBoundary" x="1216" y="784" width="16" height="16"/>
+  <object id="194" type="EnemyBoundary" x="1168" y="752" width="16" height="16"/>
+  <object id="195" type="EnemyBoundary" x="1120" y="720" width="16" height="16"/>
+  <object id="196" type="EnemyBoundary" x="1072" y="688" width="16" height="16"/>
+  <object id="197" type="EnemyBoundary" x="1024" y="656" width="16" height="16"/>
+  <object id="198" type="EnemyBoundary" x="1520" y="1120" width="16" height="16"/>
+  <object id="199" type="EnemyBoundary" x="1456" y="1136" width="16" height="16"/>
+  <object id="200" type="EnemyBoundary" x="1264" y="1184" width="16" height="16"/>
+  <object id="201" type="EnemyBoundary" x="1328" y="1168" width="16" height="16"/>
+  <object id="202" type="EnemyBoundary" x="1392" y="1152" width="16" height="16"/>
+  <object id="203" type="EnemyBoundary" x="1776" y="1856" width="16" height="16"/>
+  <object id="204" type="EnemyBoundary" x="560" y="1920" width="16" height="16"/>
+  <object id="205" type="EnemyBoundary" x="720" y="1920" width="16" height="16"/>
+  <object id="206" type="EnemyBoundary" x="768" y="1984" width="16" height="16"/>
+  <object id="207" type="EnemyBoundary" x="512" y="1984" width="16" height="16"/>
+  <object id="208" type="Goomba" gid="81" x="640" y="1792"/>
+  <object id="209" type="Goomba" gid="81" x="592" y="1840"/>
+  <object id="210" type="Goomba" gid="81" x="544" y="1904"/>
+  <object id="211" type="Goomba" gid="81" x="688" y="1872"/>
+  <object id="212" type="Goomba" gid="81" x="736" y="1936"/>
+  <object id="213" type="Goomba" gid="81" x="944" y="1872"/>
+  <object id="214" type="Goomba" gid="81" x="896" y="1792"/>
+  <object id="215" type="Goomba" gid="81" x="848" y="1712"/>
+  <object id="216" type="Goomba" gid="81" x="800" y="1648"/>
+  <object id="217" type="Goomba" gid="81" x="752" y="1584"/>
+  <object id="218" type="Goomba" gid="81" x="688" y="1520"/>
+  <object id="219" type="Goomba" gid="81" x="640" y="1472"/>
+  <object id="220" type="Goomba" gid="81" x="512" y="1424"/>
+  <object id="221" type="Goomba" gid="81" x="560" y="1424"/>
+  <object id="222" type="Goomba" gid="81" x="432" y="1360"/>
+  <object id="223" type="Goomba" gid="81" x="352" y="1296"/>
+  <object id="224" type="Goomba" gid="81" x="1008" y="1968"/>
+  <object id="225" type="Goomba" gid="81" x="1104" y="1968"/>
+  <object id="226" type="Goomba" gid="81" x="1056" y="1968"/>
+  <object id="227" type="HammerBro" gid="110" x="1056" y="1920"/>
+  <object id="228" type="HammerBro" gid="110" x="544" y="1264">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="229" type="FireWizard" gid="316" x="528" y="1392"/>
+  <object id="230" type="FireWizard" gid="316" x="1248" y="1472"/>
+  <object id="231" type="FireWizard" gid="316" x="1328" y="1472"/>
+  <object id="232" type="FireWizard" gid="316" x="1408" y="1472"/>
+  <object id="233" type="FireWizard" gid="316" x="1840" y="1616"/>
+  <object id="234" type="FireWizard" gid="316" x="1776" y="1616"/>
+  <object id="235" type="FireWizard" gid="316" x="928" y="1040"/>
+  <object id="236" type="FireWizard" gid="316" x="1008" y="1040"/>
+  <object id="237" type="FireWizard" gid="316" x="784" y="896"/>
+  <object id="238" type="FireWizard" gid="316" x="544" y="880"/>
+  <object id="239" type="FireWizard" gid="316" x="944" y="592"/>
+  <object id="240" type="HammerBro" gid="110" x="880" y="1200">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="242" type="HammerBro" gid="110" x="992" y="1200">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="243" type="HammerBro" gid="110" x="1248" y="784">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="244" type="HammerBro" gid="110" x="1440" y="832">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="245" type="HammerBro" gid="110" x="1104" y="624">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="246" type="HammerBro" gid="110" x="1792" y="400">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="247" type="HammerBro" gid="110" x="1872" y="384">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="248" type="HammerBro" gid="110" x="1552" y="384">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="250" type="HammerBro" gid="110" x="1408" y="384">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="251" type="HammerBro" gid="110" x="2752" y="416">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="252" type="HammerBro" gid="110" x="2672" y="416">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="254" type="HammerBro" gid="110" x="2720" y="624">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="255" type="HammerBro" gid="110" x="1856" y="624">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="256" type="Goomba" gid="81" x="2624" y="608"/>
+  <object id="257" type="Goomba" gid="81" x="2592" y="608"/>
+  <object id="258" type="Goomba" gid="81" x="2544" y="608"/>
+  <object id="259" type="Goomba" gid="81" x="2512" y="608"/>
+  <object id="260" type="Goomba" gid="81" x="2480" y="608"/>
+  <object id="261" type="Goomba" gid="81" x="2432" y="608"/>
+  <object id="262" type="Goomba" gid="81" x="2400" y="592"/>
+  <object id="263" type="Goomba" gid="81" x="2368" y="608"/>
+  <object id="264" type="Goomba" gid="81" x="2336" y="608"/>
+  <object id="265" type="Goomba" gid="81" x="2288" y="608"/>
+  <object id="266" type="Goomba" gid="81" x="2240" y="608"/>
+  <object id="267" type="Goomba" gid="81" x="2192" y="608"/>
+  <object id="268" type="Goomba" gid="81" x="2144" y="608"/>
+  <object id="269" type="Goomba" gid="81" x="2112" y="608"/>
+  <object id="270" type="Goomba" gid="81" x="2064" y="608"/>
+  <object id="271" type="Goomba" gid="81" x="2016" y="608"/>
+  <object id="272" type="Goomba" gid="81" x="1984" y="608"/>
+  <object id="273" type="Goomba" gid="81" x="1936" y="608"/>
+  <object id="274" type="Goomba" gid="81" x="1904" y="608"/>
+  <object id="275" type="Goomba" gid="81" x="2832" y="608"/>
+  <object id="276" type="Goomba" gid="81" x="2736" y="688"/>
+  <object id="277" type="Goomba" gid="81" x="2768" y="688"/>
+  <object id="278" type="HammerBro" gid="110" x="2064" y="976">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="279" type="HammerBro" gid="110" x="2336" y="960">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="280" type="HammerBro" gid="110" x="2496" y="992">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="281" type="HammerBro" gid="110" x="2608" y="1120">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="282" type="HammerBro" gid="110" x="2256" y="1104">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="283" type="HammerBro" gid="110" x="1936" y="1104">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="284" type="FireWizard" gid="316" x="2112" y="1104"/>
+  <object id="285" type="FireWizard" gid="316" x="2448" y="1104"/>
+  <object id="286" type="FireWizard" gid="316" x="1808" y="1312"/>
+  <object id="287" type="Goomba" gid="81" x="1600" y="1328"/>
+  <object id="288" type="Goomba" gid="81" x="1712" y="1280"/>
+  <object id="289" type="Goomba" gid="81" x="1776" y="1248"/>
+  <object id="290" type="Goomba" gid="81" x="1840" y="1232"/>
+  <object id="291" type="Goomba" gid="81" x="1648" y="1536"/>
+  <object id="292" type="Goomba" gid="81" x="1696" y="1536"/>
+  <object id="293" type="Goomba" gid="81" x="1824" y="1536"/>
+  <object id="294" type="Goomba" gid="81" x="1360" y="1792"/>
+  <object id="295" type="Goomba" gid="81" x="1392" y="1792"/>
+  <object id="296" type="Goomba" gid="81" x="1440" y="1776"/>
+  <object id="297" type="Goomba" gid="81" x="1488" y="1776"/>
+  <object id="298" type="Goomba" gid="81" x="1520" y="1776"/>
+  <object id="299" type="Goomba" gid="81" x="1472" y="1792"/>
+  <object id="300" type="Goomba" gid="81" x="1424" y="1792"/>
+  <object id="301" type="Goomba" gid="81" x="1328" y="1776"/>
+  <object id="302" type="Goomba" gid="81" x="1280" y="1440"/>
+  <object id="303" type="Goomba" gid="81" x="1376" y="1440"/>
+  <object id="304" type="Goomba" gid="81" x="1808" y="1792"/>
+  <object id="305" type="Goomba" gid="81" x="1840" y="1792"/>
+  <object id="306" type="Goomba" gid="81" x="1232" y="1136"/>
+  <object id="307" type="Goomba" gid="81" x="1296" y="1120"/>
+  <object id="308" type="Goomba" gid="81" x="1360" y="1104"/>
+  <object id="309" type="Goomba" gid="81" x="1424" y="1088"/>
+  <object id="310" type="Goomba" gid="81" x="1488" y="1104"/>
+  <object id="311" type="Goomba" gid="81" x="1632" y="992"/>
+  <object id="312" type="Goomba" gid="81" x="1632" y="944"/>
+  <object id="313" type="Goomba" gid="81" x="1584" y="928"/>
+  <object id="314" type="Goomba" gid="81" x="1536" y="896"/>
+  <object id="315" type="Goomba" gid="81" x="1504" y="848"/>
+  <object id="316" type="Goomba" gid="81" x="1392" y="784"/>
+  <object id="317" type="Goomba" gid="81" x="1344" y="752"/>
+  <object id="318" type="Goomba" gid="81" x="1312" y="720"/>
+  <object id="319" type="Goomba" gid="81" x="1216" y="688"/>
+  <object id="320" type="Goomba" gid="81" x="1168" y="688"/>
+  <object id="321" type="Goomba" gid="81" x="880" y="816"/>
+  <object id="322" type="Goomba" gid="81" x="752" y="848"/>
+  <object id="323" type="Goomba" gid="81" x="688" y="832"/>
+  <object id="324" type="Goomba" gid="81" x="640" y="816"/>
+  <object id="325" type="Goomba" gid="81" x="592" y="816"/>
+  <object id="326" type="Goomba" gid="81" x="544" y="816"/>
+  <object id="327" type="Goomba" gid="81" x="496" y="816"/>
+  <object id="328" type="Goomba" gid="81" x="480" y="816"/>
+  <object id="329" type="Goomba" gid="81" x="464" y="800"/>
+  <object id="330" type="Goomba" gid="81" x="432" y="800"/>
+  <object id="331" type="Goomba" gid="81" x="416" y="800"/>
+  <object id="332" type="Goomba" gid="81" x="384" y="800"/>
+  <object id="333" type="Goomba" gid="81" x="368" y="816"/>
+  <object id="334" type="Goomba" gid="81" x="816" y="800"/>
+  <object id="335" type="Goomba" gid="81" x="976" y="992"/>
+  <object id="336" type="Goomba" gid="81" x="896" y="496"/>
+  <object id="337" type="Goomba" gid="81" x="944" y="416"/>
+  <object id="338" type="Goomba" gid="81" x="992" y="384"/>
+  <object id="339" type="Goomba" gid="81" x="1120" y="400"/>
+  <object id="340" type="Goomba" gid="81" x="1088" y="384"/>
+  <object id="341" type="Goomba" gid="81" x="1168" y="400"/>
+  <object id="342" type="Goomba" gid="81" x="1296" y="400"/>
+  <object id="343" type="Goomba" gid="81" x="1664" y="416"/>
+  <object id="344" type="Goomba" gid="81" x="1056" y="560"/>
+  <object id="345" type="Goomba" gid="81" x="1008" y="560"/>
+  <object id="346" type="Goomba" gid="81" x="1840" y="368"/>
+  <object id="347" type="Goomba" gid="81" x="1552" y="1104"/>
+  <object id="348" type="Goomba" gid="81" x="1888" y="864"/>
+  <object id="349" type="Goomba" gid="81" x="1936" y="848"/>
+  <object id="350" type="Goomba" gid="81" x="2000" y="864"/>
+  <object id="351" type="Goomba" gid="81" x="2048" y="864"/>
+  <object id="352" type="Goomba" gid="81" x="2144" y="864"/>
+  <object id="353" type="Goomba" gid="81" x="2176" y="864"/>
+  <object id="354" type="Goomba" gid="81" x="2256" y="848"/>
+  <object id="355" type="Goomba" gid="81" x="2304" y="848"/>
+  <object id="356" type="Goomba" gid="81" x="2384" y="864"/>
+  <object id="357" type="Goomba" gid="81" x="2400" y="864"/>
+  <object id="358" type="Goomba" gid="81" x="2480" y="848"/>
+  <object id="359" type="Goomba" gid="81" x="2480" y="848"/>
+  <object id="360" type="Goomba" gid="81" x="2528" y="848"/>
+  <object id="361" type="Goomba" gid="81" x="2592" y="864"/>
+  <object id="362" type="Goomba" gid="81" x="2624" y="848"/>
+  <object id="363" type="Goomba" gid="81" x="2656" y="848"/>
+  <object id="364" type="Goomba" gid="81" x="2720" y="864"/>
+  <object id="365" type="Goomba" gid="81" x="2784" y="848"/>
+  <object id="366" type="FireWizard" gid="316" x="1760" y="768"/>
+  <object id="367" type="FireWizard" gid="316" x="2736" y="768"/>
+  <object id="368" type="FireWizard" gid="316" x="1696" y="752"/>
+  <object id="369" type="FireWizard" gid="316" x="1808" y="688"/>
+  <object id="370" type="FireWizard" gid="316" x="2000" y="496"/>
+  <object id="371" type="FireWizard" gid="316" x="2080" y="496"/>
+  <object id="372" type="FireWizard" gid="316" x="2176" y="480"/>
+  <object id="373" type="FireWizard" gid="316" x="2256" y="480"/>
+  <object id="374" type="FireWizard" gid="316" x="2352" y="480"/>
+  <object id="375" type="FireWizard" gid="316" x="2416" y="480"/>
+  <object id="376" type="FireWizard" gid="316" x="2480" y="480"/>
+  <object id="377" type="FireWizard" gid="316" x="1968" y="688"/>
+  <object id="378" type="FireWizard" gid="316" x="2080" y="688"/>
+  <object id="379" type="FireWizard" gid="316" x="2208" y="688"/>
+  <object id="380" type="FireWizard" gid="316" x="2320" y="688"/>
+  <object id="381" type="FireWizard" gid="316" x="2448" y="688"/>
+  <object id="382" type="FireWizard" gid="316" x="2576" y="688"/>
+  <object id="383" type="FireWizard" gid="316" x="2656" y="688"/>
+  <object id="384" type="FireWizard" gid="316" x="2720" y="976"/>
+  <object id="385" type="HammerBro" gid="110" x="2160" y="768">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="386" type="Goomba" gid="81" x="1872" y="944"/>
+  <object id="387" type="Goomba" gid="81" x="1712" y="944"/>
+  <object id="388" type="Goomba" gid="81" x="1920" y="944"/>
+  <object id="389" type="HammerBro" gid="110" x="1840" y="928">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="390" type="HammerBro" gid="110" x="1696" y="896">
+   <properties>
+    <property name="sentry" value="1"/>
+   </properties>
+  </object>
+  <object id="391" type="FireWizard" gid="316" x="1184" y="1968"/>
+  <object id="392" type="FireWizard" gid="316" x="1280" y="1952"/>
+  <object id="394" type="FireWizard" gid="316" x="1584" y="1952"/>
+  <object id="395" type="HammerBro" gid="110" x="1392" y="1952"/>
+  <object id="396" type="HammerBro" gid="110" x="1472" y="1952"/>
+  <object id="398" type="Goomba" gid="81" x="1440" y="1952"/>
+  <object id="399" type="Goomba" gid="81" x="1536" y="1952"/>
+  <object id="400" type="Goomba" gid="81" x="1328" y="1952"/>
+  <object id="401" type="Goomba" gid="81" x="1696" y="1792"/>
+  <object id="402" type="Goomba" gid="81" x="1648" y="1792"/>
+  <object id="403" type="FireWizard" gid="316" x="1920" y="1920"/>
+  <object id="404" type="FireWizard" gid="316" x="2352" y="1920"/>
+  <object id="405" type="FireWizard" gid="316" x="2720" y="1920"/>
+  <object id="406" type="FireWizard" gid="316" x="2784" y="1920"/>
+  <object id="407" type="FireWizard" gid="316" x="2688" y="1904"/>
+  <object id="408" type="FireWizard" gid="316" x="2384" y="1920"/>
+  <object id="409" type="FireWizard" gid="316" x="2176" y="1904"/>
+  <object id="410" type="FireWizard" gid="316" x="2064" y="1888"/>
+  <object id="411" type="FireWizard" gid="316" x="1904" y="1936"/>
+  <object id="412" type="FireWizard" gid="316" x="1936" y="1936"/>
+  <object id="413" type="FireWizard" gid="316" x="2336" y="1936"/>
+  <object id="414" type="FireWizard" gid="316" x="2368" y="1936"/>
+  <object id="415" type="FireWizard" gid="316" x="2704" y="1968"/>
+  <object id="416" type="FireWizard" gid="316" x="2672" y="1936"/>
+  <object id="417" type="FireWizard" gid="316" x="2784" y="1952"/>
+  <object id="418" type="FireWizard" gid="316" x="2592" y="1920"/>
+  <object id="419" type="FireWizard" gid="316" x="2576" y="1936"/>
+  <object id="420" type="FireWizard" gid="316" x="2480" y="1904"/>
+  <object id="421" type="FireWizard" gid="316" x="2512" y="1936"/>
+  <object id="422" type="FireWizard" gid="316" x="2240" y="1904"/>
+  <object id="423" type="FireWizard" gid="316" x="2128" y="1904"/>
+  <object id="424" type="FireWizard" gid="316" x="2016" y="1888"/>
+  <object id="425" type="FireWizard" gid="316" x="1824" y="1936"/>
  </objectgroup>
 </map>

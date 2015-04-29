@@ -31,7 +31,10 @@ void FireWizard::init(ContentManager* content)
 
 void FireWizard::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 {
-	
+	if (state == FW_MVG_RIGHT)
+		walkLeft();
+	else if (state == FW_MVG_LEFT)
+		walkRight();
 }
 
 void FireWizard::draw(SDL_Renderer* renderer)
