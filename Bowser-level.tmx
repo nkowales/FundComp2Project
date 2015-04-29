@@ -722,7 +722,7 @@
   <object id="108" x="2560" y="1792" width="224" height="48"/>
   <object id="109" x="2528" y="1792" width="32" height="272"/>
   <object id="110" x="1552" y="1744" width="16" height="192"/>
-  <object id="111" type="PlayerSpawn" gid="605" x="1344" y="2000">
+  <object id="111" type="PlayerSpawn" gid="605" x="1216" y="1988">
    <properties>
     <property name="autospawn" value="1"/>
    </properties>
@@ -1044,7 +1044,7 @@
     <property name="unique" value="1"/>
    </properties>
   </object>
-  <object id="457" type="TriggerArea" x="1424" y="1968" width="48" height="96">
+  <object id="457" type="TriggerArea" x="1296" y="1936" width="48" height="128">
    <properties>
     <property name="onEnter" value="bosswalls_fadeout_relay,trigger"/>
     <property name="unique" value="1"/>

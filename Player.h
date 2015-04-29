@@ -25,7 +25,7 @@ using namespace std;
 #define PLAYER_JUMP_TOL 5
 #define PLAYER_FLYING_FRAMETOL 1
 #define PLAYER_HEAD_ELASTICITY 0.5
-#define PLAYER_FEET 40
+#define PLAYER_FEET 10
 #define MARIO_WIDTH 16
 #define MARIO_HEIGHT 27
 #define SPYRO_HEIGHT 30
