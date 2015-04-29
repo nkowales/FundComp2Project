@@ -620,7 +620,7 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="1" type="Bowser" gid="88" x="2528" y="1648"/>
+  <object id="1" name="bossspawn" type="BowserSpawn" gid="88" x="2528" y="1744"/>
   <object id="2" x="368" y="2016" width="48" height="48"/>
   <object id="3" x="336" y="2064" width="2528" height="336"/>
   <object id="5" x="336" y="0" width="2528" height="336"/>
@@ -952,24 +952,15 @@
   <object id="386" type="Goomba" gid="81" x="1872" y="992"/>
   <object id="387" type="Goomba" gid="81" x="1712" y="976"/>
   <object id="388" type="Goomba" gid="81" x="1920" y="992"/>
-  <object id="404" type="FireWizard" gid="316" x="2352" y="1920"/>
-  <object id="405" type="FireWizard" gid="316" x="2720" y="1920"/>
-  <object id="406" type="FireWizard" gid="316" x="2784" y="1920"/>
-  <object id="408" type="FireWizard" gid="316" x="2384" y="1920"/>
   <object id="409" type="FireWizard" gid="316" x="2176" y="1904"/>
   <object id="411" type="FireWizard" gid="316" x="1904" y="1936"/>
-  <object id="412" type="FireWizard" gid="316" x="1936" y="1936"/>
   <object id="413" type="FireWizard" gid="316" x="2336" y="1936"/>
   <object id="414" type="FireWizard" gid="316" x="2368" y="1936"/>
   <object id="416" type="FireWizard" gid="316" x="2672" y="1936"/>
-  <object id="418" type="FireWizard" gid="316" x="2592" y="1920"/>
   <object id="419" type="FireWizard" gid="316" x="2576" y="1936"/>
   <object id="420" type="FireWizard" gid="316" x="2480" y="1904"/>
-  <object id="421" type="FireWizard" gid="316" x="2512" y="1936"/>
   <object id="422" type="FireWizard" gid="316" x="2240" y="1904"/>
-  <object id="423" type="FireWizard" gid="316" x="2128" y="1904"/>
   <object id="424" type="FireWizard" gid="316" x="2016" y="1888"/>
-  <object id="425" type="FireWizard" gid="316" x="1824" y="1936"/>
   <object id="428" type="Health" gid="2" x="1952" y="1792"/>
   <object id="429" type="Health" gid="2" x="2640" y="464"/>
   <object id="430" type="Health" gid="2" x="1936" y="1792"/>
@@ -1038,6 +1029,7 @@
     <property name="onTrigger2" value="bosswall2,enable"/>
     <property name="onTrigger3" value="bosswall3,enable"/>
     <property name="onTrigger4" value="bosswalls_controller,fadeIn"/>
+    <property name="onTrigger5" value="bossspawn,spawn"/>
    </properties>
   </object>
   <object id="455" name="bosswalls_controller" type="LayerController" gid="139" x="2288" y="1616">
@@ -1045,14 +1037,16 @@
     <property name="layer" value="bosswalls"/>
    </properties>
   </object>
-  <object id="456" type="TriggerArea" x="2096" y="1504" width="608" height="288">
+  <object id="456" type="TriggerArea" x="2320" y="1504" width="368" height="288">
    <properties>
     <property name="onEnter" value="bosswalls_fadein_relay,trigger"/>
+    <property name="unique" value="1"/>
    </properties>
   </object>
   <object id="457" type="TriggerArea" x="1424" y="1968" width="48" height="96">
    <properties>
     <property name="onEnter" value="bosswalls_fadeout_relay,trigger"/>
+    <property name="unique" value="1"/>
    </properties>
   </object>
  </objectgroup>

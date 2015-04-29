@@ -12,6 +12,7 @@
 #include <cmath>
 Bowser::Bowser(Uint32 id) : Enemy(id)
 {
+	
 }
 
 void Bowser::init(ContentManager* content)
@@ -22,19 +23,27 @@ void Bowser::init(ContentManager* content)
 	setMaxHealth(BOWSER_HEALTH);
 	setHealth(BOWSER_HEALTH);
 	setContactDamage(50);		// Damage taken by player for walking into the Bowser
-
 	sprite = content->getAnimatedTexture("sprites/M-bowser2.png", 0, 5, 50, 44, 0, 1, 13);
 	sprite.addAnimation("shellSpin", 340,230,50,44,0,4);
 	
-sprite.addAnimation("jump", 300,117,50,44,0,1);
+	sprite.addAnimation("jump", 300,117,50,44,0,1);
 	sprite.addAnimation("bowJump",100,117,50,44,0,4);
 	sprite.addAnimation("walk",0,5,50,44,0,4);
 	sprite.addAnimation("tailSmash", 140, 172,50,44,0,1);
 	velocity.x = 0;
+	Enemy::init(content);
 }
 
 void Bowser::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 {
+	cout << "hit wall\n";
+	velocity.x = - velocity.x;
+	if (facingLeft)
+		position.x += 40;
+	else
+		position.x -= 40;
+
+
 }
 
 void Bowser::draw(SDL_Renderer* renderer)
@@ -107,22 +116,25 @@ void Bowser::update(Uint32 time)
 	shellSpinCoolDown -= secs;
 	animTimer -= secs;
 	stunTimer -= secs;
+	attackTimer -= secs;
 	if (getHealth() < (BOWSER_HEALTH / 4)){ // control rage state (he powers up at low health)
 		enraged = true;
 		setContactDamage(100);
 		sprite.changeAnimation("walk",84 ,226 , 50, 44, 0, 3);
 		
 	}
+	if (sprite.getAnimation() != "shellSpin")
+		setInvuln(false);
 	if (inAir && sprite.getAnimation() != "bowJump" && velocity.y < 0) // change animation to jump while in air
 		sprite.setAnimation("jump");
 	else if (inAir && velocity.y > 0){ // When he starts to fall, go into tail smash move
 		sprite.setAnimation("tailSmash");
 	} else if (!inAir){
-		if (sprite.getAnimation() == "shellSpin") // if he is tail spinning, set velocity high
-			if (facingLeft)
-				velocity.x = 200;
-			else
-				velocity.x = -200;
+		//if (sprite.getAnimation() == "shellSpin") // if he is tail spinning, set velocity high
+			///if (facingLeft)
+			//	velocity.x = 200;
+			//else
+				//velocity.x = -200;
 		if (relPlayerlocation > 0 )
 		{
 			playerIsLeft = true;
@@ -137,23 +149,13 @@ void Bowser::update(Uint32 time)
 		}
 		if (stunTimer < 0.) // if not stunned
 		{
-			if (animTimer >= 1.5) // do nothing for 1.5 seconds
-			{
-				if (!inAir){
-					switch (state)
-					{
-					case BOW_STANDING:
-						velocity.x = 0;
-						break;
-
-					}
-				}
-			}
+			
 		
-			else{
-				int walk = rand() % 100; // get random value
-				animTimer = ANIMATION_TIMER;
-				// either walk towards player, or stop and face player
+			
+			int walk = rand() % 100; // get random value
+			animTimer = ANIMATION_TIMER;
+			// either walk towards player, or stop and face player
+			if (animTimer < 0.){
 				if ( walk > 49 )
 				{
 					if (playerIsLeft)
@@ -173,24 +175,26 @@ void Bowser::update(Uint32 time)
 					{
 						stop();
 						facingLeft = false;
-						sprite.setFlipH(false);
+					sprite.setFlipH(false);
 					}
 				}
 			}
-			if (fireMagicCoolDown < 0){ // attack with first available
-				spitFlames();
-			}else if (shellSpinCoolDown < 0){
-				shellSpin();
-			}else if (jumpCoolDown < 0){
-				if (facingLeft){
-					velocity.x = BOW_JMPSPD; 
-					jump();
-				} else{
-					velocity.x = -BOW_JMPSPD;
-					jump();
-				}
-			}else {}
-
+			if (attackTimer < 0.){
+				attackTimer = BOW_ATK_TIMER;
+				if (fireMagicCoolDown < 0){ // attack with first available
+					spitFlames();
+				}else if (shellSpinCoolDown < 0){
+					shellSpin();
+				}else if (jumpCoolDown < 0){
+					if (facingLeft){
+						velocity.x = BOW_JMPSPD; 
+						jump();
+					} else{
+						velocity.x = -BOW_JMPSPD;
+						jump();
+					}
+				}else {}
+			}
 		}
 	}
 			
