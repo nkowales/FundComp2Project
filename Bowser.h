@@ -5,15 +5,10 @@
  *      Author: mtroy2
  */
 
-<<<<<<< HEAD
 
 #ifndef BOWSER_H_
 #define BOWSER_H_
-=======
-/*
-#ifndef BOWSER_H_TXT_
-#define BOWSER_H_TXT_
->>>>>>> 748ee43f09342ed85518b2db0079a52d7f10e1a4
+
 
 #include "Enemy.h"
 #include <cstdlib>

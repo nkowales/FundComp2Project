@@ -1,8 +1,8 @@
 CMP = g++
 MAIN = main
-DOT_OS = AnimatedTexture.o ContentManager.o Screen.o ScreenManager.o MessageBoxScreen.o MenuScreen.o MainMenuScreen.o AdvanceLevel.o DeathScreen.o WinScreen.o Block.o Boomerang.o Bullet.o Camera.o  Enemy.o Fireball.o Geom.o Goomba.o Hammer.o HammerBro.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o Projectile.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o WorldMap.o WorldObject.o FireMagic.o FireWizard.o EnemyBoundary.o 
+DOT_OS = AnimatedTexture.o ContentManager.o WorldMap.o WorldObject.o  Screen.o ScreenManager.o MessageBoxScreen.o MenuScreen.o MainMenuScreen.o AdvanceLevel.o DeathScreen.o WinScreen.o Block.o Boomerang.o Bullet.o Camera.o  Switch.o SignalRelay.o Enemy.o Fireball.o Geom.o Goomba.o Hammer.o HammerBro.o Bowser.o LayerController.o MapLayer.o ObjectLayer.o OneWayPlatform.o Player.o PlayerSpawn.o ProgressBar.o Projectile.o TestCollider.o Texture.o TileLayer.o Tileset.o TriggerArea.o WorldDebugger.o FireMagic.o FireWizard.o EnemyBoundary.o JukeBox.o 
 
-HEADERS = AnimatedTexture.h ContentManager.h Animation.h Block.h Boomerang.h Bullet.h Camera.h Screen.h ScreenManager.h MenuScreen.h MainMenuScreen.h  MessageBoxScreen.h DeathScreen.h WinScreen.h AdvanceLevel.h CollisionGroup.h  Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h Hammer.h HammerBro.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Player.h PlayerSpawn.h ProgressBar.h Projectile.h TestCollider.h Texture.h TileLayer.h Tileset.h TriggerArea.h WorldDebugger.h WorldIO.h WorldMap.h WorldObject.h FireMagic.h FireWizard.h EnemyBoundary.h 
+HEADERS = AnimatedTexture.h ContentManager.h Animation.h WorldMap.h WorldObject.h LayerController.h MapLayer.h ObjectHeaders.h ObjectLayer.h OneWayPlatform.h Block.h Camera.h Screen.h ScreenManager.h MenuScreen.h MainMenuScreen.h  MessageBoxScreen.h TestCollider.h WorldDebugger.h WorldIO.h Texture.h TileLayer.h Tileset.h Boomerang.h Bullet.h  DeathScreen.h WinScreen.h Switch.h SignalRelay.h AdvanceLevel.h CollisionGroup.h Enemy.h Fireball.h GameConstants.h Geom.h Goomba.h Hammer.h HammerBro.h Bowser.h Player.h PlayerSpawn.h ProgressBar.h Projectile.h TriggerArea.h FireMagic.h FireWizard.h EnemyBoundary.h JukeBox.h 
 FUNC1 = AnimatedTexture
 FUNC2 = Block
 FUNC3 = Boomerang
@@ -42,8 +42,12 @@ FUNC36 = AdvanceLevel
 FUNC37 = MessageBoxScreen
 FUNC38 = DeathScreen
 FUNC39 = WinScreen
+FUNC40 = JukeBox
+FUNC41 = Bowser
+FUNC42 = Switch
+FUNC43 = SignalRelay
 EXEC = fc2proj
-FLAGS = -O0 -g3 -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++ -lSDL2_ttf
+FLAGS = -O0 -g3 -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++ -lSDL2_ttf -lSDL2_mixer
 
 all: $(EXEC)
 
@@ -126,6 +130,8 @@ $(FUNC15).o: $(FUNC15).cpp
 
 $(FUNC16).o: $(FUNC16).cpp
 	$(CMP) $(FLAGS) -c $(FUNC16).cpp
+$(FUNC41).o: $(FUNC41).cpp
+	$(CMP) $(FLAGS) -c $(FUNC41).cpp
 
 $(FUNC36).o: $(FUNC36).cpp
 	$(CMP) $(FLAGS) -c $(FUNC36).cpp
@@ -165,7 +171,9 @@ $(FUNC28).o: $(FUNC28).cpp
 
 $(FUNC31).o: $(FUNC31).cpp
 	$(CMP) $(FLAGS) -c $(FUNC31).cpp
-
-
+$(FUNC40).o: $(FUNC40).cpp
+	$(CMP) $(FLAGS) -c $(FUNC40).cpp
+$(FUNC42).o: $(FUNC42).cpp
+	$(CMP) $(FLAGS) -c $(FUNC42).cpp
 clean:
 	rm *.o $(EXEC) *~
