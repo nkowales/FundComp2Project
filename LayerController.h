@@ -43,9 +43,9 @@ private:
 	MapLayer* targetLayer = NULL;
 	string layerName;
 
-	Uint32 minFade = 0;
-	Uint32 maxFade = 255;
-	Uint32 fadeRate = 10;
+	int minFade = 0;
+	int maxFade = 255;
+	int fadeRate = 10;
 };
 
 #endif /* LAYERCONTROLLER_H_ */

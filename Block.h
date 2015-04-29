@@ -20,6 +20,10 @@ public:
 	Block(Uint32);
 
 	virtual void draw(SDL_Renderer*);
+	virtual WorldInput resolveInput(string);
+
+private:
+	void kill(WorldObject* = NULL, string = "");
 };
 
 

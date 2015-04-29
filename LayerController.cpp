@@ -51,15 +51,15 @@ void LayerController::update(Uint32 time)
 	if (targetLayer == NULL)
 		return;
 
-	Uint32 alpha = targetLayer->getOpacity();
+	int alpha = targetLayer->getOpacity();
 
 	switch (state)
 	{
 	case FADEIN:
-		targetLayer->setOpacity(alpha = (Uint8)min(maxFade, alpha + fadeRate));
+		targetLayer->setOpacity(alpha = min(maxFade, alpha + fadeRate));
 		break;
 	case FADEOUT:
-		targetLayer->setOpacity(alpha = (Uint8)max(minFade, alpha - fadeRate));
+		targetLayer->setOpacity(alpha = max(minFade, alpha - fadeRate));
 		break;
 	}
 
