@@ -67,6 +67,8 @@ void FireWizard::doMagic(){
 	sprite.setAnimation("ranged");
 	magicCooldown = MAGIC_COOLDOWN;
 	mag = new FireMagic(WorldObject::getUniqueID());
+	//if (facingLeft)
+		//mag->setFlipH(true);
 	fpos = {(facingLeft) ? position.x : position.x + FIREWIZARD_WIDTH, position.y + (FIREWIZARD_HEIGHT / 3)};
 	mag->setPosition(fpos);
 	mag->setVelocity(whereToShoot);
@@ -86,6 +88,7 @@ void FireWizard::update(Uint32 time)
 	double secs = time / 1000.;
 	magicCooldown -= secs;
 	animTimer -= secs;
+	stunTimer -= secs;
 	if (relPlayerlocation > 0 )
 	{
 		playerIsLeft = true;
@@ -94,64 +97,69 @@ void FireWizard::update(Uint32 time)
 	{
 		playerIsLeft = false;
 	}
+	if (stunTimer < 0.){
+		if (animTimer >= 1.5)
+		{
+			switch (state)
+			{
+			case FW_STANDING:
+				velocity.x = 0;
+				break;
+			case FW_MVG_RIGHT:
+				velocity.x = FIREWIZARD_WALKSPD;
+				break;
+			case FW_MVG_LEFT:
+				velocity.x = -FIREWIZARD_WALKSPD;
+			}
+		}
+		else if (animTimer < 1.5 && animTimer >= 0 )
+		{
+			switch (state)
+			{
+			case FW_STANDING:
+				break;
+			case FW_MVG_RIGHT:
+				stop();
+				break;
+			case FW_MVG_LEFT:
+				stop();
+				break;
+			}
 	
-	if (animTimer >= 1.5)
-	{
-		switch (state)
-		{
-		case FW_STANDING:
-			velocity.x = 0;
-			break;
-		case FW_MVG_RIGHT:
-			velocity.x = FIREWIZARD_WALKSPD;
-			break;
-		case FW_MVG_LEFT:
-			velocity.x = -FIREWIZARD_WALKSPD;
 		}
-	}
-	else if (animTimer < 1.5 && animTimer >= 0 )
-	{
-		switch (state)
-		{
-		case FW_STANDING:
-			break;
-		case FW_MVG_RIGHT:
-			stop();
-			break;
-		case FW_MVG_LEFT:
-			stop();
-			break;
-		}
-
-	}
-	else{
-		int walk = rand() % 100; // get random value
-		animTimer = ANIMATION_TIMER;
-		// either walk towards player, or stop and face player
-		if ( walk > 49 )
-		{
-			if (playerIsLeft)
-				walkLeft(); 
-			else
-				walkRight();
-		} 
-		else if (walk <= 49)
-		{
-			if (playerIsLeft)
+		else{
+			int walk = rand() % 100; // get random value
+			animTimer = ANIMATION_TIMER;
+			// either walk towards player, or stop and face player
+			if ( walk > 49 )
 			{
-				stop();
-				facingLeft = true;
-				sprite.setFlipH(true);
-			}
-			else 	
+				if (playerIsLeft)
+					walkLeft(); 
+				else
+					walkRight();
+			} 
+			else if (walk <= 49)
 			{
-				stop();
-				facingLeft = false;
-				sprite.setFlipH(false);
+				if (playerIsLeft)
+				{
+					stop();
+					facingLeft = true;
+					sprite.setFlipH(true);
+				}
+				else 	
+				{
+					stop();
+					facingLeft = false;
+					sprite.setFlipH(false);
+				}
 			}
 		}
+		doMagic();
 	}
-	doMagic();
+	else
+	{
+		velocity.x = 0;
+	}
 	if (framesSinceTouchedGround++ > 2)
 		inAir = true;
 
@@ -186,4 +194,8 @@ void FireWizard::walkRight()
 void FireWizard::stop()
 {
 	velocity.x = 0;
+}
+void FireWizard::stun()
+{
+	stunTimer = FIREWIZARD_STUNTIME;
 }
