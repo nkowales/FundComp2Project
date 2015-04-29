@@ -389,11 +389,6 @@
     <property name="sentry" value="1"/>
    </properties>
   </object>
-  <object id="241" type="HammerBro" gid="110" x="944" y="1200">
-   <properties>
-    <property name="sentry" value="1"/>
-   </properties>
-  </object>
   <object id="242" type="HammerBro" gid="110" x="992" y="1200">
    <properties>
     <property name="sentry" value="1"/>
@@ -425,11 +420,6 @@
    </properties>
   </object>
   <object id="248" type="HammerBro" gid="110" x="1552" y="384">
-   <properties>
-    <property name="sentry" value="1"/>
-   </properties>
-  </object>
-  <object id="249" type="HammerBro" gid="110" x="1488" y="384">
    <properties>
     <property name="sentry" value="1"/>
    </properties>
