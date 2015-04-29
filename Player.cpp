@@ -553,23 +553,23 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 
 void Player::jump()
 {
-	defending = false;
-	if (!inAir && canJump)
+	defending = false; // takes care of any false, lingering flags
+	if (!inAir && canJump) // if able to take a jump
 	{
 
 		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
 		{
-			iter->setAnimation("jump");
+			iter->setAnimation("jump"); // set all animations to jump
 		}
 
-		sprites[CH_SPYRO].setRate(8);
+		sprites[CH_SPYRO].setRate(8); // adjust spyro's speed
 		inAir = true;
 		canJump = false;
 
 		position.y -= PLAYER_JUMP_TOL;
 		if (currentCharacter != CH_SPYRO)
 		{
-			velocity.y = -PLAYER_JUMP_VEL;
+			velocity.y = -PLAYER_JUMP_VEL; // spyro has a different jumping velocity
 		}
 		else
 		{
@@ -587,7 +587,7 @@ void Player::meleeAttack()
 
 	switch(currentCharacter){
 		case CH_LINK:
-			if (facingLeft)
+			if (facingLeft) // update bounding box / set animation to melee
 			{
 				sprites[CH_LINK].setAnimation("melee");
 				sprites[CH_LINK].setRate(3);
@@ -622,36 +622,26 @@ void Player::meleeAttack()
 void Player::rangedAttack()
 {
 	defending = false;
-	Fireball* fball;
+	Fireball* fball; // declare possible ranged missiles
 	Boomerang* boom;
 	Vector2d fpos;
 	string current;
 	switch(currentCharacter)
 	{
 		case CH_MARIO:
-			if (fireballCooldown > 0.) break;
+			if (fireballCooldown > 0.) break; // if still in cooldown period, break
 
-			fireballCooldown = FIREBALL_COOLDOWN;
+			fireballCooldown = FIREBALL_COOLDOWN; // reset cooldown
 
 			fball = new Fireball(WorldObject::getUniqueID());
 
-			fpos = {(facingLeft) ? position.x : position.x + MARIO_WIDTH, position.y + MARIO_HEIGHT / 3};
+			fpos = {(facingLeft) ? position.x : position.x + MARIO_WIDTH, position.y + MARIO_HEIGHT / 3}; // set spawn point
 			fball->setPosition(fpos);
 
 			if (facingLeft)
 				fball->reverseDirection();
 
 			getParentLayer()->addObject(fball);
-			break;
-		case CH_SPYRO:
-			current = sprites[CH_SPYRO].getAnimation();
-			sprites[CH_SPYRO].setAnimation("ranged");
-			current = sprites[CH_SPYRO].getAnimation();
-			fpos = {(facingLeft) ? position.x : position.x + SPYRO_WIDTH, position.y + SPYRO_HEIGHT / 3};
-
-			break;
-		case CH_LBLUE:
-			fpos = {(facingLeft) ? position.x : position.x + LBLUE_WIDTH, position.y + LBLUE_HEIGHT / 3};
 			break;
 		case CH_LINK:
 			// Make sure we haven't already thrown
@@ -683,19 +673,14 @@ void Player::rangedAttack()
 			}
 
 			boom = new Boomerang(WorldObject::getUniqueID());
-			boom->setPath(p);									 // Calculates bezier path from control points
-			boom->setReturnTarget(this);						// Return to the player after it completes the path
+			boom->setPath(p);					 // Calculates bezier path from control points
+			boom->setReturnTarget(this);			// Return to the player after it completes the path
 			boom->setPosition(fpos);
 			boom->setName("[BOOMERANG]");
 			getParentLayer()->addObject(boom);
 			break;
 	}
-	//cout <<  current << endl;
-	
-	/*Bullet* bullet = new Bullet(WorldObject::getUniqueID());
-	bullet->setPosition(position);
-	bullet->setAngle(0.125);
-	getParentLayer()->addObject(bullet);*/
+
 }
 
 void Player::moveLeft()
@@ -712,17 +697,17 @@ void Player::moveLeft()
 			for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
 			{
 				if (!inAir)
-					iter->setAnimation("walk");
+					iter->setAnimation("walk"); // set all to walk
 				iter->setFlipH(true);
 			}
 		}
 	}
-	else
+	else // if flying
 	{
 		if (state != PLYR_FLYING_LEFT)
 		{
 			facingLeft = true;
-			state = PLYR_FLYING_LEFT;
+			state = PLYR_FLYING_LEFT; // set state
 			for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
 			{
 				iter->setFlipH(true);
@@ -780,7 +765,7 @@ void Player::stopMoveRight()
 			state = PLYR_STANDING;
 		}
 	}
-	else
+	else // go from flying to hovering
 	{
 		if (state == PLYR_FLYING_RIGHT)
 			state = PLYR_HOVERING;
@@ -812,7 +797,7 @@ void Player::stopMoveLeft()
 
 void Player::duck()
 {
-	if (standingOnOneWay)
+	if (standingOnOneWay) // fall through one way
 	{
 		inAir = true;
 		ignorePlatform = lastOneWay;
@@ -821,7 +806,7 @@ void Player::duck()
 
 void Player::resetAnimation()
 {
-	if (state == PLYR_STANDING)
+	if (state == PLYR_STANDING) // used to reset all sprites
 	{
 		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
 		{
@@ -844,7 +829,7 @@ void Player::switchCharacter(int character)
 	int oldh = getBoundingBox().h;
 	switch (character)
 	{
-	case CH_SPYRO:
+	case CH_SPYRO: // switch character and update bounding box / character flags
 		flying = false;
 		currentCharacter = CH_SPYRO;
 		bbox.x = bbox.y = 0;
@@ -881,15 +866,14 @@ void Player::switchCharacter(int character)
 	position.y -= bbox.h - oldh;
 
 	// flip sprite if we are link or we are facing left, but not both
-	//sprites[currentCharacter].setFlipH((currentCharacter == CH_LINK) != facingLeft);
 	sprites[currentCharacter].setFlipH(facingLeft);
 }
 
 void Player::hurt(int dmg)
 {
-	if (invulnTimer <= 0. && sprites[currentCharacter].getAnimation() != "melee")
+	if (invulnTimer <= 0.) // if not in invuln frames
 	{
-		if (defending)
+		if (defending) // if link is defending
 		{
 			invulnTimer = PLAYER_INVULN_TIME;
 			health -= dmg/2;
@@ -903,13 +887,14 @@ void Player::hurt(int dmg)
 			die();
 	}
 
-	//cout << health << endl;
+	
 }
 
 void Player::die()
 {
 	// TODO
 	//health = PLAYER_MAXHEALTH;
+		// play death screen
 	DeathScreen* ds = new DeathScreen(getParentLayer()->getParent());
 	getParentLayer()->getParent()->getManager()->addScreen(ds);
 }
@@ -944,38 +929,23 @@ void Player::resetBBox(){
 }
 void Player::switchMode(){
 	
-	if (currentCharacter == CH_SPYRO)
+	if (currentCharacter == CH_SPYRO) // switch between gliding and flying
 	{
-		if (!flying)
-		{
-			if (sprites[CH_SPYRO].getAnimation()!= "flying")
+		if (inAir){
+			if (!flying)
 			{
-				sprites[CH_SPYRO].setAnimation("flying");
-				sprites[CH_SPYRO].setRate(7);	
+				if (sprites[CH_SPYRO].getAnimation()!= "flying")
+				{
+					sprites[CH_SPYRO].setAnimation("flying");
+					sprites[CH_SPYRO].setRate(7);	
+				}
+				flying = true;
+				state = PLYR_HOVERING;
 			}
-			flying = true;
-			state = PLYR_HOVERING;
-		}
-		else
-		{
-			flying = false;
-			if (!inAir)
+			else
 			{
-				if (state == PLYR_FLYING_LEFT)
-				{
-					moveLeft();
-				}
-				else if (state == PLYR_FLYING_RIGHT)
-				{
-					moveRight();
-				}
-				else if (state == PLYR_HOVERING || state == PLYR_FLYING_UP || state == PLYR_FLYING_DOWN)
-				{
-					sprites[CH_SPYRO].setAnimation("default");
-				}
-			}
-			else 
-			{
+				flying = false;
+	
 				if (state == PLYR_FLYING_LEFT)
 				{
 					state = PLYR_MVG_LEFT;
@@ -990,13 +960,13 @@ void Player::switchMode(){
 				}
 				canJump = false;
 				sprites[CH_SPYRO].setAnimation("gliding");		
-	
 			}
+				
 		}
 	}
-}
+}	
 void Player::defend()
-{
+{	
 	SDL_Rect bbox;
 	if (currentCharacter == CH_LINK)
 	{
