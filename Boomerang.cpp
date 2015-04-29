@@ -22,6 +22,7 @@ Boomerang::Boomerang(Uint32 id) : Projectile(id)
 
 void Boomerang::init(ContentManager* content)
 {
+	// set sprite and beginning of curve
 	sprite = content->getAnimatedTexture("sprites/L-Link.png", 36, 543, 10, 10, 2, 4, 5);
 	position = bezierCurve[0];
 }
