@@ -383,7 +383,7 @@ bool Player::canCollideWith(const WorldObject* other)
 	Uint32 grp = other->getCollisionGroup();
 	return ((grp == COLGRP_WORLD) || (grp == COLGRP_ONEWAY) ||
 			(grp == COLGRP_PROJECTILE) || (grp == COLGRP_ENEMY) || (grp == COLGRP_ENEMPROJECTILE) || 
-			(grp == COLGRP_ADVANCE));
+			(grp == COLGRP_ADVANCE) || (grp == COLGRP_POWERUP));
 }
 
 void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
@@ -541,23 +541,13 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		break;
 
-	/*case COLGRP_ADVANCE:
-		if (currentLevel == LVL_MARIO) {
-			ScreenManager* manager = getParentLayer()->getParent()->getManager();
-			WorldMap* map = new WorldMap("Link-level.tmx", manager->getRenderer());
-			manager->addScreen(map);
-			manager->removeScreen(getParentLayer()->getParent());
+	case COLGRP_POWERUP:
+		hurt(-20);
+		if (health > maxHealth)
+			health = maxHealth;
 
-			//position.x = 
-			//position.y = 
-			currentLevel++;
-		} else if (currentLevel == LVL_LINK) {
-			currentLevel++;
-		} else if (currentLevel == LVL_SPYRO) {
-			currentLevel++;
-		} else if (currentLevel == LVL_BOWSER) {
-		}
-		break;*/
+		getParentLayer()->removeObject(other->getId());
+		break;
 	}
 }
 

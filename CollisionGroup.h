@@ -21,7 +21,8 @@ enum CollisionGroup
 	COLGRP_PROJECTILE,		// Bullets, fireballs, etc.
 	COLGRP_ENEMPROJECTILE,		// Hammers, etc.
 	COLGRP_ENEMBOUND,		// EnemyBoundary
-	COLGRP_ADVANCE			// AdvanceLevel
+	COLGRP_ADVANCE,			// AdvanceLevel
+	COLGRP_POWERUP
 };
 
 #endif /* COLLISIONGROUP_H_ */
