@@ -19,7 +19,8 @@ Our group meeting log can be found at:
 https://docs.google.com/a/nd.edu/spreadsheets/d/1Lz-XOWNj3X9Rnw278X7epLJIcZ8spotYUOsZ-gJOZyM/edit?usp=sharing
 Individual time logs can be found at:
 Nick: https://docs.google.com/a/nd.edu/spreadsheets/d/1gD2uSyinwcTdM9kmtscDf0DDk23lc8fv7cX4TdEdR8M/edit?usp=sharinghttps://docs.google.com/a/nd.edu/spreadsheets/d/1gD2uSyinwcTdM9kmtscDf0DDk23lc8fv7cX4TdEdR8M/edit?usp=sharing
-Mitch:  
+Mitch: 
+https://docs.google.com/a/nd.edu/spreadsheets/d/1m4rXiwHTOAxGtBN_Cl79fXAUpDiXgLDpjh1v3L2ExXQ/edit#gid=0 
 Greg:
 https://docs.google.com/a/nd.edu/spreadsheets/d/1CTI9xzaBySrNEv8v71wZPtWpYaD9jOEI9-BKEs8-l9Y/edit?usp=sharing
 Nathan: 
@@ -59,7 +60,7 @@ There is a game controller that we have that works with the game as well. It
 is interchangable with the keyboard controls. It plugs into the computer via 
 a USB port.  Its controls are:
 Left, Right (on D-pad) - Move Left, Right
-Up (on D-pad) - Jump (hold to glide with Spyro)
+Up (on D-pad) - Jump 
 Down (on D-pad) - Fall through floating platforms
 5, 6, 7 - Switch between Mario, Link and Spyro
 2 - Ranged attack (Mario, Link only)
