@@ -45,8 +45,8 @@ private:
 	Path bezierCurve;
 	int currentTarget = 1;
 	WorldObject* returnTo = NULL;
-	int delay = BOOMERANG_DELAY;
-
+	double delay = BOOMERANG_DELAY;
+	double soundDelay = .2;
 	Vector2d calculateBezierPoint(double, Vector2d, Vector2d, Vector2d, Vector2d);
 };
 

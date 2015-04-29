@@ -42,7 +42,6 @@ void Player::init(ContentManager* content)
 	Mix_Chunk* lowHealth;
 	Mix_Chunk* attack;
 	Mix_Chunk* wallColl;
-	Mix_Chunk* fireball;
 	AnimatedTexture marioSprite, spyroSprite, lBlueSprite, linkSprite;
 	// Animations are loaded in the following format:
 	// ("name", xpos, ypos, width, height,  pixels in betwen, frames, [framerate])
@@ -449,7 +448,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		else if (overlap.h > overlap.w) // hit from side
 		{
-			if (currentState = CH_MVG_LEFT || curentState = CH_MVG_RIGHT)
+			if (state == PLYR_MVG_LEFT || state == PLYR_MVG_RIGHT)
 				Mix_PlayChannel(-1, sfx[SFX_WALLCOL], 0);
 			if (overlap.x > bbox.x) // hit walking right
 			{

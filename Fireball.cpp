@@ -8,6 +8,7 @@
 #include "Fireball.h"
 #include "ObjectLayer.h"
 #include "Enemy.h"
+#include <SDL2/SDL_mixer.h>
 Fireball::Fireball(Uint32 id) : Projectile(id)
 {
 	
@@ -29,6 +30,7 @@ void Fireball::init(ContentManager* content)
 {
 	sprite = content->getAnimatedTexture("sprites/M-fireball.png", 0, 0, FIREBALL_FRMW,
 			FIREBALL_FRMH, FIREBALL_SPC, FIREBALL_NFRM, FIREBALL_ANIMSPD);
+	sound = content->getSfx("Music/smb_fireball.wav");
 }
 
 bool Fireball::canCollideWith(const WorldObject* other)
@@ -66,6 +68,7 @@ void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		// if collides w/ a wall
 		if ((position.y + 2) < overlap.y)
 		{
+			Mix_PlayChannel(-1, sound, 0);
 			velocity.y = -velocity.y;
 			position.y = other->getPosition().y - size - 1;
 			nBounces++;
@@ -74,6 +77,7 @@ void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	case COLGRP_ONEWAY:
 		if ((position.y + 2) < overlap.y)
 		{
+			Mix_PlayChannel(-1, sound, 0);
 			velocity.y = -velocity.y;
 			position.y = other->getPosition().y - size - 1;
 			nBounces++;
@@ -81,6 +85,7 @@ void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		break;
 	case COLGRP_ENEMY:
 		// do damage
+		Mix_PlayChannel(-1, sound, 0);
 		enemy = static_cast<Enemy*>(other);
 		if (enemy->getInvuln() == true){
 		} else {
@@ -107,3 +112,4 @@ void Fireball::kill()
 {
 	getParentLayer()->removeObject(getId());
 }
+

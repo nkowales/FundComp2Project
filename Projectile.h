@@ -11,7 +11,7 @@
 #define PROJECTILE_H_
 
 #include "WorldObject.h"
-
+#include <SDL2/SDL_mixer.h>
 
 
 class Projectile : public WorldObject
@@ -36,9 +36,10 @@ protected:
 	int size;
 	int gravity;
 	int damage;
+	Mix_Chunk* sound;	
 private:
 	
-	
+		
 };
 
 #endif /* PROJECTILE_H_ */

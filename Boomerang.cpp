@@ -18,6 +18,7 @@ Boomerang::Boomerang(Uint32 id) : Projectile(id)
 	damage = 5;
 	setCollisionGroup(COLGRP_PROJECTILE);
 	setBoundingBox({0, 0, BOOMERANG_SIZE, BOOMERANG_SIZE});
+	
 }
 
 void Boomerang::init(ContentManager* content)
@@ -25,24 +26,36 @@ void Boomerang::init(ContentManager* content)
 
 	sprite = content->getAnimatedTexture("sprites/L-Link.png", 36, 543, 10, 10, 2, 4, 5);
 	position = bezierCurve[0];
+	sound = content->getSfx("Music/LOZ_Boomerang.wav");
+	
 }
 
 void Boomerang::update(Uint32 time)
 {
+	double secs = time / 1000.;
 	// Wait for player's animation to finish
+	soundDelay -= secs;
 	if (delay > 0)
 	{
 		delay--;
 		return;
 	}
 
+	if (soundDelay < 0.)
+	{
+		cout << soundDelay << " now playing sound" << endl;
+		Mix_PlayChannel(-1, sound, 0);
+		soundDelay = 0.2;	
+	}
 	Vector2d target;
 	if (currentTarget != -1)
 	{
+		
 		target = bezierCurve[currentTarget];
 	}
 	else if (returnTo)
 	{
+		//Mix_PlayChannel(-1, sound, 0);
 		target = returnTo->getPosition();
 	}
 
