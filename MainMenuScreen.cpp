@@ -10,7 +10,7 @@
 #include "ScreenManager.h"
 #include "MessageBoxScreen.h"
 
-MainMenuScreen::MainMenuScreen() : MenuScreen()
+MainMenuScreen::MainMenuScreen() : MenuScreen("Super Legend of Spyro")
 {
 
 }
