@@ -16,6 +16,7 @@
 #include "Geom.h"
 #include "ScreenManager.h"
 #include "DeathScreen.h"
+#include "WinScreen.h"
 
 Player::Player() : WorldObject(), healthBar(maxHealth)
 {
@@ -556,15 +557,20 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			WorldMap* map = new WorldMap("Link-level.tmx", manager->getRenderer());
 			manager->addScreen(map);
 			manager->removeScreen(getParentLayer()->getParent());
-
-			//position.x = 
-			//position.y = 
 			currentLevel++;
 		} else if (currentLevel == LVL_LINK) {
+			ScreenManager* manager = getParentLayer()->getParent()->getManager();
+			WorldMap* map = new WorldMap("Spyro-level.tmx", manager->getRenderer());
+			manager->addScreen(map)
+			manager->removeScreen(getParentLayer()->getParent());
 			currentLevel++;
 		} else if (currentLevel == LVL_SPYRO) {
+			WinScreen* ws = new WinScreen(getParentLayer()->getParent());
+                        getParentLayer()->getParent()->getManager()->addScreen(ws);
 			currentLevel++;
 		} else if (currentLevel == LVL_BOWSER) {
+			//WinScreen* ws = new WinScreen(getParentLayer()->getParent());
+			//getParentLayer()->getParent()->getManager()->addScreen(ws);
 		}
 		break;
 	}
