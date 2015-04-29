@@ -26,7 +26,7 @@ void Bowser::init(ContentManager* content)
 	sprite = content->getAnimatedTexture("sprites/M-bowser2.png", 0, 5, 50, 44, 0, 1, 13);
 	sprite.addAnimation("shellSpin", 340,230,50,44,0,4);
 	
-sprite.addAnimation("jump", 300,117,50,44,0,1);
+	sprite.addAnimation("jump", 300,117,50,44,0,1);
 	sprite.addAnimation("bowJump",100,117,50,44,0,4);
 	sprite.addAnimation("walk",0,5,50,44,0,4);
 	sprite.addAnimation("tailSmash", 140, 172,50,44,0,1);

@@ -37,6 +37,7 @@
 #include "Flame.h"
 #include "HealthMushroom.h"
 #include "BowserSpawn.h"
+#include "MushroomSpawner.h"
 using namespace std;
 
 WorldObject* resolveWorldObject(string type, Uint32 id)
@@ -65,6 +66,7 @@ WorldObject* resolveWorldObject(string type, Uint32 id)
 	REGISTER_OBJ_NAME("Flame", Flame)
 	REGISTER_OBJ_NAME("Health", HealthMushroom)
 	REGISTER_OBJ_NAME("BowserSpawn", BowserSpawn)
+	REGISTER_OBJ_NAME("MushroomSpawner", MushroomSpawner)
 
 	return NULL;
 }
