@@ -47,7 +47,7 @@ void FireWizard::draw(SDL_Renderer* renderer)
 	} else {
 		sprite.draw(renderer, tpos.x - 13, tpos.y);
 	}
-	
+	Enemy::draw(renderer);
 }
 void FireWizard::doMagic(){
 	if (magicCooldown > 0.)

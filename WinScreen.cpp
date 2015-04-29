@@ -28,9 +28,6 @@ void WinScreen::update(Uint32 time)
 	if (timer > 0.)
 		timer -= secs;
 
-	//if (timer < 0.)
-		//timer = 0.;
-
 	switch (state)
 	{
 	case WS_FADEIN:
