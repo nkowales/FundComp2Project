@@ -356,6 +356,12 @@ void Player::handleEvent(const SDL_Event& e)
 					case PLYR_FLYING_RIGHT:
 						stopFlyRight();
 						break;
+					case PLYR_FLYING_UP:
+						stopFlyUp();
+						break;
+					case PLYR_FLYING_DOWN:
+						stopFlyDown();
+						break;
 					}
 				}
 			}
@@ -375,11 +381,35 @@ void Player::handleEvent(const SDL_Event& e)
 				{
 					if (flying && currentCharacter == CH_SPYRO)
 						flyUp();
-					else
-						jump();
+					//else
+					//	jump();
 					
-					canJump = true;
+					//canJump = true;
 				}
+				else{
+					switch (state)
+					{
+					case PLYR_MVG_LEFT:
+						stopMoveLeft();
+						break;
+					case PLYR_MVG_RIGHT:
+						stopMoveRight();
+						break;
+					case PLYR_FLYING_LEFT:
+						stopFlyLeft();
+						break;
+					case PLYR_FLYING_RIGHT:
+						stopFlyRight();
+						break;
+					case PLYR_FLYING_UP:
+						stopFlyUp();
+						break;
+					case PLYR_FLYING_DOWN:
+						stopFlyDown();
+						break;
+					}
+				}
+
 			}
 
 		}
@@ -404,8 +434,10 @@ void Player::handleEvent(const SDL_Event& e)
 		case 0:
 			defend();
 			break;
-
-
+		case 3:
+			jump();
+			canJump=true;
+			break;
 		}
 	}
 	else if (e.type == SDL_JOYBUTTONUP)
