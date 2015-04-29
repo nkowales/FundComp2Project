@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Class JukeBox :: public WorldObject
+class JukeBox : public WorldObject
 {
 public:
 	JukeBox(Uint32);
@@ -22,7 +22,7 @@ private:
 	string songLocation;
 	Mix_Music* song;
 	
-}
+};
 
 
 #endif
