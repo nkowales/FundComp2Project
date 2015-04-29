@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 28, 2015
  *      Author: gnemecek
+ *
+ *      The screen that will display to the user that they won
  */
 
 #ifndef WINSCREEN_H_

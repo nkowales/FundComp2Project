@@ -3,6 +3,9 @@
  *
  *  Created on: Apr 28, 2015
  *      Author: gnemecek
+ *
+ *      The flame that is on the floor of Bowser's castle level
+ *      It can damage the player upon contact.
  */
 
 #ifndef FLAME_H_
