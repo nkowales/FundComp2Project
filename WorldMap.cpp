@@ -43,7 +43,6 @@ WorldMap::~WorldMap()
 	{
 		delete camera;
 	}
-
 	//if (content)
 	//{
 	//	delete content;
