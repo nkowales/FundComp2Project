@@ -1,0 +1,73 @@
+Super Legend of Spyro
+Game Manual
+Developers: Nick Aiello, Mitch Troy, Greg Nemecek, Nathan Kowaleski
+
+About the Game:
+This game was created for our semester project for Prof. Scott Emrich's
+Fundamentals of Computing II Class at the University of Notre Dame (Spring
+2015)
+The game is a 2-D side-scrolling platform game, in which the player tries to
+go all the way around the map to reach the finish without accumulating too
+much damage from the enemies.  The user can play as Mario, Link, and Spyro,
+which each have unique abilities.
+
+Code Repository:
+https://github.com/nkowales/FundComp2Project
+
+Hours Logged:
+Our group meeting log can be found at:
+https://docs.google.com/a/nd.edu/spreadsheets/d/1Lz-XOWNj3X9Rnw278X7epLJIcZ8spotYUOsZ-gJOZyM/edit?usp=sharing
+Individual time logs can be found at:
+Nick: 
+https://docs.google.com/a/nd.edu/spreadsheets/d/1gD2uSyinwcTdM9kmtscDf0DDk23lc8fv7cX4TdEdR8M/edit?usp=sharing
+Mitch: 
+https://docs.google.com/a/nd.edu/spreadsheets/d/1m4rXiwHTOAxGtBN_Cl79fXAUpDiXgLDpjh1v3L2ExXQ/edit#gid=0 
+Greg:
+https://docs.google.com/a/nd.edu/spreadsheets/d/1CTI9xzaBySrNEv8v71wZPtWpYaD9jOEI9-BKEs8-l9Y/edit?usp=sharing
+Nathan: 
+https://docs.google.com/a/nd.edu/document/d/1hsd82OBAhR3NaIvrgmK-SeiPjvfvtiRjAqvjU3Cbo3Q/edit?usp=sharing
+
+Compiler Instructions:
+We used the managed make system of Eclipse to compile our code.
+We did not test this project extensively on the student machines, but it does
+work on group member laptops.  Some of the libraries, like SDL2_mixer, are not
+available on the student machines.
+To compile from scratch, use:
+g++ *.cpp -O0 -g3 -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++ -lSDL2_ttf -lSDL2_mixer -o fc2proj
+The executable can then be run as: 
+./fc2proj
+
+Controls:
+A, D - Move Left, Right
+W - Jump (hold to glide with Spyro)
+S - Fall through floating platforms
+1, 2, 3 - Switch between Mario, Link and Spyro
+F - Ranged attack (Mario, Link only)
+V - Melee attack (Link, Spyro only)
+Esc - Pause
+X-Button - Close/ Quit
+The goal is to move around the map to reach the end of the level.  There are
+four levels that need to be completed.  The player should avoid being hit by
+the enemies and their attacks.  To counter, the player can jump on the enemy
+or use the ranged and melee attacks.  Most platforms are solid, but some are
+one-way platforms which allow the player to go up and down through it.  The
+end of the level is reached when the player arrives at the treasure chest.
+
+Known Bugs:
+Spyro's flying ability is a little bit glitchy and can sometimes accidentally
+leave the screen.
+Our game is unreasonably hard.  This is not really a bug, but something we
+would look to improve in the future by decreasing the difficulty and reducing
+the number of enemies on the map.
+
+Additional Information:
+There is a game controller that we have that works with the game as well. It
+is interchangable with the keyboard controls. It plugs into the computer via 
+a USB port.  Its controls are:
+Left, Right (on D-pad) - Move Left, Right
+Up (on D-pad) - Jump 
+Down (on D-pad) - Fall through floating platforms
+5, 6, 7 - Switch between Mario, Link and Spyro
+2 - Ranged attack (Mario, Link only)
+3 - Melee attack (Link, Spyro only)
+
