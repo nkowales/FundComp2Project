@@ -6,8 +6,8 @@
  */
 
 
-#ifndef BOWSER_H_TXT_
-#define BOWSER_H_TXT_
+#ifndef BOWSER_H_
+#define BOWSER_H_
 
 #include "Enemy.h"
 #include <cstdlib>
@@ -16,6 +16,7 @@
 #define BOWSER_HEALTH 300
 #define BOWSER_WIDTH 35
 #define BOWSER_HEIGHT 41
+#define BOW_JMPSPD 100
 #define FIREMAGIC_COOLDOWN 5.0
 #define JUMP_COOLDOWN 3.0
 #define ANIMATION_TIMER 3.00
@@ -49,7 +50,6 @@ public:
 private:
 	//flags
 	bool enraged = false; // when low on hp
-	bool canJump = true;
 	int state = BOW_STANDING;
 	bool facingLeft = true;
 	AnimatedTexture sprite;
@@ -65,4 +65,4 @@ private:
 	double stunTimer = 0;
 
 };
-#endif*/
+#endif
