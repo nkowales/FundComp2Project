@@ -17,7 +17,7 @@ Fireball::Fireball(Uint32 id) : Projectile(id)
 	velocity.y = 200;
 	maxBounces = 3;
 	hSpeed = 250;
-	vSpeed = 200;
+	vSpeed = 150;
 	size = 8;
 	gravity = 800;
 	damage = 5;
@@ -66,21 +66,29 @@ void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	{
 	case COLGRP_WORLD:
 		// if collides w/ a wall
-		if ((position.y + 2) < overlap.y)
+		if /*((position.y + 2) < overlap.y)*/ (position.y < other->getPosition().y)
 		{
 			Mix_PlayChannel(-1, sound, 0);
 			velocity.y = -velocity.y;
 			position.y = other->getPosition().y - size - 1;
 			nBounces++;
 		}
+		else
+		{
+			kill();
+		}
 		break;
 	case COLGRP_ONEWAY:
-		if ((position.y + 2) < overlap.y)
+		if (position.y < other->getPosition().y)
 		{
 			Mix_PlayChannel(-1, sound, 0);
 			velocity.y = -velocity.y;
 			position.y = other->getPosition().y - size - 1;
 			nBounces++;
+		}
+		else
+		{
+			kill();
 		}
 		break;
 	case COLGRP_ENEMY:
