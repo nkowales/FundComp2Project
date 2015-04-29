@@ -42,8 +42,9 @@ public:
 	void stop();
 	void jump();
 	void stun();
+	void setProperty(string, string);
 private:
-
+	bool sentry = false;
 	int state = STANDING;
 	bool facingLeft = false;
 	AnimatedTexture sprite;

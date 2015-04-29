@@ -112,7 +112,7 @@ void Enemy::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		break;
 	case COLGRP_ENEMBOUND:
-		velocity.x = -velocity.x;
+		onWalkIntoWall(other, overlap);
 		break;
 
 	}
