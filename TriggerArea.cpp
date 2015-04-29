@@ -6,6 +6,7 @@
  */
 
 #include "TriggerArea.h"
+#include "ObjectLayer.h"
 
 TriggerArea::TriggerArea(Uint32 id) :
 	WorldObject(id)
@@ -55,4 +56,13 @@ void TriggerArea::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		if (onEnter)
 			onEnter();
 	}
+
+	if (once)
+		getParentLayer()->removeObject(getId());
+}
+
+void TriggerArea::setProperty(string key, string val)
+{
+	if (key == "unique")
+		once = true;
 }

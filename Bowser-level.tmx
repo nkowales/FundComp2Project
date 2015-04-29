@@ -620,7 +620,7 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="1" type="Bowser" gid="88" x="2528" y="1648"/>
+  <object id="1" name="bossspawn" type="BowserSpawn" gid="88" x="2528" y="1728"/>
   <object id="2" x="368" y="2016" width="48" height="48"/>
   <object id="3" x="336" y="2064" width="2528" height="336"/>
   <object id="5" x="336" y="0" width="2528" height="336"/>
@@ -1038,6 +1038,7 @@
     <property name="onTrigger2" value="bosswall2,enable"/>
     <property name="onTrigger3" value="bosswall3,enable"/>
     <property name="onTrigger4" value="bosswalls_controller,fadeIn"/>
+    <property name="onTrigger5" value="bossspawn,spawn"/>
    </properties>
   </object>
   <object id="455" name="bosswalls_controller" type="LayerController" gid="139" x="2288" y="1616">
@@ -1045,14 +1046,16 @@
     <property name="layer" value="bosswalls"/>
    </properties>
   </object>
-  <object id="456" type="TriggerArea" x="2096" y="1504" width="608" height="288">
+  <object id="456" type="TriggerArea" x="2320" y="1504" width="368" height="288">
    <properties>
     <property name="onEnter" value="bosswalls_fadein_relay,trigger"/>
+    <property name="unique" value="1"/>
    </properties>
   </object>
   <object id="457" type="TriggerArea" x="1424" y="1968" width="48" height="96">
    <properties>
     <property name="onEnter" value="bosswalls_fadeout_relay,trigger"/>
+    <property name="unique" value="1"/>
    </properties>
   </object>
  </objectgroup>
