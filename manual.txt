@@ -26,6 +26,8 @@ Nathan:
 
 Compiler Instructions:
 We used the managed make system of Eclipse to compile our code.
+We did not test this project extensively on the student machines, but it does
+work on group member laptops.
 To compile from scratch, use:
 g++ *.cpp -O0 -g3 -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++ -lSDL2_ttf -lSDL2_mixer -o fc2proj
 The executable can then be run as: 
