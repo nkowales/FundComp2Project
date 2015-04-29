@@ -33,28 +33,28 @@ void WinScreen::update(Uint32 time)
 
 	switch (state)
 	{
-	case DS_FADEIN:
+	case WS_FADEIN:
 		if (timer <= 0.)
 		{
-			timer = DS_WAIT_TIME;
-			state = DS_WAIT;
+			timer = WS_WAIT_TIME;
+			state = WS_WAIT;
 		}
 		else
 		{
-			alpha = DS_WAITALPHA * (DS_FADEIN_TIME - timer) / DS_FADEIN_TIME;
+			alpha = WS_WAITALPHA * (WS_FADEIN_TIME - timer) / WS_FADEIN_TIME;
 			winText.setAlpha(0);
 		}
 		break;
-	case DS_WAIT:
+	case WS_WAIT:
 		if (timer <= 0.)
 		{
-			timer = DS_FADEOUT_TIME;
-			state = DS_FADEOUT;
+			timer = WS_FADEOUT_TIME;
+			state = WS_FADEOUT;
 		}
 
-		winText.setAlpha((Uint8)(255 * ((DS_WAIT_TIME - timer) / DS_WAIT_TIME)));
+		winText.setAlpha((Uint8)(255 * ((WS_WAIT_TIME - timer) / WS_WAIT_TIME)));
 		break;
-	case DS_FADEOUT:
+	case WS_FADEOUT:
 		if (timer <= 0.)
 		{
 			reset();
@@ -62,7 +62,7 @@ void WinScreen::update(Uint32 time)
 		else
 		{
 			winText.setAlpha(255);
-			alpha = DS_WAITALPHA + ((DS_FADEOUT_TIME - timer) / DS_FADEOUT_TIME) * (1. - DS_WAITALPHA);
+			alpha = WS_WAITALPHA + ((WS_FADEOUT_TIME - timer) / WS_FADEOUT_TIME) * (1. - WS_WAITALPHA);
 		}
 		break;
 	}

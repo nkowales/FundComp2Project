@@ -11,17 +11,17 @@
 #include "Screen.h"
 #include "WorldMap.h"
 
-#define DS_SHADE_COLOR { 0, 0, 0, 0 }
-#define DS_FADEIN_TIME 1.2
-#define DS_WAIT_TIME 2.0
-#define DS_FADEOUT_TIME 8.0
-#define DS_WAITALPHA 0.6
+#define WS_SHADE_COLOR { 0, 0, 0, 0 }
+#define WS_FADEIN_TIME 1.2
+#define WS_WAIT_TIME 2.0
+#define WS_FADEOUT_TIME 8.0
+#define WS_WAITALPHA 0.6
 
 enum WinScreenState
 {
-	DS_FADEIN,
-	DS_WAIT,
-	DS_FADEOUT
+	WS_FADEIN,
+	WS_WAIT,
+	WS_FADEOUT
 };
 
 class WinScreen : public Screen
@@ -35,9 +35,9 @@ public:
 
 private:
 	WorldMap* creator = NULL;
-	SDL_Color shade = DS_SHADE_COLOR;
-	double timer = DS_FADEIN_TIME;
-	int state = DS_FADEIN;
+	SDL_Color shade = WS_SHADE_COLOR;
+	double timer = WS_FADEIN_TIME;
+	int state = WS_FADEIN;
 	float alpha = 0.;
 	Texture winText;
 
