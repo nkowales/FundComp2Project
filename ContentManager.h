@@ -21,7 +21,7 @@
 #include "AnimatedTexture.h"
 
 using namespace std;
-
+typedef map<string, Mix_Music*> MusicList;
 typedef map<string, SDL_Texture*> TextureList;
 typedef map<string, TTF_Font*> FontList;
 
@@ -37,11 +37,14 @@ public:
 	TTF_Font* getFont(string);
 	Texture getTextureFromText(string, string, string, SDL_Color, Uint32 = 0);
 	SDL_Texture* findTexture(string);
+	Mix_Music* loadMusic(string, string);
+	Mix_Music* getMusic(string);
 
 private:
 	SDL_Renderer* renderer;
 	TextureList textures;
 	FontList fonts;
+	MusicList soundtrack;
 };
 
 
