@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="150" tilewidth="16" tileheight="16" nextobjectid="458">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="150" tilewidth="16" tileheight="16" nextobjectid="460">
  <tileset firstgid="1" name="M-tile00" tilewidth="16" tileheight="16" spacing="1">
   <image source="sprites/M-tile00.png" width="500" height="500"/>
  </tileset>
@@ -888,7 +888,7 @@
   <object id="293" type="Goomba" gid="81" x="1568" y="1632"/>
   <object id="294" type="Goomba" gid="81" x="1360" y="1840"/>
   <object id="299" type="Goomba" gid="81" x="1472" y="1840"/>
-  <object id="300" type="HammerBro" gid="81" x="1424" y="1840">
+  <object id="300" type="HammerBro" gid="81" x="1424" y="1808">
    <properties>
     <property name="sentry" value="1"/>
    </properties>
@@ -1030,6 +1030,7 @@
     <property name="onTrigger3" value="bosswall3,enable"/>
     <property name="onTrigger4" value="bosswalls_controller,fadeIn"/>
     <property name="onTrigger5" value="bossspawn,spawn"/>
+    <property name="onTrigger6" value="mushroom_spawner,enable"/>
    </properties>
   </object>
   <object id="455" name="bosswalls_controller" type="LayerController" gid="139" x="2288" y="1616">
@@ -1049,5 +1050,6 @@
     <property name="unique" value="1"/>
    </properties>
   </object>
+  <object id="458" name="mushroom_spawner" type="MushroomSpawner" gid="2" x="2260" y="1736"/>
  </objectgroup>
 </map>

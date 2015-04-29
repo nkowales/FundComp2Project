@@ -43,9 +43,13 @@ void Boomerang::update(Uint32 time)
 
 	if (soundDelay < 0.)
 	{
+<<<<<<< HEAD
 
 		//cout << soundDelay << " now playing sound" << endl;
 
+=======
+		//cout << soundDelay << " now playing sound" << endl;
+>>>>>>> a7c3b7bb173e22095754490e25b4daaf31746126
 
 		Mix_PlayChannel(-1, sound, 0);
 		soundDelay = 0.2;	
