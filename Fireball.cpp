@@ -33,12 +33,14 @@ void Fireball::init(ContentManager* content)
 
 bool Fireball::canCollideWith(const WorldObject* other)
 {
+	// fireball can collide with ground, platforms, and enemies
 	Uint32 grp = other->getCollisionGroup();
 	return ( (grp == COLGRP_WORLD)||(grp == COLGRP_ONEWAY)||(grp == COLGRP_ENEMY) );
 }
 
 void Fireball::update(Uint32 time)
 {
+	// apply gravity and detect if it should be erased
 	double secs = time / 1000.;
 	velocity.y += gravity * secs;
 
@@ -50,6 +52,7 @@ void Fireball::update(Uint32 time)
 
 void Fireball::reverseDirection()
 {
+	// on collision
 	velocity.x = -velocity.x;
 }
 
@@ -60,6 +63,7 @@ void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	switch (grp)
 	{
 	case COLGRP_WORLD:
+		// if collides w/ a wall
 		if ((position.y + 2) < overlap.y)
 		{
 			velocity.y = -velocity.y;
@@ -76,6 +80,7 @@ void Fireball::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		break;
 	case COLGRP_ENEMY:
+		// do damage
 		enemy = static_cast<Enemy*>(other);
 		if (enemy->getInvuln() == true){
 		} else {
