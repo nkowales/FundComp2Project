@@ -7,7 +7,7 @@
 
 #include "WinScreen.h"
 #include "ScreenManager.h"
-#include "MenuScreen.h"
+#include "MainMenuScreen.h"
 
 WinScreen::WinScreen(WorldMap* _creator)
 	: Screen(),
@@ -86,7 +86,7 @@ void WinScreen::reset()
 	manager->removeScreen(creator);
 
 	MainMenuScreen* mmenu = new MainMenuScreen();
-	screens->addScreen(mmenu);
+	manager->addScreen(mmenu);
 
 	manager->removeScreen(this);
 }
