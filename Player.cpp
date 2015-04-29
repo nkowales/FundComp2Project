@@ -897,7 +897,7 @@ void Player::switchCharacter(int character)
 
 void Player::hurt(int dmg)
 {
-	if (invulnTimer <= 0.)
+	if (invulnTimer <= 0. && sprites[currentCharacter].getAnimation() != "melee")
 	{
 		if (defending)
 		{
