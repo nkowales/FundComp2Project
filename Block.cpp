@@ -25,6 +25,10 @@ WorldInput Block::resolveInput(string inp)
 {
 	if (inp == "kill")
 		return GET_INPUT_POINTER(&Block::kill);
+	else if (inp == "enable")
+		return GET_INPUT_POINTER(&Block::enable);
+	else if (inp == "disable")
+		return GET_INPUT_POINTER(&Block::disable);
 	else
 		return WorldObject::resolveInput(inp);
 }
@@ -32,4 +36,16 @@ WorldInput Block::resolveInput(string inp)
 void Block::kill(WorldObject* sender, string name)
 {
 	getParentLayer()->removeObject(getId());
+}
+
+void Block::enable(WorldObject* sender, string arg)
+{
+	//enabled = true;
+	setCollisionGroup(COLGRP_WORLD);
+}
+
+void Block::disable(WorldObject* sender, string arg)
+{
+	//enabled = false;
+	setCollisionGroup(COLGRP_NONE);
 }
