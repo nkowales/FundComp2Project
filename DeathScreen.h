@@ -40,6 +40,7 @@ private:
 	int state = DS_FADEIN;
 	float alpha = 0.;
 	Texture deathText;
+	Mix_Music* deathSound = NULL;
 
 	void reset();
 };

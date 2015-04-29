@@ -31,6 +31,7 @@ public:
 	void quit();
 
 	SDL_Renderer* getRenderer() const;
+	ContentManager* getContent() const;
 
 private:
 	ScreenList screens;

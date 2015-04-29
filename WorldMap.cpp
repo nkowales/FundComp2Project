@@ -23,11 +23,12 @@ WorldMap::WorldMap() : Screen(), mapname("")
 {
 }
 
-WorldMap::WorldMap(string fname, SDL_Renderer* renderer)
+WorldMap::WorldMap(string fname, SDL_Renderer* renderer, ContentManager* _content)
 	: Screen(),
-	  mapname(fname)
+	  mapname(fname),
+	  content(_content)
 {
-	load(fname, renderer);
+	load(fname, renderer, _content);
 }
 
 WorldMap::~WorldMap()
@@ -43,10 +44,10 @@ WorldMap::~WorldMap()
 		delete camera;
 	}
 
-	if (content)
-	{
-		delete content;
-	}
+	//if (content)
+	//{
+	//	delete content;
+	//}
 
 	layers.clear();
 }
@@ -76,12 +77,12 @@ void WorldMap::update(Uint32 time)
 	}
 }
 
-void WorldMap::load(string fname, SDL_Renderer* renderer)
+void WorldMap::load(string fname, SDL_Renderer* renderer, ContentManager* _content)
 {
 	file<> fl(fname.c_str());
 	xml_document<> doc;
 	vector<WorldIOLink> linksToResolve;
-	content = new ContentManager(renderer);
+	content = _content;
 
 	//cout << fl.data() << endl;
 

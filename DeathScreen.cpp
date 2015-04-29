@@ -20,6 +20,10 @@ void DeathScreen::init(ContentManager* content)
 {
 	deathText = content->getTextureFromText("DeathText", "You're dead!", MENU_FONT_NAME, {255, 255, 255, 255});
 	deathText.setAlpha(0);
+	Mix_HaltMusic();
+	deathSound = content->loadMusic("Music/smb_mariodie.wav");
+	if (deathSound)
+		Mix_PlayMusic(deathSound, 1);
 }
 
 void DeathScreen::update(Uint32 time)
@@ -86,7 +90,7 @@ void DeathScreen::reset()
 	string mapname = creator->getMapName();
 	manager->removeScreen(creator);
 
-	WorldMap* map = new WorldMap(mapname, manager->getRenderer());
+	WorldMap* map = new WorldMap(mapname, manager->getRenderer(), manager->getContent());
 	manager->addScreen(map);
 
 	manager->removeScreen(this);

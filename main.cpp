@@ -49,6 +49,10 @@ int main(int argc, char** argv)
 
 	IMG_Init(IMG_INIT_PNG);
 	TTF_Init();
+	if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0)
+	{
+		cout << SDL_GetError() << endl;
+	}
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
@@ -93,6 +97,7 @@ int main(int argc, char** argv)
 	SDL_DestroyWindow(window);
 	SDL_JoystickClose( gGameController );
 	gGameController = NULL;
+	Mix_Quit();
 	IMG_Quit();
 	TTF_Quit();
 	SDL_Quit();

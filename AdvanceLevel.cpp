@@ -28,7 +28,7 @@ WorldInput AdvanceLevel::resolveInput(string inp)
 void AdvanceLevel::loadMap(WorldObject* sender, string map)
 {
 	ScreenManager* manager = getParentLayer()->getParent()->getManager();
-	WorldMap* nmap = new WorldMap(map, manager->getRenderer());
+	WorldMap* nmap = new WorldMap(map, manager->getRenderer(), manager->getContent());
 	manager->addScreen(nmap);
 	manager->removeScreen(getParentLayer()->getParent());
 }

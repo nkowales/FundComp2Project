@@ -110,3 +110,8 @@ bool ScreenManager::isQuitting() const
 {
 	return quitting;
 }
+
+ContentManager* ScreenManager::getContent() const
+{
+	return content;
+}

@@ -30,12 +30,12 @@ class WorldMap : public Screen
 {
 public:
 	WorldMap();
-	WorldMap(string, SDL_Renderer*);
+	WorldMap(string, SDL_Renderer*, ContentManager*);
 	~WorldMap();
 
 	void update(Uint32);
 	void draw(SDL_Renderer*);
-	void load(string, SDL_Renderer*);
+	void load(string, SDL_Renderer*, ContentManager*);
 	void handleEvent(const SDL_Event&);
 
 	const Tileset* resolveTile(Uint32) const;

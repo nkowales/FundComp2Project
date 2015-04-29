@@ -29,6 +29,7 @@ ContentManager::~ContentManager()
 	{
 		Mix_FreeMusic(iter->second);
 	}
+	cout << "destroy" << endl;
 	soundtrack.clear();
 	fonts.clear();
 	textures.clear();
@@ -156,20 +157,23 @@ SDL_Texture* ContentManager::findTexture(string rname)
 	else
 		return NULL;
 }
-Mix_Music* ContentManager::loadMusic(string name, string location)
+Mix_Music* ContentManager::loadMusic(string location)
 {
 	
 	Mix_Music* gameMusic = NULL;
- 	if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+ 	/*if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
 	{
 		cout<< "SDL_mixer could not initialize! SDL_mixer Error: "<< Mix_GetError()  << endl;
+	}*/
+	gameMusic = Mix_LoadMUS( location.c_str() );
+	if (!gameMusic)
+	{
+		cout << SDL_GetError() << endl;
 	}
-	gameMusic = Mix_LoadMUS( location );
-	if (!gameMusic){
-		cout << "Errorr loading music file!\n";
-	}
-	pair<string, Mix_Music*> pr(name,gameMusic);
+	pair<string, Mix_Music*> pr(location, gameMusic);
 	soundtrack.insert(pr);
+
+	return gameMusic;
 }
 Mix_Music* ContentManager::getMusic(string songName)
 {
@@ -177,5 +181,5 @@ Mix_Music* ContentManager::getMusic(string songName)
 	if (iter != soundtrack.end())
 		return iter->second;
 	else
-		return NULL;
+		return loadMusic(songName);
 }

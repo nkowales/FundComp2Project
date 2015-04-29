@@ -15,12 +15,12 @@ class JukeBox : public WorldObject
 public:
 	JukeBox(Uint32);
 	void init(ContentManager* content);
+	void uninit();
 	virtual void setProperty(string, string);
 	void playMusic();
 private:
-	string songName;
-	string songLocation;
-	Mix_Music* song;
+	string songName = "";
+	Mix_Music* song = NULL;
 	
 };
 

@@ -17,6 +17,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include "Texture.h"
 #include "AnimatedTexture.h"
 
@@ -37,7 +38,7 @@ public:
 	TTF_Font* getFont(string);
 	Texture getTextureFromText(string, string, string, SDL_Color, Uint32 = 0);
 	SDL_Texture* findTexture(string);
-	Mix_Music* loadMusic(string, string);
+	Mix_Music* loadMusic(string);
 	Mix_Music* getMusic(string);
 
 private:

@@ -32,7 +32,7 @@ void MainMenuScreen::onSelect(int select)
 	switch(select)
 	{
 	case 0:
-		world = new WorldMap("Mario-level.tmx", getManager()->getRenderer());
+		world = new WorldMap("Mario-level.tmx", getManager()->getRenderer(), getManager()->getContent());
 		getManager()->addScreen(world);
 		getManager()->removeScreen(this);
 		break;
