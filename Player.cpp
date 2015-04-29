@@ -114,6 +114,7 @@ void Player::update(Uint32 time)
 		break;
 	case PLYR_HOVERING:
 		velocity.x = 0;
+		velocity.y = 0;
 		break;
 	case PLYR_FLYING_RIGHT:
 		velocity.x = PLAYER_WALK_SPEED;
@@ -126,21 +127,20 @@ void Player::update(Uint32 time)
 	// Apply gravity, etc.
 	if (inAir)
 	{
-		switch(state)
-		{
-		case PLYR_FLYING_LEFT:
+		if (flying){
 			if (sprites[CH_SPYRO].getAnimation()!= "flying")
 			{
 				sprites[CH_SPYRO].setAnimation("flying");
 				sprites[CH_SPYRO].setRate(7);	
 			}
+		}
+		switch(state)
+		{
+		case PLYR_FLYING_LEFT:
 			velocity.y = 0;
 			break;
 		case PLYR_FLYING_RIGHT:
 			velocity.y = 0;
-			break;
-		case PLYR_HOVERING:
-			velocity.y = 0;		
 			break;
 		case PLYR_FLYING_UP:
 			velocity.y = -PLAYER_WALK_SPEED;
@@ -240,20 +240,27 @@ void Player::handleEvent(const SDL_Event& e)
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_d:
-			moveRight();
+			if (flying)	
+				flyRight();
+			else
+				moveRight();
 			break;
 		case SDLK_a:
-			moveLeft();
+			if (flying)
+				flyLeft();
+			else
+				moveLeft();
 			break;
 		case SDLK_w:
+
 			if (flying && currentCharacter == CH_SPYRO)
-				state = PLYR_FLYING_UP;	
+				flyUp();
 			else
 				jump();
 			break;
 		case SDLK_s:
 			if (flying && currentCharacter == CH_SPYRO)
-				state = PLYR_FLYING_DOWN;
+				flyDown();
 			else
 				duck();
 			break;
@@ -286,14 +293,20 @@ void Player::handleEvent(const SDL_Event& e)
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_d:
-			stopMoveRight();
+			if (flying)
+				stopFlyRight();
+			else
+				stopMoveRight();
 			break;
 		case SDLK_a:
-			stopMoveLeft();
+			if (flying)
+				stopFlyLeft();
+			else
+				stopMoveLeft();
 			break;
 		case SDLK_w:
 			if (flying)
-				state = PLYR_HOVERING;
+				stopFlyUp();
 			else
 				canJump = true;
 			break;
@@ -309,7 +322,7 @@ void Player::handleEvent(const SDL_Event& e)
 			break;
 		case SDLK_s:
 			if (flying)	
-				state = PLYR_HOVERING;
+				stopFlyDown();
 		}
 	}
 	else if (e.type == SDL_JOYAXISMOTION ){
@@ -321,17 +334,36 @@ void Player::handleEvent(const SDL_Event& e)
 			//Left of dead zone
 				if( e.jaxis.value < -8000 )
 				{
-					moveLeft();
+					if (flying)
+						flyLeft();
+					else
+						moveLeft();
 				}
 				//Right of dead zone
 				else if( e.jaxis.value > 8000 )
 				{
-					moveRight();
+					if (flying)
+						flyRight();
+					else
+						moveRight();
 				}
 				else
 				{
-					stopMoveRight();
-					stopMoveLeft();
+					switch (state)
+					{
+					case PLYR_MVG_LEFT:
+						stopMoveLeft();
+						break;
+					case PLYR_MVG_RIGHT:
+						stopMoveRight();
+						break;
+					case PLYR_FLYING_LEFT:
+						stopFlyLeft();
+						break;
+					case PLYR_FLYING_RIGHT:
+						stopFlyRight();
+						break;
+					}
 				}
 			}
 				//Y axis motion
@@ -341,7 +373,7 @@ void Player::handleEvent(const SDL_Event& e)
 				if( e.jaxis.value > 8000 )
 				{
 					if (flying && currentCharacter == CH_SPYRO)
-						state = PLYR_FLYING_DOWN;
+						flyDown();
 					else
 						duck();
 				}
@@ -349,7 +381,7 @@ void Player::handleEvent(const SDL_Event& e)
 				else if( e.jaxis.value < -8000 )
 				{
 					if (flying && currentCharacter == CH_SPYRO)
-						state = PLYR_FLYING_UP;	
+						flyUp();
 					else
 						jump();
 					
@@ -442,11 +474,11 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		ignorePlatform = NULL;
 		if ((feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.w > 2)) // Landed on it
 		{
+			land();
 			flying = false;
 			standingOnOneWay = false;
 			inAir = false;
 			position.y = other->getPosition().y - bbox.h;
-			
 			resetAnimation();
 		}
 		else if (overlap.h > overlap.w) // hit from side
@@ -480,7 +512,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 
 		if ((other != ignorePlatform) && (feetPos < other->getPosition().y) && (velocity.y > 0) && (overlap.h < 5)) // Landed on it
 		{
-			flying = false;
+			land();
 			lastOneWay = static_cast<OneWayPlatform*>(other);
 			ignorePlatform = NULL;
 			standingOnOneWay = true;
@@ -733,66 +765,39 @@ void Player::rangedAttack()
 void Player::moveLeft()
 {
 	defending = false;
-	if (!flying)
+	if (state != PLYR_MVG_LEFT)
 	{
-		defending = false;
-		if (state != PLYR_MVG_LEFT)
-		{
-			state = PLYR_MVG_LEFT;
-			facingLeft = true;
-	
+		state = PLYR_MVG_LEFT;
+		facingLeft = true;
 			for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
-			{
-				if (!inAir)
-					iter->setAnimation("walk"); // set all to walk
-				iter->setFlipH(true);
-			}
+		{
+			if (!inAir)
+				iter->setAnimation("walk"); // set all to walk
+			iter->setFlipH(true);
 		}
 	}
-	else // if flying
-	{
-		if (state != PLYR_FLYING_LEFT)
-		{
-			facingLeft = true;
-			state = PLYR_FLYING_LEFT; // set state
-			for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
-			{
-				iter->setFlipH(true);
-			}
-		}	
-	}	
+	
+	
 }
 
 void Player::moveRight()
 {
 	defending = false;
-	if (!flying){
-		if (state != PLYR_MVG_RIGHT)
-		{
-			facingLeft = false;
-			state = PLYR_MVG_RIGHT;
-
-			for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
-			{
-				if (!inAir)
-					iter->setAnimation("walk");
-				iter->setFlipH(false);
-			}
-			
-		}
-	}
-	else
+	
+	if (state != PLYR_MVG_RIGHT)
 	{
-		if (state != PLYR_FLYING_RIGHT)
+		facingLeft = false;
+		state = PLYR_MVG_RIGHT;
+		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
 		{
-			facingLeft = false;
-			state = PLYR_FLYING_RIGHT;
-			for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
-			{
-				iter->setFlipH(false);
-			}
-		}	
+			if (!inAir)
+				iter->setAnimation("walk");
+			iter->setFlipH(false);
+		}
+		
 	}
+	
+
 }
 
 void Player::stopMoveRight()
@@ -812,11 +817,7 @@ void Player::stopMoveRight()
 			state = PLYR_STANDING;
 		}
 	}
-	else // go from flying to hovering
-	{
-		if (state == PLYR_FLYING_RIGHT)
-			state = PLYR_HOVERING;
-	}
+
 }
 
 void Player::stopMoveLeft()
@@ -835,11 +836,7 @@ void Player::stopMoveLeft()
 			state = PLYR_STANDING;
 		}
 	}
-	else 
-	{
-		if (state == PLYR_FLYING_LEFT)
-			state = PLYR_HOVERING;
-	}
+
 }
 
 void Player::duck()
@@ -1039,4 +1036,76 @@ void Player::defend()
 		
 	}
 }
+void Player::land()
+{
+	if (flying){
+		flying = false;
+		inAir = false;
+		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		{
+			iter->setAnimation("default");
+		}
+		state = PLYR_STANDING;
 
+	}
+}
+void Player::flyUp()
+{
+	if(state != PLYR_FLYING_UP)
+		state = PLYR_FLYING_UP;
+	
+}
+void Player::flyDown()
+{
+	if (state != PLYR_FLYING_DOWN)
+		state = PLYR_FLYING_DOWN;
+}
+void Player::flyLeft()
+{
+
+	if (state != PLYR_FLYING_LEFT)
+	{
+		facingLeft = true;
+		state = PLYR_FLYING_LEFT; // set state
+		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		{
+			iter->setFlipH(true);
+		}
+	}	
+	
+}
+void Player::flyRight()
+{
+	
+	if (state != PLYR_FLYING_RIGHT)
+	{
+		facingLeft = false;
+		state = PLYR_FLYING_RIGHT;
+		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		{
+			iter->setFlipH(false);
+		}
+	}	
+}
+void Player::stopFlyUp()
+{
+	if (state == PLYR_FLYING_UP)
+		state = PLYR_HOVERING;
+}
+void Player::stopFlyDown()
+{
+	if (state == PLYR_FLYING_DOWN)
+		state = PLYR_HOVERING;
+}
+void Player::stopFlyLeft()
+{
+
+	if (state == PLYR_FLYING_LEFT)
+		state = PLYR_HOVERING;
+	
+}
+void Player::stopFlyRight()
+{
+	if (state == PLYR_FLYING_RIGHT)
+		state = PLYR_HOVERING;
+}
