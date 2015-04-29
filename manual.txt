@@ -24,6 +24,7 @@ https://docs.google.com/a/nd.edu/spreadsheets/d/1m4rXiwHTOAxGtBN_Cl79fXAUpDiXgLD
 Greg:
 https://docs.google.com/a/nd.edu/spreadsheets/d/1CTI9xzaBySrNEv8v71wZPtWpYaD9jOEI9-BKEs8-l9Y/edit?usp=sharing
 Nathan: 
+https://docs.google.com/a/nd.edu/document/d/1hsd82OBAhR3NaIvrgmK-SeiPjvfvtiRjAqvjU3Cbo3Q/edit?usp=sharing
 
 Compiler Instructions:
 We used the managed make system of Eclipse to compile our code.

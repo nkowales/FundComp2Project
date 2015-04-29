@@ -3,6 +3,9 @@
  *
  *  Created on: Apr 29, 2015
  *      Author: naiello
+ *
+ *      This class controls the pause screen that displays when the user
+ *      pauses the game
  */
 
 #ifndef PAUSESCREEN_H_
