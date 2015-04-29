@@ -122,6 +122,13 @@ void Player::update(Uint32 time)
 	case PLYR_FLYING_LEFT:
 		velocity.x = -PLAYER_WALK_SPEED;
 		break;
+	case PLYR_FLYING_UP:
+		velocity.y = -PLAYER_WALK_SPEED;
+		break;
+	case PLYR_FLYING_DOWN:
+		velocity.y = PLAYER_WALK_SPEED;
+		break;
+	
 	}
 
 	// Apply gravity, etc.
@@ -133,22 +140,6 @@ void Player::update(Uint32 time)
 				sprites[CH_SPYRO].setAnimation("flying");
 				sprites[CH_SPYRO].setRate(7);	
 			}
-		}
-		switch(state)
-		{
-		case PLYR_FLYING_LEFT:
-			velocity.y = 0;
-			break;
-		case PLYR_FLYING_RIGHT:
-			velocity.y = 0;
-			break;
-		case PLYR_FLYING_UP:
-			velocity.y = -PLAYER_WALK_SPEED;
-			break;
-		case PLYR_FLYING_DOWN:
-			velocity.y = PLAYER_WALK_SPEED;
-		default:
-			break;
 		}
 
 		// Handle Spyro's flying/gliding animations
@@ -237,6 +228,7 @@ void Player::handleEvent(const SDL_Event& e)
 
 	if (e.type == SDL_KEYDOWN)
 	{
+		cout << state << endl;
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_d:
@@ -324,6 +316,7 @@ void Player::handleEvent(const SDL_Event& e)
 			if (flying)	
 				stopFlyDown();
 		}
+		cout << state  << endl;
 	}
 	else if (e.type == SDL_JOYAXISMOTION ){
 		if (e.jaxis.which == 0 )
@@ -1051,20 +1044,25 @@ void Player::land()
 }
 void Player::flyUp()
 {
-	if(state != PLYR_FLYING_UP)
+	if(state != PLYR_FLYING_UP){
+		cout << "flyUp called\n";
 		state = PLYR_FLYING_UP;
+	}
 	
 }
 void Player::flyDown()
 {
-	if (state != PLYR_FLYING_DOWN)
+	cout << "flydown called\n";
+	if (state != PLYR_FLYING_DOWN){
 		state = PLYR_FLYING_DOWN;
+	}
 }
 void Player::flyLeft()
 {
 
 	if (state != PLYR_FLYING_LEFT)
 	{
+		cout << "flyLeft called\n";
 		facingLeft = true;
 		state = PLYR_FLYING_LEFT; // set state
 		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
@@ -1089,23 +1087,56 @@ void Player::flyRight()
 }
 void Player::stopFlyUp()
 {
-	if (state == PLYR_FLYING_UP)
-		state = PLYR_HOVERING;
+	if (state == PLYR_FLYING_UP) {
+		if (velocity.x >0)
+			flyRight();
+		else if (velocity.x < 0)
+			flyLeft();
+		else{
+			state = PLYR_HOVERING;
+		}
+		velocity.y = 0;
+	}
 }
 void Player::stopFlyDown()
 {
-	if (state == PLYR_FLYING_DOWN)
-		state = PLYR_HOVERING;
+	velocity.y = 0;
+	if (state == PLYR_FLYING_DOWN){
+		if (velocity.x >0)
+			flyRight();
+		else if (velocity.x < 0)
+			flyLeft();
+		else{
+			state = PLYR_HOVERING;
+		}
+	}
 }
 void Player::stopFlyLeft()
 {
+	velocity.x = 0;
+	if (state == PLYR_FLYING_LEFT){
+		if (velocity.y >10)
+			flyDown();
+		else if (velocity.y < -10)
+			flyUp();
+		else{
+			state = PLYR_HOVERING;
+		}
 
-	if (state == PLYR_FLYING_LEFT)
-		state = PLYR_HOVERING;
+	}
 	
 }
 void Player::stopFlyRight()
 {
-	if (state == PLYR_FLYING_RIGHT)
-		state = PLYR_HOVERING;
+	velocity.x = 0;
+	if (state == PLYR_FLYING_RIGHT){
+		if (velocity.y >10)
+			flyDown();
+		else if (velocity.y < -10)
+			flyUp();
+		else{
+			state = PLYR_HOVERING;
+		}
+
+	}
 }
