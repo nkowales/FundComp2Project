@@ -9,6 +9,8 @@
 #include "ObjectLayer.h"
 #include "FireMagic.h"
 #include "Hammer.h"
+#include "WinScreen.h"
+#include "ScreenManager.h"
 #include <cmath>
 Bowser::Bowser(Uint32 id) : Enemy(id)
 {
@@ -178,6 +180,13 @@ void Bowser::update(Uint32 time)
 		}
 	else
 		velocity.y = 0.;
+
+	if (getHealth() <= 0)
+	{
+		WinScreen* ws = new WinScreen(getParentLayer()->getParent());
+		getParentLayer()->getParent()->getManager()->addScreen(ws);
+	}
+
 	WorldObject::update(time);
 }
 void Bowser::walkLeft()

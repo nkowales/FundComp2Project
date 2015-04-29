@@ -23,7 +23,7 @@ void TileLayer::draw(SDL_Renderer* renderer)
 	x1 = viewport.x / tileSize;
 	y1 = viewport.y / tileSize;
 	x2 = x1 + (viewport.w / tileSize) + 1;
-	y2 = x2 + (viewport.h / tileSize) + 1;
+	y2 = y1 + (viewport.h / tileSize) + 1;
 	for (Uint32 y = y1; y < y2; y++)
 	{
 		for (Uint32 x = x1; x < x2; x++)

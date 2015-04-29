@@ -19,6 +19,7 @@ void PauseScreen::init(ContentManager* content)
 	MenuScreen::init(content);
 	setBackColor({0, 0, 0, 175});
 	addMenuItem(content, "Resume");
+	addMenuItem(content, "Restart Level");
 	addMenuItem(content, "Quit");
 }
 
@@ -31,6 +32,9 @@ void PauseScreen::onSelect(int select)
 		getManager()->removeScreen(this);
 		break;
 	case 1:
+		reset();
+		break;
+	case 2:
 		mmenu = new MainMenuScreen();
 		getManager()->addScreen(mmenu);
 		getManager()->removeScreen(this);
@@ -47,4 +51,16 @@ void PauseScreen::handleEvent(const SDL_Event& e)
 	}
 	else
 		MenuScreen::handleEvent(e);
+}
+
+void PauseScreen::reset()
+{
+	ScreenManager* manager = getManager();
+	string mapname = creator->getMapName();
+	manager->removeScreen(creator);
+
+	WorldMap* map = new WorldMap(mapname, manager->getRenderer(), manager->getContent());
+	manager->addScreen(map);
+
+	manager->removeScreen(this);
 }
