@@ -163,3 +163,6 @@ bool Enemy::getInvuln() const{
 void Enemy::setInvuln(bool status) {
 	invuln = status;
 }
+void Enemy::stun(){
+	
+}

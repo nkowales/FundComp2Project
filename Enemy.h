@@ -23,7 +23,7 @@ public:
 	virtual void handleCollision(WorldObject*, const SDL_Rect&);
 	virtual void update(Uint32);
 	virtual void draw(SDL_Renderer*);
-
+	virtual void stun();
 	int getContactDamage() const;
 	int getHealth() const;
 	int getMaxHealth() const;
@@ -51,6 +51,7 @@ private:
 	int maxHealth = 100;
 	ProgressBar healthBar;
 	bool invuln = false;
+	double stunTimer = 0;
 };
 
 #endif /* ENEMY_H_ */
