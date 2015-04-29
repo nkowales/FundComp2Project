@@ -83,7 +83,7 @@ void HammerBro::update(Uint32 time)
 		playerIsLeft = false;
 	}
 	if (stunTime < 0.){
-		if (animTimer >= ANIMATION_TIMER * .33)
+		if (animTimer >= ANIMATION_TIMER * .66)
 		{
 			switch (state)
 			{
@@ -97,7 +97,7 @@ void HammerBro::update(Uint32 time)
 				velocity.x = -HAMMERBRO_WALKSPD;
 			}
 		}
-		else if (animTimer < (ANIMATION_TIMER * .33) && animTimer >= 0 )
+		else if (animTimer < (ANIMATION_TIMER * .66) && animTimer >= 0 )
 		{
 			switch (state)
 			{

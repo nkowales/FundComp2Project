@@ -107,6 +107,7 @@ void Enemy::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		if ((feetPos < overlap.y) && (velocity.y > 0))
 		{
 			inAir = false;
+
 			position.y = other->getPosition().y - bbox.h;
 		}
 		break;
