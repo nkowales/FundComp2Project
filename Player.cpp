@@ -510,8 +510,12 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			manager->removeScreen(getParentLayer()->getParent());
 			currentLevel++;
 		} else if (currentLevel == LVL_SPYRO) {
+			WinScreen* ws = new WinScreen(getParentLayer()->getParent());
+                        getParentLayer()->getParent()->getManager()->addScreen(ws);
 			currentLevel++;
 		} else if (currentLevel == LVL_BOWSER) {
+			//WinScreen* ws = new WinScreen(getParentLayer()->getParent());
+			//getParentLayer()->getParent()->getManager()->addScreen(ws);
 		}
 		break;
 	}
