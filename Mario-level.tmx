@@ -152,10 +152,10 @@
     <property name="autospawn" value="1"/>
    </properties>
   </object>
-  <object id="20" type="Goomba" gid="81" x="1120" y="752"/>
-  <object id="21" type="Goomba" gid="81" x="1168" y="752"/>
-  <object id="22" type="Goomba" gid="81" x="1232" y="752"/>
-  <object id="23" type="Goomba" gid="81" x="1424" y="752"/>
+  <object id="20" type="Goomba" gid="81" x="1120" y="784"/>
+  <object id="21" type="Goomba" gid="81" x="1168" y="784"/>
+  <object id="22" type="Goomba" gid="81" x="1232" y="784"/>
+  <object id="23" type="Goomba" gid="81" x="1424" y="784"/>
   <object id="24" type="Goomba" gid="81" x="1952" y="704"/>
   <object id="25" type="Goomba" gid="81" x="1776" y="704"/>
   <object id="28" type="HammerBro" gid="110" x="640" y="656"/>

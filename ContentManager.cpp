@@ -6,7 +6,7 @@
  */
 
 #include "ContentManager.h"
-
+#include <SDL2/SDL_mixer.h>
 ContentManager::ContentManager(SDL_Renderer* rdr)
 {
 	renderer = rdr;
@@ -25,7 +25,12 @@ ContentManager::~ContentManager()
 	{
 		TTF_CloseFont(iter->second);
 	}
-
+	for (MusicList::iterator iter = soundtrack.begin(); iter != soundtrack.end(); iter++)
+	{
+		Mix_FreeMusic(iter->second);
+	}
+	soundtrack.clear();
+	fonts.clear();
 	textures.clear();
 }
 
@@ -147,6 +152,29 @@ SDL_Texture* ContentManager::findTexture(string rname)
 {
 	TextureList::iterator iter = textures.find(rname);
 	if (iter != textures.end())
+		return iter->second;
+	else
+		return NULL;
+}
+Mix_Music* ContentManager::loadMusic(string name, string location)
+{
+	
+	Mix_Music* gameMusic = NULL;
+ 	if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+	{
+		cout<< "SDL_mixer could not initialize! SDL_mixer Error: "<< Mix_GetError()  << endl;
+	}
+	gameMusic = Mix_LoadMUS( location );
+	if (!gameMusic){
+		cout << "Errorr loading music file!\n";
+	}
+	pair<string, Mix_Music*> pr(name,gameMusic);
+	soundtrack.insert(pr);
+}
+Mix_Music* ContentManager::getMusic(string songName)
+{
+	MusicList::iterator iter = soundtrack.find(songName);
+	if (iter != soundtrack.end())
 		return iter->second;
 	else
 		return NULL;
