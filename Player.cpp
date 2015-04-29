@@ -38,6 +38,7 @@ void Player::init(ContentManager* content)
 
 
 	AnimatedTexture marioSprite, spyroSprite, lBlueSprite, linkSprite;
+	// Animations are loaded in the following format:
 	// ("name", xpos, ypos, width, height,  pixels in betwen, frames, [framerate])
 	marioSprite = content->getAnimatedTexture("sprites/M-Mario.png", 90, 0, 16, 27, 0, 1, 8);
 	marioSprite.addAnimation("walk", 90, 0, 16, 27, 1, 3); 
@@ -68,9 +69,13 @@ void Player::update(Uint32 time)
 {
 
 	double secs = time / 1000.;
+
+	// Reset the bounding box when we're standing still
 	if (sprites[currentCharacter].getAnimation() == "default"){
 		resetBBox();
 	}
+
+	// Update timers
 	if (fireballCooldown > 0.)
 		fireballCooldown -= secs;
 
@@ -127,6 +132,8 @@ void Player::update(Uint32 time)
 		default:
 			break;
 		}
+
+		// Handle Spyro's flying/gliding animations
 		if ( velocity.y > 0 && currentCharacter == CH_SPYRO){
 			if (!flying)
 			{
@@ -171,10 +178,10 @@ void Player::update(Uint32 time)
 void Player::draw(SDL_Renderer* renderer)
 {
 	// comment / uncomment these next four lines to get bounding box to show up
-	SDL_Rect bbox = getCamera()->transform(getBoundingBox());
+	/*SDL_Rect bbox = getCamera()->transform(getBoundingBox());
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_RenderDrawRect(renderer, &bbox);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);*/
 
 	healthBar.draw(renderer, {HEALTHBAR_OFFSET, HEALTHBAR_OFFSET, HEALTHBAR_W, HEALTHBAR_H}, health);
 
@@ -191,6 +198,7 @@ void Player::draw(SDL_Renderer* renderer)
 	if (currentCharacter == CH_SPYRO)
 		sx = sy = 0.75;
 
+	// Position correction
 	Vector2d pos = getCamera()->transform(position);
 	if (currentCharacter != CH_LINK && currentCharacter!= CH_SPYRO){
 		sprites[currentCharacter].draw(renderer, pos.x, pos.y, sx, sy);
@@ -205,6 +213,9 @@ void Player::handleEvent(const SDL_Event& e)
 {
 	
 	sprites[CH_LINK].setRate(8);
+
+	// Most of these actions are stored as subroutines so they can be called from the
+	// keyboard or the joystick sections equivalently.  See relevant subroutines for more info.
 
 	if (e.type == SDL_KEYDOWN)
 	{
@@ -378,6 +389,7 @@ void Player::handleEvent(const SDL_Event& e)
 	}
 }
 
+// What can we collide with?
 bool Player::canCollideWith(const WorldObject* other)
 {
 	Uint32 grp = other->getCollisionGroup();
@@ -430,7 +442,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			velocity.y = velocity.y * -PLAYER_HEAD_ELASTICITY;
 		}
 		break;
-	case COLGRP_ONEWAY:
+	case COLGRP_ONEWAY:	// For one way platforms, we only check to see if we landed on it
 		if (feetPos < other->getPosition().y)
 			framesSinceTouchedGround = 0;
 
@@ -446,13 +458,13 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			resetAnimation();
 		}
 		break;
-	case COLGRP_PROJECTILE:
+	case COLGRP_PROJECTILE:		// Got the boomerang back
 			boom = dynamic_cast<Boomerang*>(other);
 			if (boom && boom->isReturning())
 				hasBoomerang = true;
 			break;
 
-	case COLGRP_ENEMY:
+	case COLGRP_ENEMY:		// ouch
 		enemy = static_cast<Enemy*>(other);
 		if (sprites[currentCharacter].getAnimation() == "melee" && !inAir) // melee collision not in air
 		{
@@ -541,7 +553,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		break;
 
-	case COLGRP_POWERUP:
+	case COLGRP_POWERUP:		// heal up
 		health += 40;
 		if (health > maxHealth)
 			health = maxHealth;
