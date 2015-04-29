@@ -281,7 +281,8 @@ void Player::handleEvent(const SDL_Event& e)
 			meleeAttack();
 			break;
 		case SDLK_k:
-			resetAnimation();
+			if (currentCharacter == CH_LINK)
+				resetAnimation();
 			break;
 		case SDLK_s:
 			if (flying)	
@@ -377,7 +378,8 @@ void Player::handleEvent(const SDL_Event& e)
 			meleeAttack();
 			break;
 		case 0:
-			resetAnimation();
+			if (currentCharacter == CH_LINK)
+				resetAnimation();
 			break;
 		case SDLK_s:
 			if (flying)	
@@ -604,27 +606,29 @@ void Player::meleeAttack()
 
 	switch(currentCharacter){
 		case CH_LINK:
-			if (facingLeft)
-			{
-				sprites[CH_LINK].setAnimation("melee");
-				sprites[CH_LINK].setRate(3);
-				bbox.x = -15;
-				bbox.y = 0;
-				bbox.w = 35;
-				bbox.h = LINK_HEIGHT;
-				setBoundingBox(bbox);
+			if (onOffense){
+				if (facingLeft)
+				{
+					sprites[CH_LINK].setAnimation("melee");
+					sprites[CH_LINK].setRate(3);
+					bbox.x = -15;
+					bbox.y = 0;
+					bbox.w = 35;
+					bbox.h = LINK_HEIGHT;
+					setBoundingBox(bbox);
+				}
+				else {	
+					sprites[CH_LINK].setAnimation("melee");
+					sprites[CH_LINK].setRate(1);
+					sprites[currentCharacter].setFlipH(false);
+					bbox.x = 0;
+					bbox.y = 0;
+					bbox.w = 36;
+					bbox.h = LINK_HEIGHT;
+					setBoundingBox(bbox);
+				} 
 			}
-			else {	
-				sprites[CH_LINK].setAnimation("melee");
-				sprites[CH_LINK].setRate(1);
-				sprites[currentCharacter].setFlipH(false);
-				bbox.x = 0;
-				bbox.y = 0;
-				bbox.w = 36;
-				bbox.h = LINK_HEIGHT;
-				setBoundingBox(bbox);
-			} 
-			break;
+		break;
 		case CH_SPYRO:
 			sprites[CH_SPYRO].setAnimation("melee");
 			
@@ -871,7 +875,10 @@ void Player::switchCharacter(int character)
 		setBoundingBox(bbox);
 		break;
 	case CH_LINK:
-		flying = false;
+		if (flying){
+			flying = false;
+			inAir = true;	
+		}
 		onOffense = false;
 		currentCharacter = CH_LINK;
 		bbox.x = 0;
@@ -881,7 +888,10 @@ void Player::switchCharacter(int character)
 		setBoundingBox(bbox);
 		break;
 	case CH_MARIO:
-		flying = false;
+		if (flying){
+			flying = false;
+			inAir = true;
+		}
 		onOffense = false;
 		currentCharacter = CH_MARIO;
 		bbox.x = bbox.y = 0;
