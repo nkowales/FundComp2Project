@@ -16,6 +16,7 @@
 #include "Geom.h"
 #include "ScreenManager.h"
 #include "DeathScreen.h"
+#include "WinScreen.h"
 
 Player::Player() : WorldObject(), healthBar(maxHealth)
 {
