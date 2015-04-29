@@ -13,6 +13,7 @@
 
 enum CollisionGroup
 {
+	COLGRP_NONE,
 	COLGRP_PLAYER,			// The player
 	COLGRP_WORLD,			// All platforms in the world
 	COLGRP_ENEMY,			// Enemies

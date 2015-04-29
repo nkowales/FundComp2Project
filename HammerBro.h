@@ -45,6 +45,7 @@ public:
 	void setProperty(string, string);
 private:
 	bool sentry = false;
+	bool frozen = false;
 	int state = STANDING;
 	bool facingLeft = false;
 	AnimatedTexture sprite;

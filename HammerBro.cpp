@@ -164,7 +164,7 @@ void HammerBro::update(Uint32 time)
 }
 void HammerBro::walkLeft()
 {
-	if (state != MVG_LEFT)
+	if ((state != MVG_LEFT) && !frozen)
 	{
 		state = MVG_LEFT;
 		facingLeft = true;
@@ -174,7 +174,7 @@ void HammerBro::walkLeft()
 }
 void HammerBro::walkRight()
 {
-	if (state != MVG_RIGHT)
+	if ((state != MVG_RIGHT) && !frozen)
 	{
 		state = MVG_RIGHT;
 		facingLeft = false;
@@ -205,4 +205,6 @@ void HammerBro::setProperty(string key, string val)
 {
 	if (key == "sentry")
 		sentry = true;
+	else if (key == "frozen")
+		frozen = true;
 }
