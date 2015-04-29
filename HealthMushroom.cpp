@@ -16,6 +16,7 @@ void HealthMushroom::init(ContentManager* content)
 {
 	setBoundingBox({0, 0, 16, 16});
 	setCollisionGroup(COLGRP_POWERUP);
+	position.y -= 16;
 	tex = content->getAnimatedTexture("sprites/M-misc.png", 161, 69, 16, 16, 0, 1, 100);
 }
 
