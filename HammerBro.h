@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 21, 2015
  *      Author: mtroy2
+ *
+ *      Enemy called HammerBro.  It attacks by throwing Hammers at the player.
  */
 
 

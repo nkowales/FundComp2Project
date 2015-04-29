@@ -1,3 +1,8 @@
+// Jukebox.h
+//
+// This class controls the music played during the game
+
+
 #ifndef JUKEBOX_H_
 #define JUKEBOX_H_
 #include <map>

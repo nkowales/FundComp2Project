@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 22, 2015
  *      Author: mtroy2
+ *
+ *      Base class for all projectiles like Boomerang, Fireball, and Hammer
  */
 
 #ifndef PROJECTILE_H_

@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 17, 2015
  *      Author: naiello
+ *
+ *      This class is used to control Link's boomerang
  */
 
 #ifndef BOOMERANG_H_
