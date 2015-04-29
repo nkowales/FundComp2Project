@@ -37,7 +37,12 @@ void Player::init(ContentManager* content)
 	// Get the camera to follow the player
 	getCamera()->follow(this);
 
-
+	Mix_Chunk* jump;
+	Mix_Chunk* damage;	
+	Mix_Chunk* lowHealth;
+	Mix_Chunk* attack;
+	Mix_Chunk* wallColl;
+	Mix_Chunk* fireball;
 	AnimatedTexture marioSprite, spyroSprite, lBlueSprite, linkSprite;
 	// Animations are loaded in the following format:
 	// ("name", xpos, ypos, width, height,  pixels in betwen, frames, [framerate])
@@ -63,14 +68,26 @@ void Player::init(ContentManager* content)
 	sprites.push_back(marioSprite);
 	sprites.push_back(linkSprite);
 	sprites.push_back(spyroSprite);
-	sprites.push_back(lBlueSprite);
-}
+
+	jump = content->getSfx("Music/smb_jump-small.wav");
+	damage = content->getSfx("Music/LOZ_Hit.wav");
+	lowHealth = content->getSfx("Music/AOL_LowHealth.wav");
+	attack = content->getSfx("Music/LOZ_Sword.wav");
+	wallColl = content->getSfx("Music/smb_bump.wav");
+	sfx.push_back(jump);
+	sfx.push_back(damage);
+	sfx.push_back(lowHealth);
+	sfx.push_back(attack);
+	sfx.push_back(wallColl);
+}	 
 
 void Player::update(Uint32 time)
 {
 
 	double secs = time / 1000.;
-
+	if (health < PLAYER_MAXHEALTH /4){
+		Mix_PlayChannel(-1, sfx[SFX_LOWHLTH], 0);
+	}
 	// Reset the bounding box when we're standing still
 	if (sprites[currentCharacter].getAnimation() == "default"){
 		resetBBox();
@@ -432,6 +449,8 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		else if (overlap.h > overlap.w) // hit from side
 		{
+			if (currentState = CH_MVG_LEFT || curentState = CH_MVG_RIGHT)
+				Mix_PlayChannel(-1, sfx[SFX_WALLCOL], 0);
 			if (overlap.x > bbox.x) // hit walking right
 			{
 				position.x = other->getPosition().x - bbox.w - (bbox.x - position.x);
@@ -476,6 +495,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			if ((facingLeft && (position.x > enemy->getPosition().x))
 				|| (!facingLeft && (position.x < enemy->getPosition().x)))
 			{
+				
 				enemy->hurt(SWORD_DAMAGE);
 			}
 		}
@@ -573,7 +593,7 @@ void Player::jump()
 	defending = false; // takes care of any false, lingering flags
 	if (!inAir && canJump) // if able to take a jump
 	{
-
+		Mix_PlayChannel(-1, sfx[SFX_JMP], 0);
 		for (vector<AnimatedTexture>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
 		{
 			iter->setAnimation("jump"); // set all animations to jump
@@ -601,9 +621,10 @@ void Player::meleeAttack()
 	defending = false;
 	SDL_Rect bbox;
 	velocity.x = 0;
-
+	
 	switch(currentCharacter){
 		case CH_LINK:
+			Mix_PlayChannel(-1, sfx[SFX_ATK], 0);
 			if (facingLeft) // update bounding box / set animation to melee
 			{
 				sprites[CH_LINK].setAnimation("melee");
@@ -897,6 +918,7 @@ void Player::hurt(int dmg)
 		} 
 		else
 		{
+			Mix_PlayChannel(-1, sfx[SFX_DMG], 0);
 			invulnTimer = PLAYER_INVULN_TIME;
 			health -= dmg;
 		}

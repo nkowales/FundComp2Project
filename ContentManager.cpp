@@ -182,3 +182,22 @@ Mix_Music* ContentManager::getMusic(string songName)
 	else
 		return loadMusic(songName);
 }
+Mix_Chunk* ContentManager::loadSfx(string location)
+{
+	Mix_Chunk* soundEffect = NULL;
+	soundEffect = Mix_LoadWAV(location.c_str());
+	if (!soundEffect) 
+		cout << SDL_GetError() << endl;
+	pair<string, Mix_Chunk*> pr(location,soundEffect);
+	sfx.insert(pr);
+	return soundEffect;
+}
+Mix_Chunk* ContentManager::getSfx(string effectName)
+{
+	SfxList::iterator iter = sfx.find(effectName);
+	if (iter != sfx.end())
+		return iter->second;
+	else
+		return loadSfx(effectName);
+
+}

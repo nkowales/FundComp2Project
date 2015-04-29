@@ -25,7 +25,7 @@ using namespace std;
 typedef map<string, Mix_Music*> MusicList;
 typedef map<string, SDL_Texture*> TextureList;
 typedef map<string, TTF_Font*> FontList;
-
+typedef map<string, Mix_Chunk*> SfxList;
 class ContentManager
 {
 public:
@@ -40,12 +40,16 @@ public:
 	SDL_Texture* findTexture(string);
 	Mix_Music* loadMusic(string);
 	Mix_Music* getMusic(string);
+	Mix_Chunk* loadSfx(string);
+	Mix_Chunk* getSfx(string);
+	
 
 private:
 	SDL_Renderer* renderer;
 	TextureList textures;
 	FontList fonts;
 	MusicList soundtrack;
+	SfxList sfx;
 };
 
 

@@ -15,7 +15,7 @@
 #include "WorldObject.h"
 #include "OneWayPlatform.h"
 #include "ProgressBar.h"
-
+#include <SDL2/SDL_mixer.h>
 using namespace std;
 
 #define PLAYER_WALK_SPEED 150
@@ -72,7 +72,16 @@ enum Character
 	CH_MCHIEF,
 	CH_LBLUE
 };
+enum soundEffect
+{
+	SFX_JMP,
+	SFX_DMG,
+	SFX_LOWHLTH,
+	SFX_ATK,
+	SFX_WALLCOL
+	
 
+};
 enum Level
 {
 	LVL_MARIO,
@@ -106,6 +115,7 @@ private:
 	OneWayPlatform* ignorePlatform = NULL;
 	Uint32 framesSinceTouchedGround = 0;
 	vector<AnimatedTexture> sprites;
+	vector<Mix_Chunk*> sfx;
 	bool facingLeft = false;
 	int currentCharacter = CH_MARIO;
 	bool hasBoomerang = true;
