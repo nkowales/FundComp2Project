@@ -91,10 +91,11 @@ int main(int argc, char** argv)
 	delete screens;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	SDL_JoystickClose( gGameController );
+	gGameController = NULL;
 	IMG_Quit();
 	TTF_Quit();
 	SDL_Quit();
-	SDL_JoystickClose( gGameController );
-	gGameController = NULL;
+
 	return 0;
 }

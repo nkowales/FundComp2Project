@@ -107,6 +107,7 @@ void Bowser::update(Uint32 time)
 	jumpCoolDown -= secs;
 	shellSpinCoolDown -= secs;
 	animTimer -= secs;
+	stunTimer -= secs;
 	if (relPlayerlocation > 0 )
 	{
 		playerIsLeft = true;
@@ -120,81 +121,82 @@ void Bowser::update(Uint32 time)
 		shellSpinCoolDown = 0;
 		shellSpin()
 	}
+	if (stunTimer < 0.)
+	{
+		if (animTimer >= 1.5)
+		{
+			switch (state)
+			{
+			case FW_STANDING:
+				velocity.x = 0;
+				break;
+			case FW_MVG_RIGHT:
+				if (!enraged)
+					velocity.x = BOWSER_WALKSPD;
+				else
+					velocity.x = ENRAGED_BOW_WALKSPD;
+				break;
+			case FW_MVG_LEFT:
+				if (!enraged)
+					velocity.x = -BOWSER_WALKSPD;
+				else
+					velocity.x = -ENRAGED_BOW_WALKSPD;
+			}
+		}
+		else if (animTimer < 1.5 && animTimer >= 0 )
+		{
+			switch (state)
+			{
+			case FW_STANDING:
+				break;
+			case FW_MVG_RIGHT:
+				stop();
+				break;
+			case FW_MVG_LEFT:
+				stop();
+				break;
+			}	
+
+		}
+		else{
+			int walk = rand() % 100; // get random value
+			animTimer = ANIMATION_TIMER;
+			// either walk towards player, or stop and face player
+			if ( walk > 49 )
+			{
+				if (playerIsLeft)
+					walkLeft(); 
+				else
+					walkRight();
+			} 
+			else if (walk <= 49)
+			{
+				if (playerIsLeft)
+				{
+					stop();
+					facingLeft = true;
+					sprite.setFlipH(true);
+				}
+				else 	
+				{
+					stop();
+					facingLeft = false;
+					sprite.setFlipH(false);
+				}
+			}
+		}
+		if (spitFlames()){}
+		else if (shellSpin()){}
+		else if (jump()){}
+		else {}
+		if (framesSinceTouchedGround++ > 2)
+			inAir = true;
 	
-	if (animTimer >= 1.5)
-	{
-		switch (state)
-		{
-		case FW_STANDING:
-			velocity.x = 0;
-			break;
-		case FW_MVG_RIGHT:
-			if (!enraged)
-				velocity.x = BOWSER_WALKSPD;
-			else
-				velocity.x = ENRAGED_BOW_WALKSPD;
-			break;
-		case FW_MVG_LEFT:
-			if (!enraged)
-				velocity.x = -BOWSER_WALKSPD;
-			else
-				velocity.x = -ENRAGED_BOW_WALKSPD;
-		}
+		if (inAir)
+			velocity.y += GRAVITY * secs;
+		else
+			velocity.y = 0.;
 	}
-	else if (animTimer < 1.5 && animTimer >= 0 )
-	{
-		switch (state)
-		{
-		case FW_STANDING:
-			break;
-		case FW_MVG_RIGHT:
-			stop();
-			break;
-		case FW_MVG_LEFT:
-			stop();
-			break;
-		}
-
-	}
-	else{
-		int walk = rand() % 100; // get random value
-		animTimer = ANIMATION_TIMER;
-		// either walk towards player, or stop and face player
-		if ( walk > 49 )
-		{
-			if (playerIsLeft)
-				walkLeft(); 
-			else
-				walkRight();
-		} 
-		else if (walk <= 49)
-		{
-			if (playerIsLeft)
-			{
-				stop();
-				facingLeft = true;
-				sprite.setFlipH(true);
-			}
-			else 	
-			{
-				stop();
-				facingLeft = false;
-				sprite.setFlipH(false);
-			}
-		}
-	}
-	if (spitFlames()){}
-	else if (shellSpin()){}
-	else if (jump()){}
-	else {}
-	if (framesSinceTouchedGround++ > 2)
-		inAir = true;
-
-	if (inAir)
-		velocity.y += GRAVITY * secs;
-	else
-		velocity.y = 0.;
-
 	WorldObject::update(time);
 
 }
@@ -256,4 +258,10 @@ void Bowser::shellSpin()
 	}
 
 
-}*/
+}
+void Bowser::stun()
+{
+	stunTimer = BOW_STUN_TIMER;
+}
+
+*/

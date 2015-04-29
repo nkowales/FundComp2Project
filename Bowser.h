@@ -24,6 +24,7 @@
 #define SHELLSPIN_COOLDOWN 10
 #define ENRAGED_BOW_WALKSPD 80
 #define SHELLSPIN_SPEED 120
+#define BOW_STUN_TIMER .5
 enum BowserState
 {
 	BOW_STANDING,
@@ -43,6 +44,7 @@ public:
 	void walkLeft();
 	void walkRight();
 	void stop();
+	void stun();
 	
 private:
 	//flags
@@ -60,6 +62,7 @@ private:
 	double jumpCoolDown = 0;
 	double animTimer = ANIMATION_TIMER;
 	double shellSpinCoolDown = 0;
+	double stunTimer = 0;
 
 };
 #endif*/

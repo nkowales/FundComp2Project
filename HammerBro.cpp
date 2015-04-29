@@ -72,6 +72,7 @@ void HammerBro::update(Uint32 time)
 	double secs = time / 1000.;
 	hammerCooldown -= secs;
 	animTimer -= secs;
+	stunTime -= secs;
 	if (relPlayerlocation > 0 )
 	{
 		playerIsLeft = true;
@@ -80,63 +81,69 @@ void HammerBro::update(Uint32 time)
 	{
 		playerIsLeft = false;
 	}
-	if (animTimer >= ANIMATION_TIMER * .66)
-	{
-		switch (state)
+	if (stunTime < 0.){
+		if (animTimer >= ANIMATION_TIMER * .66)
 		{
-		case STANDING:
-			velocity.x = 0;
-			break;
-		case MVG_RIGHT:
-			velocity.x = HAMMERBRO_WALKSPD;
-			break;
-		case MVG_LEFT:
-			velocity.x = -HAMMERBRO_WALKSPD;
-		}
-	}
-	else if (animTimer < (ANIMATION_TIMER * .66) && animTimer >= 0 )
-	{
-		switch (state)
-		{
-		case STANDING:
-			break;
-		case MVG_RIGHT:
-			stop();
-			break;
-		case MVG_LEFT:
-			stop();
-			break;
-		}
-
-	}
-	else{
-		int walk = rand() % 100; // get random value
-		animTimer = ANIMATION_TIMER;
-		// either walk towards player, or stop and face player
-		if ( walk > 49 )
-		{
-			if (playerIsLeft)
-				walkLeft(); 
-			else
-				walkRight();
-		} 
-		else if (walk <= 49)
-		{
-			if (playerIsLeft)
+			switch (state)
 			{
-				stop();
-				facingLeft = true;
-				sprite.setFlipH(true);
-			}
-			else 	
-			{
-				stop();
-				facingLeft = false;
-				sprite.setFlipH(false);
+			case STANDING:
+				velocity.x = 0;
+				break;
+			case MVG_RIGHT:
+				velocity.x = HAMMERBRO_WALKSPD;
+				break;
+			case MVG_LEFT:
+				velocity.x = -HAMMERBRO_WALKSPD;
 			}
 		}
+		else if (animTimer < (ANIMATION_TIMER * .66) && animTimer >= 0 )
+		{
+			switch (state)
+			{
+			case STANDING:
+				break;
+			case MVG_RIGHT:
+				stop();
+				break;
+			case MVG_LEFT:
+				stop();
+				break;
+			}
+	
+		}
+		else{
+			int walk = rand() % 100; // get random value
+			animTimer = ANIMATION_TIMER;
+			// either walk towards player, or stop and face player
+			if ( walk > 49 )
+			{
+				if (playerIsLeft)
+					walkLeft(); 
+				else
+					walkRight();
+			} 
+			else if (walk <= 49)
+			{
+				if (playerIsLeft)
+				{
+					stop();
+					facingLeft = true;
+					sprite.setFlipH(true);
+				}
+				else 	
+				{
+					stop();
+					facingLeft = false;
+					sprite.setFlipH(false);
+				}
+			}
+		}
+		throwHammer();
+	} 
+	else
+	{
+		velocity.x = 0;
 	}
-	throwHammer();
 	if (framesSinceTouchedGround++ > 2)
 		inAir = true;
 
@@ -183,3 +190,7 @@ void HammerBro::jump()
 	}
 		
 } 
+void HammerBro::stun()
+{
+	stunTime = HAMMERBRO_STUNTIMER;
+}

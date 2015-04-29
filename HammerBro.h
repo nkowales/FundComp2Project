@@ -19,6 +19,8 @@
 #define HAMMER_COOLDOWN 1.2
 #define ANIMATION_TIMER 1.5
 #define HAMMERBRO_WALKSPD 20
+#define HAMMERBRO_STUNTIMER 1.5
+
 enum HammerBroState
 {
 	STANDING,
@@ -39,6 +41,7 @@ public:
 	void walkRight();
 	void stop();
 	void jump();
+	void stun();
 private:
 
 	bool canJump = true;
@@ -49,6 +52,6 @@ private:
 	bool hasHammer = true;	
 	double hammerCooldown = 0;
 	double animTimer = ANIMATION_TIMER;
-
+	double stunTime = 0;
 };
 #endif

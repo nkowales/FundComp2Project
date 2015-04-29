@@ -34,6 +34,7 @@ public:
 	void reverseDirection();
 	void kill();
 	int getContactDamage();
+	void setFlipH(bool);
 private:
 	AnimatedTexture sprite;
 	int contactDamage = FIREMAGIC_DAMAGE;

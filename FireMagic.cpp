@@ -67,3 +67,6 @@ int FireMagic::getContactDamage()
 {
 	return contactDamage;
 }
+void FireMagic::setFlipH(bool x){
+	sprite.setFlipH(x);
+}
