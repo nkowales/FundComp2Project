@@ -36,14 +36,8 @@ void Bowser::init(ContentManager* content)
 
 void Bowser::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 {
-	cout << "hit wall\n";
+
 	velocity.x = - velocity.x;
-	if (facingLeft)
-		position.x += 40;
-	else
-		position.x -= 40;
-
-
 }
 
 void Bowser::draw(SDL_Renderer* renderer)
@@ -60,45 +54,37 @@ void Bowser::draw(SDL_Renderer* renderer)
 bool Bowser::spitFlames(){
 	// Bowser spits three fireballs when this function is called
 	// after it is called, it must cool down for five seconds
-	
+	switchState = true;
 	FireMagic* fire1;
 	FireMagic* fire2;
 	FireMagic* fire3;
 	Vector2d fpos;
-
-	if (fireMagicCoolDown > 0.){ return false;}
-	else
+	// set x,y components of velocity
+	Vector2d whereToShoot1 = {100,0};
+	Vector2d whereToShoot2 = {90.63,42.26 };
+	Vector2d whereToShoot3 = {90.63, -42.26};
+	fire1 = new FireMagic(WorldObject::getUniqueID());
+	fire2 = new FireMagic(WorldObject::getUniqueID());
+	fire3 = new FireMagic(WorldObject::getUniqueID());
+	fire1->setVelocity(whereToShoot1);
+	fire2->setVelocity(whereToShoot2);
+	fire3->setVelocity(whereToShoot3);
+	// set spawn location
+	fpos = {(facingLeft) ? position.x - 10 : position.x + BOWSER_WIDTH, position.y + (BOWSER_HEIGHT/4)};
+	fire1->setPosition(fpos);
+	fire2->setPosition(fpos);
+	fire3->setPosition(fpos);
+	// flip direction if facing left
+	if (facingLeft)
 	{
-		// set x,y components of velocity
-		Vector2d whereToShoot1 = {100,0};
-		Vector2d whereToShoot2 = {90.63,42.26 };
-		Vector2d whereToShoot3 = {90.63, -42.26};
-		fireMagicCoolDown = FIREMAGIC_COOLDOWN;
-		fire1 = new FireMagic(WorldObject::getUniqueID());
-		fire2 = new FireMagic(WorldObject::getUniqueID());
-		fire3 = new FireMagic(WorldObject::getUniqueID());
-		fire1->setVelocity(whereToShoot1);
-		fire2->setVelocity(whereToShoot2);
-		fire3->setVelocity(whereToShoot3);
-		// set spawn location
-		fpos = {(facingLeft) ? position.x - 10 : position.x + BOWSER_WIDTH, position.y + (BOWSER_HEIGHT/4)};
-		fire1->setPosition(fpos);
-		fire2->setPosition(fpos);
-		fire3->setPosition(fpos);
-		// flip direction if facing left
-		if (facingLeft)
-		{
-			fire1->reverseDirection();
-			fire2->reverseDirection();
-			fire3->reverseDirection();
-		}
-		getParentLayer()->addObject(fire1);
-		getParentLayer()->addObject(fire2);
-		getParentLayer()->addObject(fire3);
-		return true;
+		fire1->reverseDirection();
+		fire2->reverseDirection();
+		fire3->reverseDirection();
 	}
-	
-
+	getParentLayer()->addObject(fire1);
+	getParentLayer()->addObject(fire2);
+	getParentLayer()->addObject(fire3);
+	return true;
 }
 void Bowser::squish(){
 	
@@ -106,15 +92,10 @@ void Bowser::squish(){
 void Bowser::update(Uint32 time)
 {
 	//This function contains all the AI for Bowser
-	
 	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition(); // relative position of player
-	double relPlayerlocation = position.x - playerPos.x;
+	double relPlayerLocation = position.x - playerPos.x;
 	double secs = time / 1000.;
 	// decrement counters
-	fireMagicCoolDown -= secs;
-	jumpCoolDown -= secs;
-	shellSpinCoolDown -= secs;
-	animTimer -= secs;
 	stunTimer -= secs;
 	attackTimer -= secs;
 	if (getHealth() < (BOWSER_HEALTH / 4)){ // control rage state (he powers up at low health)
@@ -129,17 +110,14 @@ void Bowser::update(Uint32 time)
 		sprite.setAnimation("jump");
 	else if (inAir && velocity.y > 0){ // When he starts to fall, go into tail smash move
 		sprite.setAnimation("tailSmash");
+		inAir = false;
 	} else if (!inAir){
-		//if (sprite.getAnimation() == "shellSpin") // if he is tail spinning, set velocity high
-			///if (facingLeft)
-			//	velocity.x = 200;
-			//else
-				//velocity.x = -200;
-		if (relPlayerlocation > 0 )
+
+		if (relPlayerLocation > 0 )
 		{
 			playerIsLeft = true;
 		}
-		else if (relPlayerlocation < 0)
+		else if (relPlayerLocation < 0)
 		{
 			playerIsLeft = false;
 		}
@@ -149,51 +127,41 @@ void Bowser::update(Uint32 time)
 		}
 		if (stunTimer < 0.) // if not stunned
 		{
-			
-		
-			
-			int walk = rand() % 100; // get random value
-			animTimer = ANIMATION_TIMER;
-			// either walk towards player, or stop and face player
-			if (animTimer < 0.){
-				if ( walk > 49 )
-				{
-					if (playerIsLeft)
-						walkLeft(); 
-					else
-						walkRight();
-				} 
-				else if (walk <= 49)
-				{
-					if (playerIsLeft)
-					{
-						stop();
-						facingLeft = true;
-						sprite.setFlipH(true);
+			if (relPlayerLocation > 100 || relPlayerLocation < -100){
+				if (playerIsLeft){
+					if (switchState){ // trying to make him get out of his butt smash
+						state = BOW_STANDING;
+						switchState = false;
 					}
-					else 	
-					{
-						stop();
-						facingLeft = false;
-					sprite.setFlipH(false);
+					walkLeft(); 
+				}else{
+					if (switchState){
+						state = BOW_STANDING;
+						switchState = false;
 					}
+					walkRight();	
 				}
 			}
-			if (attackTimer < 0.){
-				attackTimer = BOW_ATK_TIMER;
-				if (fireMagicCoolDown < 0){ // attack with first available
-					spitFlames();
-				}else if (shellSpinCoolDown < 0){
-					shellSpin();
-				}else if (jumpCoolDown < 0){
-					if (facingLeft){
-						velocity.x = BOW_JMPSPD; 
-						jump();
-					} else{
-						velocity.x = -BOW_JMPSPD;
-						jump();
+			else{
+				if (attackTimer < 0.){
+					attackTimer = BOW_ATK_TIMER;
+					int attack = rand() %100;
+					if (attack < 32){
+						spitFlames();
+					}else if (attack < 65){
+						shellSpin();	
+					}else {
+						if (facingLeft){
+							velocity.x = BOW_JMPSPD; 
+							jump();
+						} else{
+							velocity.x = -BOW_JMPSPD;
+							jump();
+						}						
+
 					}
-				}else {}
+					
+				}
 			}
 		}
 	}
@@ -250,40 +218,31 @@ void Bowser::stop()
 }
 bool Bowser::jump()
 {
-	
-	if (jumpCoolDown > 0.){return false;}
-	else {
-		if (!inAir)
-		{
-			jumpCoolDown = JUMP_COOLDOWN;
-			inAir = true;
-			position.y -= 10;
-			sprite.setAnimation("bowJump"); // set jump prep animation
-			if (facingLeft)
-				velocity.x = -BOW_JMPSPD;
-			else
-				velocity.x = BOW_JMPSPD;		
-			velocity.y = -300;
-		}
-		return true;
-	}	
+	if (!inAir)
+	{
+		switchState = true;
+		inAir = true;
+		position.y -= 10;
+		sprite.setAnimation("bowJump"); // set jump prep animation
+		if (facingLeft)
+			velocity.x = -BOW_JMPSPD;
+		else
+			velocity.x = BOW_JMPSPD;		
+		velocity.y = -300;
+	}
+	return true;
+		
 } 
 bool Bowser::shellSpin()
 {
-	
-	if (shellSpinCoolDown > 0.){return false;}
-	else
-	{
-		
-		shellSpinCoolDown = SHELLSPIN_COOLDOWN;
-		if (facingLeft)
-			velocity.x = -SHELLSPIN_SPEED;
-		else 
-			velocity.x = SHELLSPIN_SPEED;
-		sprite.setAnimation("shellSpin");
-		setInvuln(true);
-
-	}
+	switchState = true;
+	if (facingLeft)
+		velocity.x = -SHELLSPIN_SPEED;
+	else 
+		velocity.x = SHELLSPIN_SPEED;
+	sprite.setAnimation("shellSpin");
+	setInvuln(true);
+	return true;
 
 
 }
