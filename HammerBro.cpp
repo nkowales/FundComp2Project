@@ -79,7 +79,7 @@ void HammerBro::update(Uint32 time)
 	double secs = time / 1000.;
 	hammerCooldown -= secs;
 	animTimer -= secs;
-	stunTime -= secs;
+	//stunTime -= secs;
 	if (relPlayerlocation > 0 )
 	{
 		playerIsLeft = true;
@@ -88,7 +88,7 @@ void HammerBro::update(Uint32 time)
 	{
 		playerIsLeft = false;
 	}
-	if (stunTime < 0.){
+	if (getStunTimer() <= 0.){
 		if (animTimer >= ANIMATION_TIMER * .33)
 		{
 			switch (state)
@@ -97,10 +97,12 @@ void HammerBro::update(Uint32 time)
 				velocity.x = 0;
 				break;
 			case MVG_RIGHT:
-				velocity.x = HAMMERBRO_WALKSPD;
+				if (relPlayerlocation <= 300)
+					velocity.x = HAMMERBRO_WALKSPD;
 				break;
 			case MVG_LEFT:
-				velocity.x = -HAMMERBRO_WALKSPD;
+				if (relPlayerlocation <= 300)
+					velocity.x = -HAMMERBRO_WALKSPD;
 			}
 		}
 		else if (animTimer < (ANIMATION_TIMER * .33) && animTimer >= 0 )
@@ -151,16 +153,16 @@ void HammerBro::update(Uint32 time)
 	{
 		velocity.x = 0;
 	}
-	if (framesSinceTouchedGround++ > 2)
+	/*if (framesSinceTouchedGround++ > 2)
 		inAir = true;
 
 	if (inAir)
 		velocity.y += GRAVITY * secs;
 	else
-		velocity.y = 0.;
+		velocity.y = 0.;*/
 
-	WorldObject::update(time);
-
+	//WorldObject::update(time);
+	Enemy::update(time);
 }
 void HammerBro::walkLeft()
 {
@@ -198,7 +200,7 @@ void HammerBro::jump()
 } 
 void HammerBro::stun()
 {
-	stunTime = HAMMERBRO_STUNTIMER;
+	setStunTimer(HAMMERBRO_STUNTIMER);
 }
 
 void HammerBro::setProperty(string key, string val)

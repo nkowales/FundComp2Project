@@ -66,7 +66,7 @@ bool Enemy::isAlive()
 bool Enemy::canCollideWith(const WorldObject* other)
 {
 	int colgrp = other->getCollisionGroup();
-	return ((colgrp == COLGRP_WORLD) || (colgrp == COLGRP_ONEWAY) || (colgrp == COLGRP_ENEMBOUND));
+	return ((colgrp == COLGRP_WORLD) || (colgrp == COLGRP_ONEWAY) || (colgrp == COLGRP_ENEMBOUND) || (colgrp == COLGRP_PROJECTILE));
 }
 
 void Enemy::handleCollision(WorldObject* other, const SDL_Rect& overlap)
@@ -114,7 +114,12 @@ void Enemy::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 	case COLGRP_ENEMBOUND:
 		onWalkIntoWall(other, overlap);
 		break;
-
+	case COLGRP_PROJECTILE:
+		if ((other->getName() == "[BOOMERANG]") && !(stunTimer > 0))
+		{
+			hurt(BOOMERANG_DAMAGE);
+			stun();
+		}
 	}
 }
 
@@ -129,6 +134,9 @@ void Enemy::update(Uint32 time)
 
 	if (framesSinceTouchedGround++ > 2)
 		inAir = true;
+
+	if (stunTimer > 0.)
+		stunTimer -= secs;
 
 	if (inAir)
 		velocity.y += GRAVITY * secs;
@@ -146,6 +154,17 @@ void Enemy::draw(SDL_Renderer* renderer)
 		bbox.y = position.y - 15;
 		bbox.h = 5;
 
+		if (stunTimer > 0)
+		{
+			healthBar.setForeground({255, 255, 0, 255});
+			int blink = (int)(stunTimer * 10) % 2;
+			if (blink)
+				return;
+		}
+		else
+		{
+			healthBar.setForeground({0, 255, 0, 255});
+		}
 		healthBar.draw(renderer, getCamera()->transform(bbox), health);
 	}
 }
@@ -166,4 +185,16 @@ void Enemy::setInvuln(bool status) {
 }
 void Enemy::stun(){
 	
+}
+void Enemy::setStunTimer(double d)
+{
+	stunTimer = d;
+}
+double Enemy::getStunTimer()
+{
+	return stunTimer;
+}
+bool Enemy::isStunned()
+{
+	return (stunTimer > 0.);
 }

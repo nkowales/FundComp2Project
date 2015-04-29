@@ -16,6 +16,7 @@
 #define ENEMY_H_
 
 #define ENEMY_FEETPOS 16
+#define BOOMERANG_DAMAGE 3
 
 #include "WorldObject.h"
 #include "GameConstants.h"
@@ -42,6 +43,8 @@ public:
 	virtual bool isAlive();
 	virtual void die();
 	virtual void squish();
+	double getStunTimer();
+	bool isStunned();
 	
 	virtual void onWalkIntoWall(WorldObject*, const SDL_Rect&);
 
@@ -49,9 +52,11 @@ protected:
 	bool playerIsLeft = true; // assume player starts to left of this enemy
 	void setContactDamage(int);
 	void setMaxHealth(int);
+	void setStunTimer(double);
 	
 	Uint32 framesSinceTouchedGround = 0;
 	bool inAir = false;
+
 private:
 	int contactDamage = 0;
 	int health = 100;

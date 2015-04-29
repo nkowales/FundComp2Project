@@ -38,3 +38,13 @@ void PauseScreen::onSelect(int select)
 		break;
 	}
 }
+
+void PauseScreen::handleEvent(const SDL_Event& e)
+{
+	if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == SDLK_ESCAPE))
+	{
+		getManager()->removeScreen(this);
+	}
+	else
+		MenuScreen::handleEvent(e);
+}

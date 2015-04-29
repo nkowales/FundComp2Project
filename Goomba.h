@@ -15,6 +15,7 @@
 #define GOOMBA_WALKSPEED 50
 #define GOOMBA_HEALTH 5
 #define GOOMBA_SIZE 16
+#define GOOMBA_STUNTIME 0.5
 
 class Goomba : public Enemy
 {
@@ -25,9 +26,12 @@ public:
 	void draw(SDL_Renderer*);
 	void squish();
 	void onWalkIntoWall(WorldObject*, const SDL_Rect&);
+	void stun();
+	void update(Uint32);
 
 private:
 	AnimatedTexture sprite;
+	bool walkingLeft = true;
 };
 
 #endif /* GOOMBA_H_ */

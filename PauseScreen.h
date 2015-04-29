@@ -21,6 +21,7 @@ public:
 
 	void init(ContentManager*);
 	void onSelect(int);
+	void handleEvent(const SDL_Event&);
 
 private:
 	WorldMap* creator;

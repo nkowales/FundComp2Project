@@ -21,7 +21,7 @@
 #define ANIMATION_TIMER 3.00
 #define FIREWIZARD_WALKSPD 20
 #define MAGIC_COOLDOWN 3.5
-#define FIREWIZARD_STUNTIME 1
+#define FIREWIZARD_STUNTIME 1.7
 enum FireWizardState
 {
 	FW_STANDING,
@@ -49,7 +49,6 @@ private:
 	AnimatedTexture sprite;
 	double magicCooldown = MAGIC_COOLDOWN;
 	double animTimer = ANIMATION_TIMER;	
-	double stunTimer = 0;
 
 };
 #endif

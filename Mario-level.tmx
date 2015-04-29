@@ -153,9 +153,9 @@
    </properties>
   </object>
   <object id="20" type="Goomba" gid="81" x="1136" y="544"/>
-  <object id="21" type="Goomba" gid="81" x="1744" y="480"/>
+  <object id="21" type="Goomba" gid="81" x="1744" y="560"/>
   <object id="22" type="Goomba" gid="81" x="1200" y="672"/>
-  <object id="23" type="Goomba" gid="81" x="1552" y="480"/>
+  <object id="23" type="Goomba" gid="81" x="1552" y="560"/>
   <object id="24" type="Goomba" gid="81" x="1952" y="704"/>
   <object id="25" type="Goomba" gid="81" x="1776" y="704"/>
   <object id="31" x="64" y="800" width="48" height="48"/>
@@ -217,8 +217,8 @@
   <object id="64" type="EnemyBoundary" x="1440" y="528" width="16" height="16"/>
   <object id="65" type="EnemyBoundary" x="1472" y="560" width="16" height="16"/>
   <object id="66" type="EnemyBoundary" x="1632" y="560" width="16" height="16"/>
-  <object id="67" type="EnemyBoundary" x="1712" y="560" width="16" height="16"/>
-  <object id="68" type="EnemyBoundary" x="1776" y="560" width="16" height="16"/>
+  <object id="67" type="EnemyBoundary" x="1696" y="560" width="16" height="16"/>
+  <object id="68" type="EnemyBoundary" x="1792" y="560" width="16" height="16"/>
   <object id="69" type="EnemyBoundary" x="912" y="832" width="16" height="16"/>
   <object id="70" type="EnemyBoundary" x="1088" y="832" width="16" height="16"/>
   <object id="71" type="HammerBro" gid="81" x="1776" y="736">
@@ -228,7 +228,7 @@
   </object>
   <object id="73" type="EnemyBoundary" x="1472" y="736" width="16" height="16"/>
   <object id="74" type="EnemyBoundary" x="1632" y="736" width="16" height="16"/>
-  <object id="75" type="Goomba" gid="81" x="1536" y="656"/>
+  <object id="75" type="Goomba" gid="81" x="1552" y="736"/>
   <object id="78" type="Health" gid="662" x="1808" y="800"/>
  </objectgroup>
 </map>

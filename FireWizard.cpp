@@ -82,8 +82,9 @@ void FireWizard::doMagic(){
 
 
 }
-void FireWizard::squish(){
-	
+void FireWizard::squish()
+{
+	hurt(5);
 }
 void FireWizard::update(Uint32 time)
 {
@@ -92,7 +93,7 @@ void FireWizard::update(Uint32 time)
 	double secs = time / 1000.;
 	magicCooldown -= secs;
 	animTimer -= secs;
-	stunTimer -= secs;
+
 	if (relPlayerlocation > 0 )
 	{
 		playerIsLeft = true;
@@ -101,7 +102,7 @@ void FireWizard::update(Uint32 time)
 	{
 		playerIsLeft = false;
 	}
-	if (stunTimer < 0.){
+	if (getStunTimer() <= 0.){
 		if (animTimer >= 1.5)
 		{
 			switch (state)
@@ -164,15 +165,15 @@ void FireWizard::update(Uint32 time)
 	{
 		velocity.x = 0;
 	}
-	if (framesSinceTouchedGround++ > 2)
+	/*if (framesSinceTouchedGround++ > 2)
 		inAir = true;
 
 	if (inAir)
 		velocity.y += GRAVITY * secs;
 	else
-		velocity.y = 0.;
+		velocity.y = 0.;*/
 
-	WorldObject::update(time);
+	Enemy::update(time);
 
 }
 void FireWizard::walkLeft()
@@ -201,5 +202,5 @@ void FireWizard::stop()
 }
 void FireWizard::stun()
 {
-	stunTimer = FIREWIZARD_STUNTIME;
+	setStunTimer(FIREWIZARD_STUNTIME);
 }

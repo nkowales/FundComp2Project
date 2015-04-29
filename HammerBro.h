@@ -14,14 +14,14 @@
 #include "Enemy.h"
 #include <cstdlib>
 #include <ctime>
-#define HAMMERBRO_WALKSPEED 20
+
 #define HAMMERBRO_HEALTH 20
 #define HAMMERBRO_WIDTH 16
 #define HAMMERBRO_HEIGHT 29
 #define HAMMER_COOLDOWN 1.2
 #define ANIMATION_TIMER 1.5
-#define HAMMERBRO_WALKSPD 40
-#define HAMMERBRO_STUNTIMER 1.5
+#define HAMMERBRO_WALKSPD 50
+#define HAMMERBRO_STUNTIMER 1.7
 
 enum HammerBroState
 {
@@ -55,6 +55,5 @@ private:
 	bool hasHammer = true;	
 	double hammerCooldown = 0;
 	double animTimer = ANIMATION_TIMER;
-	double stunTime = 0;
 };
 #endif

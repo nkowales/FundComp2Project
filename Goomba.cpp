@@ -27,6 +27,9 @@ void Goomba::init(ContentManager* content)
 void Goomba::onWalkIntoWall(WorldObject* wall, const SDL_Rect& overlap)
 {
 	velocity.x = -velocity.x;
+	walkingLeft = !walkingLeft;
+
+	position.x += (walkingLeft) ? -2 : 2;
 }
 
 void Goomba::draw(SDL_Renderer* renderer)
@@ -40,8 +43,26 @@ void Goomba::draw(SDL_Renderer* renderer)
 
 	Enemy::draw(renderer);
 }
+void Goomba::update(Uint32 time)
+{
+	if (getStunTimer() > 0.)
+	{
+		velocity.x = 0.;
+	}
+	else
+	{
+		velocity.x = (walkingLeft) ? -GOOMBA_WALKSPEED : GOOMBA_WALKSPEED;
+	}
+
+	Enemy::update(time);
+}
 void Goomba::squish(){
 	sprite.setAnimation("squish");
 	
 	die();
+}
+
+void Goomba::stun()
+{
+	setStunTimer(GOOMBA_STUNTIME);
 }

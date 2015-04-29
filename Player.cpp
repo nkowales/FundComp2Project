@@ -523,7 +523,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 						hurt(0);
 						position.x = other->getPosition().x - bbox.w - (bbox.x - position.x);
 					}
-					else{
+					else if (!enemy->isStunned()){
 						hurt(enemy->getContactDamage());					
 						
 					}

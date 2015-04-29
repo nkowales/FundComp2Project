@@ -42,7 +42,9 @@ void MainMenuScreen::onSelect(int select)
 				"S - Fall through floating platforms\n"
 				"1, 2, 3 - Switch between Mario, Link and Spyro\n"
 				"F - Ranged attack (Mario, Link only)\n"
-				"V - Melee attack (Link, Spyro only)");
+				"V - Melee attack (Link, Spyro only)\n"
+				"ESC - Pause Game\n\n"
+				"TIP: Link's boomerang does minimal damage but will temporarily stun enemies!");
 		getManager()->addScreen(mbox);
 		break;
 	case 2:
