@@ -145,6 +145,15 @@ private:
 	void resetBBox();
 	void switchMode();
 	void defend();
+	void land();
+	void flyLeft();
+	void flyRight();
+	void flyUp();
+	void flyDown();
+	void stopFlyLeft();
+	void stopFlyRight();
+	void stopFlyUp();
+	void stopFlyDown();
 };
 
 

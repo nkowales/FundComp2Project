@@ -43,8 +43,13 @@ void MainMenuScreen::onSelect(int select)
 				"1, 2, 3 - Switch between Mario, Link and Spyro\n"
 				"F - Ranged attack (Mario, Link only)\n"
 				"V - Melee attack (Link, Spyro only)\n"
+<<<<<<< HEAD
 				"ESC - Pause Game\n\n"
 				"TIP: Link's boomerang does minimal damage but will temporarily stun enemies!");
+=======
+				"Esc - Pause\n"
+				"X-Button - Close/ Quit");
+>>>>>>> refs/remotes/origin/master
 		getManager()->addScreen(mbox);
 		break;
 	case 2:

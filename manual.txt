@@ -18,7 +18,8 @@ Hours Logged:
 Our group meeting log can be found at:
 https://docs.google.com/a/nd.edu/spreadsheets/d/1Lz-XOWNj3X9Rnw278X7epLJIcZ8spotYUOsZ-gJOZyM/edit?usp=sharing
 Individual time logs can be found at:
-Nick: https://docs.google.com/a/nd.edu/spreadsheets/d/1gD2uSyinwcTdM9kmtscDf0DDk23lc8fv7cX4TdEdR8M/edit?usp=sharinghttps://docs.google.com/a/nd.edu/spreadsheets/d/1gD2uSyinwcTdM9kmtscDf0DDk23lc8fv7cX4TdEdR8M/edit?usp=sharing
+Nick: 
+https://docs.google.com/a/nd.edu/spreadsheets/d/1gD2uSyinwcTdM9kmtscDf0DDk23lc8fv7cX4TdEdR8M/edit?usp=sharing
 Mitch: 
 https://docs.google.com/a/nd.edu/spreadsheets/d/1m4rXiwHTOAxGtBN_Cl79fXAUpDiXgLDpjh1v3L2ExXQ/edit#gid=0 
 Greg:
@@ -29,7 +30,8 @@ https://docs.google.com/a/nd.edu/document/d/1hsd82OBAhR3NaIvrgmK-SeiPjvfvtiRjAqv
 Compiler Instructions:
 We used the managed make system of Eclipse to compile our code.
 We did not test this project extensively on the student machines, but it does
-work on group member laptops.
+work on group member laptops.  Some of the libraries, like SDL2_mixer, are not
+available on the student machines.
 To compile from scratch, use:
 g++ *.cpp -O0 -g3 -lSDL2 -lSDL2_image -lSDL2main -std=c++11 -static-libstdc++ -lSDL2_ttf -lSDL2_mixer -o fc2proj
 The executable can then be run as: 
@@ -42,6 +44,8 @@ S - Fall through floating platforms
 1, 2, 3 - Switch between Mario, Link and Spyro
 F - Ranged attack (Mario, Link only)
 V - Melee attack (Link, Spyro only)
+Esc - Pause
+X-Button - Close/ Quit
 The goal is to move around the map to reach the end of the level.  There are
 four levels that need to be completed.  The player should avoid being hit by
 the enemies and their attacks.  To counter, the player can jump on the enemy
@@ -53,8 +57,8 @@ Known Bugs:
 Spyro's flying ability is a little bit glitchy and can sometimes accidentally
 leave the screen.
 Our game is unreasonably hard.  This is not really a bug, but something we
-would look to improve in the future by decreasing the difficulty and the
-number of enemies on the map.
+would look to improve in the future by decreasing the difficulty and reducing
+the number of enemies on the map.
 
 Additional Information:
 There is a game controller that we have that works with the game as well. It
