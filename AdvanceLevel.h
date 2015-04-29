@@ -24,6 +24,8 @@ class AdvanceLevel : public WorldObject
 public:
 	AdvanceLevel(Uint32);
 
+	virtual WorldInput resolveInput(string);
+	void loadMap(WorldObject*, string);
 };
 
 #endif 

@@ -551,7 +551,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			}
 		break;
 		}
-	case COLGRP_ADVANCE:
+	/*case COLGRP_ADVANCE:
 		if (currentLevel == LVL_MARIO) {
 			ScreenManager* manager = getParentLayer()->getParent()->getManager();
 			WorldMap* map = new WorldMap("Link-level.tmx", manager->getRenderer());
@@ -572,7 +572,7 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 			//WinScreen* ws = new WinScreen(getParentLayer()->getParent());
 			//getParentLayer()->getParent()->getManager()->addScreen(ws);
 		}
-		break;
+		break;*/
 	}
 }
 
