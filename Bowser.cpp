@@ -165,7 +165,6 @@ void Bowser::update(Uint32 time)
 			}
 			else{
 				//if (attackTimer < 0.){
-					cout << "attacking\n";
 					stop();
 					//attackTimer = BOW_ATK_TIMER;
 					int attack = rand() %100;
@@ -173,7 +172,7 @@ void Bowser::update(Uint32 time)
 						spitFlames();
 					}else if (attack >= 32 && attack < 65){
 						shellSpin();	
-					}else if (attack >=65 && attack < 94){
+					}else if (attack >=65 && attack < 97){
 						if (facingLeft){
 							velocity.x = BOW_JMPSPD; 
 							jump();
