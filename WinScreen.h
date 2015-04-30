@@ -42,6 +42,7 @@ private:
 	int state = WS_FADEIN;
 	float alpha = 0.;
 	Texture winText;
+	Mix_Music* music = NULL;
 
 	void reset();
 };

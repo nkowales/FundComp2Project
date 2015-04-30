@@ -20,6 +20,13 @@ void WinScreen::init(ContentManager* content)
 {
 	winText = content->getTextureFromText("WinText", "You win!", MENU_FONT_NAME, {255, 255, 255, 255});
 	winText.setAlpha(0);
+
+	music = content->getMusic("Music/smb_world_clear.wav");
+	if (music)
+	{
+		Mix_HaltMusic();
+		Mix_PlayMusic(music, 1);
+	}
 }
 
 void WinScreen::update(Uint32 time)

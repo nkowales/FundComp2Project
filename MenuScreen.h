@@ -51,6 +51,7 @@ private:
 	SDL_Color bgColor = MENU_BG_COLOR;
 	string title;
 	Texture titleTex;
+	Mix_Music* music = NULL;
 };
 
 #endif /* MENUSCREEN_H_ */

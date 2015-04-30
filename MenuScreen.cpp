@@ -17,6 +17,13 @@ void MenuScreen::init(ContentManager* content)
 {
 	content->loadFont(MENU_FONT_NAME, MENU_FONT_FILE, MENU_FONT_SIZE);
 	titleTex = content->getTextureFromText("MENU-TITLE-" + title, title, MENU_FONT_NAME, MENU_TITLE_COLOR);
+	music = content->loadMusic("Music/57-staff-credits.mp3");
+
+	if (music)
+	{
+		Mix_HaltMusic();
+		Mix_PlayMusic(music, -1);
+	}
 }
 
 void MenuScreen::draw(SDL_Renderer* renderer)

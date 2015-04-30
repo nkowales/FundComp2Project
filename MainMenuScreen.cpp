@@ -32,28 +32,21 @@ void MainMenuScreen::onSelect(int select)
 	switch(select)
 	{
 	case 0:
-		world = new WorldMap("Bowser-level.tmx", getManager()->getRenderer(), getManager()->getContent());
+		world = new WorldMap("Mario-level.tmx", getManager()->getRenderer(), getManager()->getContent());
 		getManager()->addScreen(world);
 		getManager()->removeScreen(this);
 		break;
 	case 1:
 		mbox = new MessageBoxScreen("Controls",
-				"********************* With Keyboard *************************\n"
-				"A, D - Move Left, Right\nW - Jump \n"
-				"S - Fall through floating platforms\n"
-				"1, 2, 3 - Switch between Mario, Link and Spyro\n"
-				"F - Ranged attack (Mario, Link only)\n"
-				"V - Melee attack (Link, Spyro only)\n"
-				"J - Toggle Gliding/Flying (Spyro only)\n"
-				"ESC - Pause Game\n\n"
-				"********************* With Controller ************************\n"
-				"D-pad Left, Right - Move Left, Right\nD-pad Up - Jump\n"
-				"D-pad Down - Fall through floating platforms\n"
-				"5, 6, 7 - Switch between Mario, Link and Spyro\n"
-				"3 - Melee attack (Link, Spyro only)\n"
-				"2 - Ranged attack (Mario, Link only)\n"
-				"8 - Toggle Gliding/Flying (Spyro only)\n"
-				"9 - Pause Game\n\n"
+				"A, D - Move Left, Right (D-Pad L, R)\n"
+				"W - Jump (D-Pad Up) \n"
+				"S - Fall through floating platforms (D-Pad Down)\n"
+				"1, 2, 3 - Switch between Mario, Link and Spyro (Btn. 5, 6, 7)\n"
+				"F - Ranged attack (Mario, Link only) (Btn. 3)\n"
+				"V - Melee attack (Link, Spyro only) (Btn. 2)\n"
+				"J - Toggle Gliding/Flying (Spyro only) (Btn. 8)\n"
+				"ESC - Pause Game (Btn. 9)\n\n"
+
 				"TIP: Link's boomerang does minimal damage but will temporarily stun enemies!\n"
 				);
 
