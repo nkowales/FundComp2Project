@@ -59,7 +59,6 @@ bool Bowser::spitFlames(){
 	// after it is called, it must cool down for five seconds
 	state = BOW_ATK;
 	inAttack = true;
-	cout << "Spitting Flames\n";
 	switchState = true;
 	FireMagic* fire1;
 	FireMagic* fire2;
@@ -98,9 +97,9 @@ void Bowser::squish(){
 void Bowser::update(Uint32 time)
 {
 	//This function contains all the AI for Bowser
-	cout << inAttack << endl;
 	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition(); // relative position of player
 	double relPlayerLocation = position.x - playerPos.x;
+	double distance = abs(relPlayerLocation);
 	double secs = time / 1000.;
 	// decrement counters
 	stunTimer -= secs;
@@ -113,7 +112,6 @@ void Bowser::update(Uint32 time)
 	}
 
 	if (getHealth() < (BOWSER_HEALTH / 4)){ // control rage state (he powers up at low health)
-		cout << "Enraged begin\n";
 		enraged = true;
 		setContactDamage(100);
 		sprite.changeAnimation("walk",84 ,226 , 50, 44, 0, 3);
@@ -121,20 +119,18 @@ void Bowser::update(Uint32 time)
 	}
 	if (sprite.getAnimation() != "shellSpin"){
 		setInvuln(false);
-		cout << "not invulnerable\n";
 	}
 
 	if (inAir && sprite.getAnimation() != "bowJump" && velocity.y < 0){ // change animation to jump while in air
 		sprite.setAnimation("jump");
-		cout << "setting animation to jump";
 
 	}else if (inAir && velocity.y > 0){ // When he starts to fall, go into tail smash move
 		sprite.setAnimation("tailSmash");
-		cout << "going to tail smash\n";
 		inAir = false;
 	} 
-	if (!inAttack){
-		if (relPlayerLocation > 0 )
+	// Main AI Start
+	if (!inAttack){ 
+		if (relPlayerLocation > 0 ) // find player
 		{
 			playerIsLeft = true;
 		}
@@ -148,44 +144,32 @@ void Bowser::update(Uint32 time)
 		}
 		if (stunTimer < 0.) // if not stunned
 		{
-			if (relPlayerLocation > 100 || relPlayerLocation < -100){
+			if (relPlayerLocation > 150 || relPlayerLocation < -150){ // chase player until in range
 				if (playerIsLeft){
-					if (switchState){ // trying to make him get out of his butt smash
-						state = BOW_STANDING;
-						switchState = false;
-					}
 					walkLeft(); 
 				}else{
-					if (switchState){
-						state = BOW_STANDING;
-						switchState = false;
-					}
 					walkRight();	
 				}
-			}
+			} // when in range
 			else{
-				//if (attackTimer < 0.){
-					stop();
-					//attackTimer = BOW_ATK_TIMER;
-					int attack = rand() %100;
-					if (attack < 32 && attack >= 0){
-						spitFlames();
-					}else if (attack >= 32 && attack < 65){
-						shellSpin();	
-					}else if (attack >=65 && attack < 97){
-						if (facingLeft){
-							velocity.x = BOW_JMPSPD; 
+				stop(); // stop running
+				int spawnEnemies = rand() %200; 
+				if (distance > 120){ // attack based on distance to player
+					spitFlames();
+				}else if (distance > 60){
+					shellSpin();	
+				}else if (distance > 0 && distance <=60){
+					if (facingLeft){
+						velocity.x = BOW_JMPSPD; 
 							jump();
-						} else{
-							velocity.x = -BOW_JMPSPD;
-							jump();
-						}						
-
 					} else{
-						spawnEnem();
-					}
-					
-				//}
+						velocity.x = -BOW_JMPSPD;
+						jump();
+					}					
+				} 
+				if(spawnEnemies > 190){
+					spawnEnem();
+				}		
 			}
 		}
 	}
@@ -256,7 +240,6 @@ bool Bowser::jump()
 	{
 		state = BOW_ATK;
 		inAttack = true;
-		switchState = true;
 		inAir = true;
 		position.y -= 10;
 		sprite.setAnimation("bowJump"); // set jump prep animation
@@ -273,7 +256,6 @@ bool Bowser::shellSpin()
 {
 	state = BOW_ATK;
 	inAttack = true;
-	switchState = true;
 	if (facingLeft)
 		velocity.x = -SHELLSPIN_SPEED;
 	else 
