@@ -12,6 +12,7 @@
 #include "WinScreen.h"
 #include "ScreenManager.h"
 #include <cmath>
+#include "HammerBro.h"
 Bowser::Bowser(Uint32 id) : Enemy(id)
 {
 	
@@ -24,7 +25,7 @@ void Bowser::init(ContentManager* content)
 	setBoundingBox({0, 0, BOWSER_WIDTH, BOWSER_HEIGHT});
 	setMaxHealth(BOWSER_HEALTH);
 	setHealth(BOWSER_HEALTH);
-	setContactDamage(50);		// Damage taken by player for walking into the Bowser
+	setContactDamage(25);		// Damage taken by player for walking into the Bowser
 	sprite = content->getAnimatedTexture("sprites/M-bowser2.png", 0, 5, 50, 44, 0, 1, 13);
 	sprite.addAnimation("shellSpin", 340,230,50,44,0,4);
 	
@@ -56,15 +57,18 @@ void Bowser::draw(SDL_Renderer* renderer)
 bool Bowser::spitFlames(){
 	// Bowser spits three fireballs when this function is called
 	// after it is called, it must cool down for five seconds
+	state = BOW_ATK;
+	inAttack = true;
+	cout << "Spitting Flames\n";
 	switchState = true;
 	FireMagic* fire1;
 	FireMagic* fire2;
 	FireMagic* fire3;
 	Vector2d fpos;
 	// set x,y components of velocity
-	Vector2d whereToShoot1 = {100,0};
-	Vector2d whereToShoot2 = {90.63,42.26 };
-	Vector2d whereToShoot3 = {90.63, -42.26};
+	Vector2d whereToShoot1 = {140,0};
+	Vector2d whereToShoot2 = {137.87,24.3 };
+	Vector2d whereToShoot3 = {137.87, -24.3};
 	fire1 = new FireMagic(WorldObject::getUniqueID());
 	fire2 = new FireMagic(WorldObject::getUniqueID());
 	fire3 = new FireMagic(WorldObject::getUniqueID());
@@ -72,7 +76,7 @@ bool Bowser::spitFlames(){
 	fire2->setVelocity(whereToShoot2);
 	fire3->setVelocity(whereToShoot3);
 	// set spawn location
-	fpos = {(facingLeft) ? position.x - 10 : position.x + BOWSER_WIDTH, position.y + (BOWSER_HEIGHT/4)};
+	fpos = {(facingLeft) ? position.x - 15 : position.x + BOWSER_WIDTH, position.y + (BOWSER_HEIGHT/4)};
 	fire1->setPosition(fpos);
 	fire2->setPosition(fpos);
 	fire3->setPosition(fpos);
@@ -94,27 +98,42 @@ void Bowser::squish(){
 void Bowser::update(Uint32 time)
 {
 	//This function contains all the AI for Bowser
+	cout << inAttack << endl;
 	Vector2d playerPos = getParentLayer()->getByName("PLAYER")->getPosition(); // relative position of player
 	double relPlayerLocation = position.x - playerPos.x;
 	double secs = time / 1000.;
 	// decrement counters
 	stunTimer -= secs;
 	attackTimer -= secs;
+
+	if (attackTimer < 0.){//Bowser is ready to attack again
+		inAttack = false;
+		stop();
+		attackTimer = BOW_ATK_TIMER;
+	}
+
 	if (getHealth() < (BOWSER_HEALTH / 4)){ // control rage state (he powers up at low health)
+		cout << "Enraged begin\n";
 		enraged = true;
 		setContactDamage(100);
 		sprite.changeAnimation("walk",84 ,226 , 50, 44, 0, 3);
 		
 	}
-	if (sprite.getAnimation() != "shellSpin")
+	if (sprite.getAnimation() != "shellSpin"){
 		setInvuln(false);
-	if (inAir && sprite.getAnimation() != "bowJump" && velocity.y < 0) // change animation to jump while in air
-		sprite.setAnimation("jump");
-	else if (inAir && velocity.y > 0){ // When he starts to fall, go into tail smash move
-		sprite.setAnimation("tailSmash");
-		inAir = false;
-	} else if (!inAir){
+		cout << "not invulnerable\n";
+	}
 
+	if (inAir && sprite.getAnimation() != "bowJump" && velocity.y < 0){ // change animation to jump while in air
+		sprite.setAnimation("jump");
+		cout << "setting animation to jump";
+
+	}else if (inAir && velocity.y > 0){ // When he starts to fall, go into tail smash move
+		sprite.setAnimation("tailSmash");
+		cout << "going to tail smash\n";
+		inAir = false;
+	} 
+	if (!inAttack){
 		if (relPlayerLocation > 0 )
 		{
 			playerIsLeft = true;
@@ -145,14 +164,16 @@ void Bowser::update(Uint32 time)
 				}
 			}
 			else{
-				if (attackTimer < 0.){
-					attackTimer = BOW_ATK_TIMER;
+				//if (attackTimer < 0.){
+					cout << "attacking\n";
+					stop();
+					//attackTimer = BOW_ATK_TIMER;
 					int attack = rand() %100;
-					if (attack < 32){
+					if (attack < 32 && attack >= 0){
 						spitFlames();
-					}else if (attack < 65){
+					}else if (attack >= 32 && attack < 65){
 						shellSpin();	
-					}else {
+					}else if (attack >=65 && attack < 94){
 						if (facingLeft){
 							velocity.x = BOW_JMPSPD; 
 							jump();
@@ -161,9 +182,11 @@ void Bowser::update(Uint32 time)
 							jump();
 						}						
 
+					} else{
+						spawnEnem();
 					}
 					
-				}
+				//}
 			}
 		}
 	}
@@ -193,6 +216,7 @@ void Bowser::walkLeft()
 {
 	if(state != BOW_MVG_LEFT)
 	{
+		inAttack = false;
 		if (!enraged)
 			velocity.x = -BOWSER_WALKSPD;
 		else
@@ -208,6 +232,7 @@ void Bowser::walkRight()
 {
 	if(state != BOW_MVG_RIGHT)
 	{
+		inAttack =false;
 		if (!enraged)
 			velocity.x = BOWSER_WALKSPD;
 		else
@@ -221,6 +246,7 @@ void Bowser::walkRight()
 }
 void Bowser::stop()
 {
+	inAttack = false;
 	state = BOW_STANDING;
 	velocity.x = 0;
 	sprite.setAnimation("default");
@@ -229,6 +255,8 @@ bool Bowser::jump()
 {
 	if (!inAir)
 	{
+		state = BOW_ATK;
+		inAttack = true;
 		switchState = true;
 		inAir = true;
 		position.y -= 10;
@@ -244,6 +272,8 @@ bool Bowser::jump()
 } 
 bool Bowser::shellSpin()
 {
+	state = BOW_ATK;
+	inAttack = true;
 	switchState = true;
 	if (facingLeft)
 		velocity.x = -SHELLSPIN_SPEED;
@@ -259,5 +289,20 @@ void Bowser::stun()
 {
 	stunTimer = BOW_STUN_TIMER;
 }
-
+void Bowser::spawnEnem()
+{
+	state = BOW_ATK;
+	inAttack = true;
+	HammerBro* hammer1;
+	HammerBro* hammer2;
+	Vector2d fpos1, fpos2;
+	hammer1 = new HammerBro(WorldObject::getUniqueID());
+	hammer2 = new HammerBro(WorldObject::getUniqueID());
+	fpos1 = {position.x + BOWSER_WIDTH + 30, position.y + (BOWSER_HEIGHT/4)};
+	fpos2 = {position.x - 30, position.y + (BOWSER_HEIGHT/4)};
+	hammer1->setPosition(fpos1);
+	hammer2->setPosition(fpos2);
+	getParentLayer()->addObject(hammer1);
+	getParentLayer()->addObject(hammer2);
+}
 

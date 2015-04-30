@@ -15,8 +15,7 @@
 #include "Enemy.h"
 #include <cstdlib>
 #include <ctime>
-#define BOWSER_WALKSPEED 15
-#define BOWSER_HEALTH 150
+#define BOWSER_HEALTH 300
 #define BOWSER_WIDTH 35
 #define BOWSER_HEIGHT 41
 #define BOW_JMPSPD 100
@@ -24,15 +23,16 @@
 #define BOWSER_WALKSPD 80
 #define BOWSER_JUMPSPD 100
 #define ENRAGED_BOW_WALKSPD 140
-#define SHELLSPIN_SPEED 250
+#define SHELLSPIN_SPEED 200
 #define BOW_STUN_TIMER .5
-#define BOW_ATK_TIMER 1
+#define BOW_ATK_TIMER 2
 enum BowserState
 {
 	BOW_STANDING,
 	BOW_MVG_RIGHT,
 	BOW_MVG_LEFT,
-	BOW_IN_AIR
+	BOW_IN_AIR,
+	BOW_ATK
 };
 class Bowser : public Enemy 
 {
@@ -58,7 +58,8 @@ private:
 	// attacks
 	bool spitFlames();
 	bool shellSpin();
-	bool jump();	
+	bool jump();
+	void spawnEnem();	
 	// cool downs
 	double fireMagicCoolDown = 0;
 	double jumpCoolDown = 0;
@@ -67,6 +68,8 @@ private:
 	double stunTimer = 0;
 	double attackTimer = BOW_ATK_TIMER;
 	bool switchState = true;
+	bool inAttack = false;
+
 
 };
 #endif
