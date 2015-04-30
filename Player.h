@@ -77,7 +77,6 @@ enum soundEffect
 {
 	SFX_JMP,
 	SFX_DMG,
-	SFX_LOWHLTH,
 	SFX_ATK,
 	SFX_WALLCOL
 	

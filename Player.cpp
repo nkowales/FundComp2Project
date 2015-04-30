@@ -70,12 +70,10 @@ void Player::init(ContentManager* content)
 
 	jump = content->getSfx("Music/smb_jump-small.wav");
 	damage = content->getSfx("Music/LOZ_Hit.wav");
-	lowHealth = content->getSfx("Music/AOL_LowHealth.wav");
 	attack = content->getSfx("Music/LOZ_Sword.wav");
 	wallColl = content->getSfx("Music/smb_bump.wav");
 	sfx.push_back(jump);
 	sfx.push_back(damage);
-	sfx.push_back(lowHealth);
 	sfx.push_back(attack);
 	sfx.push_back(wallColl);
 }	 
@@ -85,9 +83,6 @@ void Player::update(Uint32 time)
 
 	double secs = time / 1000.;
 	sfxTimer -= secs;
-	if (health < PLAYER_MAXHEALTH /4){
-		Mix_PlayChannel(-1, sfx[SFX_LOWHLTH], 0);
-	}
 	// Reset the bounding box when we're standing still
 	if (sprites[currentCharacter].getAnimation() == "default"){
 		resetBBox();
@@ -571,7 +566,6 @@ void Player::handleCollision(WorldObject* other, const SDL_Rect& overlap)
 		}
 		else if ((feetPos < overlap.y) && (velocity.y > 0)) // landed on it
 		{
-			Mix_PlayChannel(-1, sfx[SFX_JMP], 0);
 			enemy->squish();
 			velocity.y= velocity.y * -1;
 		}
